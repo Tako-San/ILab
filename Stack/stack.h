@@ -7,17 +7,16 @@
 
 enum
 {
-  STARTSIZE = 10,
+  STARTSIZE = 10, //начальный размер массива стека
   DEADSTACK
 };
-//начальный размер массива стека
 
 typedef unsigned ui;
 
 typedef struct Stack
 {
   int* stack;     //массив со стеком
-  ui size;  //текущий размер массива
+  ui size;        //текущий размер массива
   ui cur_size;    //активный размер стека
 }Stack;
 
