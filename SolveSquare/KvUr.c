@@ -217,5 +217,5 @@ int SolveLinear(double b, double c, double* x1_ptr)
 
 int IsEqual(double n1, double n2)
 {
-    return (abs(n1 - n2) < EPS);
+    return (fabs(n1 - n2) < EPS);
 }
