@@ -1,45 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <ctype.h>
-#include <string.h>
-
-
-typedef struct
-{
-  int len;
-  char * start;
-} Line;
-
-char * file_to_buf(int * txtlen);
-int file_length(FILE * f);
-Line * ptr_maker(char * txt, int * strings);
-//void BubbleSort(Line * str_info, int strs);
-int line_compare(const void * str1, const void * str2);
-void line_swap(Line * line1, Line * line2);
-void print_text(Line * str_info, int strings);
-
-
-int main()
-{
-
-  int txtlen = 0;
-  char * text = file_to_buf(&txtlen);
-
-  int strings = 0;
-  Line * str_info = ptr_maker(text, &strings);
-
-  qsort(str_info, strings, sizeof(str_info[0]), line_compare);
-
-  print_text(str_info, strings);
-
-  free(str_info);
-  free(text);
-
-  return 0;
-
-}
-
+#include "onegin.h"
 
 char * file_to_buf(int * txtlen)
 {
