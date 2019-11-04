@@ -3,16 +3,13 @@
 void init(Stack * new_stack)
 {
   new_stack->stack = (int *)calloc(STARTSIZE, sizeof(int));
-  //printf("Man, calloc done his job...\n");
   if(new_stack->stack == NULL)
   {
     printf("Memory allocation error.\n");
     exit(1);
   }
   new_stack->size = STARTSIZE;
-  //printf("Stack size is %d\n", STARTSIZE);
   new_stack->cur_size = 0;
-  //printf("Stack size current is %d\n", new_stack->cur_size);
 }
 
 void destroy(Stack * old_stack)
@@ -37,20 +34,11 @@ void push(Stack * stack)
   {
     printf("Stack overflow\n");
   }
-  /*else if(stack->cur_size < 0 || stack->size < 0)
-  {
-    printf("WTF\n");
-  }*/
   else
   {
     stack->cur_size++;
     printf("Enter next stack element: ");
     scanf("%d", &(stack->stack[stack->cur_size - 1]));
-    /*for(ui i = 0; i < stack->cur_size; i++)
-    {
-      //printf("\n");
-      printf("%d  ", stack->stack[i]);
-    }*/
     printf("\n");
   }
 }

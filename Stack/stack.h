@@ -5,27 +5,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum
-{
-  STARTSIZE = 10, //начальный размер массива стека
-  DEADSTACK
-};
-
 typedef unsigned ui;
+typedef long long int lli;
 
 typedef struct Stack
 {
   int* stack;     //массив со стеком
   ui size;        //текущий размер массива
   ui cur_size;    //активный размер стека
+  lli hash;
 }Stack;
 
+enum
+{
+  STARTSIZE = 10, //начальный размер массива стека
+  DEADSTACK
+};
+
 void init(Stack * new_stack);
-void destroy(Stack * old_stack);
 void invite();
+void destroy(Stack * old_stack);
+
 void push(Stack * stack);
 int peek(Stack * stack);
 int pop(Stack * stack);
+
 void split();
 int what_to_do(Stack * stack);
 
