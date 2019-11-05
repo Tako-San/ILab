@@ -7,7 +7,7 @@ int main()
 
   invite();
 
-  int condition = 1;
+  char condition = 1;
   while(condition)
   {
     condition = what_to_do(&my_stack);

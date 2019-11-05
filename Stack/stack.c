@@ -2,8 +2,8 @@
 
 void init(Stack * new_stack)
 {
-  new_stack->stack = (int *)calloc(STARTSIZE, sizeof(int));
-  if(new_stack->stack == NULL)
+  new_stack->stk = (int *)calloc(STARTSIZE, sizeof(int));
+  if(new_stack->stk == NULL)
   {
     printf("Memory allocation error.\n");
     exit(1);
@@ -14,7 +14,7 @@ void init(Stack * new_stack)
 
 void destroy(Stack * old_stack)
 {
-  free(old_stack->stack);
+  free(old_stack->stk);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
 }
@@ -95,21 +95,21 @@ void push(Stack * stack)
 
   stack->cur_size++;
   printf("Enter next stack element: ");
-  scanf("%d", &(stack->stack[stack->cur_size - 1]));
+  scanf("%d", &(stack->stk[stack->cur_size - 1]));
   printf("\n");
 }
 
 int peek(Stack * stack)
 {
   ui i = stack->cur_size - 1;
-  int rez = stack->stack[i];
+  int rez = stack->stk[i];
   return rez;
 }
 
 int pop(Stack * stack)
 {
   ui i = stack->cur_size - 1;
-  int rez = stack->stack[i];
+  int rez = stack->stk[i];
   stack->cur_size--;
   return rez;
 }
@@ -117,8 +117,8 @@ int pop(Stack * stack)
 void stack_resize(Stack * stack)
 {
   stack->size *= 2;
-  stack->stack = (int *)realloc(stack->stack, stack->size*sizeof(int));
-  if(!stack->stack)
+  stack->stk = (int *)realloc(stack->stk, stack->size*sizeof(int));
+  if(!stack->stk)
   {
     printf("REallocation error.\n");
     exit(1);

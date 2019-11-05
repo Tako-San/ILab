@@ -10,16 +10,16 @@ typedef long long int lli;
 
 typedef struct Stack
 {
-  int* stack;     //массив со стеком
+  int* stk;     //массив со стеком
   ui size;        //текущий размер массива
   ui cur_size;    //активный размер стека
-  lli hash;
+  lli hash;       //хэш
 }Stack;
 
 enum
 {
   STARTSIZE = 10, //начальный размер массива стека
-  DEADSTACK
+  DEADSTACK = 0  //мертвый стек
 };
 
 void init(Stack * new_stack);
