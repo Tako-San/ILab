@@ -2,10 +2,10 @@
 
 void init(Stack * new_stack)
 {
-  new_stack->stk = (int *)calloc(STARTSIZE, sizeof(int));
-  if(new_stack->stk == NULL)
+  new_stack->data = (my_type *)calloc(STARTSIZE, sizeof(my_type));
+  if(new_stack->data == NULL)
   {
-    printf("Memory allocation error.\n");
+    printf("Memory allocation error\n");
     exit(1);
   }
   new_stack->size = STARTSIZE;
@@ -14,7 +14,7 @@ void init(Stack * new_stack)
 
 void destroy(Stack * old_stack)
 {
-  free(old_stack->stk);
+  free(old_stack->data);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
 }
@@ -39,7 +39,7 @@ int what_to_do(Stack * stack)
 {
   int user_wish;
   int condition = 1;
-  int last_elem;
+  my_type last_elem;
 
   printf("Your choose is number: ");
   scanf("%d", &user_wish);
@@ -56,7 +56,7 @@ int what_to_do(Stack * stack)
             else
             {
               last_elem = peek(stack);
-              printf("Last elem = %d\n", last_elem);
+              std::cout << "Last elem = " << last_elem << "\n";
             }
             condition = 1;
             split();
@@ -66,7 +66,8 @@ int what_to_do(Stack * stack)
             else
             {
               last_elem = pop(stack);
-              printf("Last elem = %d. And it was deleted\n", last_elem);
+              //printf("Last elem = %d. And it was deleted\n", last_elem);
+              std::cout << "Last elem = " << last_elem << "\nIt was deleted\n";
             }
             condition = 1;
             split();
@@ -95,21 +96,22 @@ void push(Stack * stack)
 
   stack->cur_size++;
   printf("Enter next stack element: ");
-  scanf("%d", &(stack->stk[stack->cur_size - 1]));
+  //scanf("%d", &(stack->data[stack->cur_size - 1]));
+  std::cin >> stack->data[stack->cur_size - 1];
   printf("\n");
 }
 
-int peek(Stack * stack)
+my_type peek(Stack * stack)
 {
-  ui i = stack->cur_size - 1;
-  int rez = stack->stk[i];
+  size_type i = stack->cur_size - 1;
+  my_type rez = stack->data[i];
   return rez;
 }
 
-int pop(Stack * stack)
+my_type pop(Stack * stack)
 {
-  ui i = stack->cur_size - 1;
-  int rez = stack->stk[i];
+  size_type i = stack->cur_size - 1;
+  my_type rez = stack->data[i];
   stack->cur_size--;
   return rez;
 }
@@ -117,10 +119,10 @@ int pop(Stack * stack)
 void stack_resize(Stack * stack)
 {
   stack->size *= 2;
-  stack->stk = (int *)realloc(stack->stk, stack->size*sizeof(int));
-  if(!stack->stk)
+  stack->data = (my_type *)realloc(stack->data, stack->size*sizeof(my_type));
+  if(!stack->data)
   {
-    printf("REallocation error.\n");
+    printf("REallocation error\n");
     exit(1);
   }
 }

@@ -4,16 +4,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
-typedef unsigned ui;
-typedef long long int lli;
+
+
+typedef unsigned long long size_type;
+typedef unsigned long long hash_type;
+typedef unsigned long long size_type;
+
+typedef int my_type;
+//typedef long long int lli;
 
 typedef struct Stack
 {
-  int* stk;     //массив со стеком
-  ui size;        //текущий размер массива
-  ui cur_size;    //активный размер стека
-  lli hash;       //хэш
+  my_type* data;     //массив со стеком
+  size_type size;        //текущий размер массива
+  size_type cur_size;    //активный размер стека
+  hash_type hash;       //хэш
 }Stack;
 
 enum
@@ -27,8 +34,8 @@ void invite();
 void destroy(Stack * old_stack);
 
 void push(Stack * stack);
-int peek(Stack * stack);
-int pop(Stack * stack);
+my_type peek(Stack * stack);
+my_type pop(Stack * stack);
 void stack_resize(Stack * stack);
 
 void split();
