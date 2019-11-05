@@ -29,6 +29,7 @@ void destroy(Stack * old_stack);
 void push(Stack * stack);
 int peek(Stack * stack);
 int pop(Stack * stack);
+void stack_resize(Stack * stack);
 
 void split();
 int what_to_do(Stack * stack);

@@ -19,6 +19,8 @@ void destroy(Stack * old_stack)
   old_stack->cur_size = DEADSTACK;
 }
 
+
+
 void invite()
 {
   printf("What u wanna do, dude? You can:\n\n");
@@ -26,36 +28,6 @@ void invite()
   printf("2 - see last element\n");
   printf("3 - look at last elemet last time and delete\n");
   printf("4 - exit\n\n");
-}
-
-void push(Stack * stack)
-{
-  if(stack->cur_size >= stack->size)
-  {
-    printf("Stack overflow\n");
-  }
-  else
-  {
-    stack->cur_size++;
-    printf("Enter next stack element: ");
-    scanf("%d", &(stack->stack[stack->cur_size - 1]));
-    printf("\n");
-  }
-}
-
-int peek(Stack * stack)
-{
-  ui i = stack->cur_size - 1;
-  int rez = stack->stack[i];
-  return rez;
-}
-
-int pop(Stack * stack)
-{
-  ui i = stack->cur_size - 1;
-  int rez = stack->stack[i];
-  stack->cur_size--;
-  return rez;
 }
 
 void split()
@@ -110,4 +82,45 @@ int what_to_do(Stack * stack)
   }
 
   return condition;
+}
+
+
+
+void push(Stack * stack)
+{
+  if(stack->cur_size >= stack->size)
+  {
+    stack_resize(stack);
+  }
+
+  stack->cur_size++;
+  printf("Enter next stack element: ");
+  scanf("%d", &(stack->stack[stack->cur_size - 1]));
+  printf("\n");
+}
+
+int peek(Stack * stack)
+{
+  ui i = stack->cur_size - 1;
+  int rez = stack->stack[i];
+  return rez;
+}
+
+int pop(Stack * stack)
+{
+  ui i = stack->cur_size - 1;
+  int rez = stack->stack[i];
+  stack->cur_size--;
+  return rez;
+}
+
+void stack_resize(Stack * stack)
+{
+  stack->size *= 2;
+  stack->stack = (int *)realloc(stack->stack, stack->size*sizeof(int));
+  if(!stack->stack)
+  {
+    printf("REallocation error.\n");
+    exit(1);
+  }
 }
