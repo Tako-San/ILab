@@ -2,7 +2,7 @@
 
 void init(Stack * new_stack)
 {
-  new_stack->data = (my_type *)calloc(STARTSIZE, sizeof(my_type));
+  new_stack->data = (my_type *)((can_type *)calloc(STARTSIZE*sizeof(my_type)+2*sizeof(can_type), 1) + 1);
   if(new_stack->data == NULL)
   {
     printf("Memory allocation error\n");
@@ -10,11 +10,20 @@ void init(Stack * new_stack)
   }
   new_stack->size = STARTSIZE;
   new_stack->cur_size = 0;
+
+  new_stack->eagle1 = 0xDEADBEEF;
+  new_stack->eagle2 = 0xAAADDDCB;
+
+  new_stack->can1 = (can_type *)(new_stack->data) - 1;
+  new_stack->can2 = (can_type *)(new_stack->data + STARTSIZE) + 1;
+
+  *(new_stack->can1) = 0xBBBDFDFD;
+  *(new_stack->can2) = 0XBACFCABF;
 }
 
 void destroy(Stack * old_stack)
 {
-  free(old_stack->data);
+  free((can_type *)old_stack->data - 1);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
 }
@@ -120,6 +129,7 @@ void stack_resize(Stack * stack)
 {
   stack->size *= 2;
   stack->data = (my_type *)realloc(stack->data, stack->size*sizeof(my_type));
+  stack->can2 = (can_type *)(stack->data + stack->size) + 1;
   if(!stack->data)
   {
     printf("REallocation error\n");
