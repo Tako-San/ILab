@@ -17,9 +17,12 @@ typedef struct
 char * file_to_buf(int * txtlen);
 int file_length(FILE * f);
 Line * ptr_maker(char * txt, int * strings);
-//void BubbleSort(Line * str_info, int strs);
+
 int line_compare(const void * str1, const void * str2);
+int back_line_compare(const void * str1, const void * str2);
+
 void line_swap(Line * line1, Line * line2);
 void print_text(Line * str_info, int strings);
+void print_buf(char * txt);
 
 #endif

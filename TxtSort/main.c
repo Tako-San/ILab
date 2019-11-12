@@ -1,4 +1,4 @@
-#include "onegin.h"
+#include "txtsort.h"
 
 int main()
 {
@@ -8,10 +8,15 @@ int main()
 
   int strings = 0;
   Line * str_info = ptr_maker(text, &strings);
+  //Line * str_info2 = ptr_maker(text, &strings);
 
   qsort(str_info, strings, sizeof(str_info[0]), line_compare);
-
   print_text(str_info, strings);
+
+  qsort(str_info, strings, sizeof(str_info[0]), back_line_compare);
+  print_text(str_info, strings);
+
+  //print_text(str_info2, strings);
 
   free(str_info);
   free(text);

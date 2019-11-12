@@ -1,4 +1,4 @@
-#include "onegin.h"
+#include "txtsort.h"
 
 char * file_to_buf(int * txtlen)
 {
@@ -149,6 +149,53 @@ int line_compare(const void * str1, const void * str2)
   return -100;
 }
 
+int back_line_compare(const void * str1, const void * str2)
+{
+  int p = 0, q = 0;
+
+  Line line1 = *(Line*)str1;
+  Line line2 = *(Line*)str2;
+
+  char * last1 = line1.start + line1.len - 1;
+  char * last2 = line2.start + line2.len - 1;
+
+  while((last1 - p >= line1.start) && (last2 - q >= line2.start))
+  {
+    while((!isalpha(*(last1 - p)))&&(last1 - p >= line1.start))
+      p++;
+    while((!isalpha(*(last2 - q)))&&(last2 - q >= line2.start))
+      q++;
+
+    if(*(last1 - p) == *(last2 - q))
+    {
+      p++;
+      q++;
+    }
+    else
+      break;
+  }
+
+  char l1 = *(last1 - p);
+  char l2 = *(last2 - q);
+
+  if((last1 - p == line1.start) && (last2 - q == line2.start))
+    return 0;
+  else if(tolower(l1) == tolower(l2))
+    return 0;
+  else if(l1 == '\0')
+    return -1;
+  else if(l2 == '\0')
+    return 1;
+  else if(tolower(l1) < tolower(l2))
+    return -1;
+  else if(tolower(l1) > tolower(l2))
+    return 1;
+  else
+    return 0;
+
+  return -100;
+}
+
 
 void line_swap(Line * line1, Line * line2)
 {
@@ -160,7 +207,7 @@ void line_swap(Line * line1, Line * line2)
 
 void print_text(Line * str_info, int strings)
 {
-  FILE * f = fopen("Out.txt", "wb");
+  FILE * f = fopen("Out.txt", "ab");
   for (int i = 0; i < strings; i++)
   {
     //printf("%s\n", str_info[i].start);
@@ -168,5 +215,19 @@ void print_text(Line * str_info, int strings)
       fputc(*(str_info[i].start+p), f);
     fputc('\n', f);
   }
+  fclose(f);
+}
+
+void print_buf(char * txt)
+{
+  FILE * f = fopen("Out.txt", "ab");
+  for(int i = 0; txt[i] != EOF; i++)
+  {
+    if(txt[i] == '\n')
+      fputc('\n', f);
+    else
+      fputc(txt[i], f);
+  }
+  fputc('\n', f);
   fclose(f);
 }
