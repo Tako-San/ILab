@@ -7,15 +7,22 @@
 #include <iostream>
 
 
+typedef int my_type;
+
 
 typedef unsigned long long size_type;
 typedef unsigned long long hash_type;
 typedef unsigned long long can_type;
 
-typedef int my_type;
-//typedef long long int lli;
-
 //#define (STARTSIZE*sizeof(my_type)+2*sizeof(can_type)) INIT
+
+const can_type can1_val = 0xBBBDFDFD;
+const can_type can2_val = 0XBACFCABF;
+
+const can_type eagle1_val = 0xDEADBEEF;
+const can_type eagle2_val = 0xAAADDDCB;
+
+
 
 typedef struct Stack
 {
@@ -28,13 +35,13 @@ typedef struct Stack
   hash_type hash;       //хэш
   can_type* can1;
   can_type* can2;
-  
+
   can_type eagle2;
 }Stack;
 
 enum
 {
-  STARTSIZE = 10, //начальный размер массива стека
+  STARTSIZE = 1, //начальный размер массива стека
   DEADSTACK = 0  //мертвый стек
 };
 

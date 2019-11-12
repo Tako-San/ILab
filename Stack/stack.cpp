@@ -1,8 +1,10 @@
 #include "stack.h"
 
+
 void init(Stack * new_stack)
 {
-  new_stack->data = (my_type *)((can_type *)calloc(STARTSIZE*sizeof(my_type)+2*sizeof(can_type), 1) + 1);
+  //new_stack->data = (my_type *)((can_type *)calloc(STARTSIZE*sizeof(my_type)+2*sizeof(can_type), 1) + 1);
+  new_stack->data = (my_type *)calloc(STARTSIZE, sizeof(my_type));
   if(new_stack->data == NULL)
   {
     printf("Memory allocation error\n");
@@ -11,19 +13,20 @@ void init(Stack * new_stack)
   new_stack->size = STARTSIZE;
   new_stack->cur_size = 0;
 
-  new_stack->eagle1 = 0xDEADBEEF;
-  new_stack->eagle2 = 0xAAADDDCB;
+  new_stack->eagle1 = eagle1_val;
+  new_stack->eagle2 = eagle2_val;
 
-  new_stack->can1 = (can_type *)(new_stack->data) - 1;
+  /*new_stack->can1 = (can_type *)(new_stack->data) - 1;
   new_stack->can2 = (can_type *)(new_stack->data + STARTSIZE) + 1;
 
-  *(new_stack->can1) = 0xBBBDFDFD;
-  *(new_stack->can2) = 0XBACFCABF;
+  *(new_stack->can1) = can1_val;
+  *(new_stack->can2) = can2_val;*/
 }
 
 void destroy(Stack * old_stack)
 {
-  free((can_type *)old_stack->data - 1);
+  //free((can_type *)old_stack->data - 1);
+  free(old_stack->data);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
 }
@@ -128,11 +131,29 @@ my_type pop(Stack * stack)
 void stack_resize(Stack * stack)
 {
   stack->size *= 2;
-  stack->data = (my_type *)realloc(stack->data, stack->size*sizeof(my_type));
-  stack->can2 = (can_type *)(stack->data + stack->size) + 1;
+  /*stack->can1 = (can_type *)realloc((can_type *)stack->data - 1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
+  stack->data = (my_type *)(stack->can1 + 1);
+  stack->can2 = (can_type *)(stack->data + stack->size - 1);
   if(!stack->data)
   {
     printf("REallocation error\n");
     exit(1);
   }
+  //stack->can2 = (can_type *)(stack->data + stack->size)+1;*/
+  my_type * temp = (my_type *)realloc(stack->data, stack->size*sizeof(my_type));
+  if(!temp)
+  {
+    printf("REallocation error\n");
+    exit(1);
+  }
+  else
+  {
+    stack->data = temp;
+  }
 }
+
+
+/*bool is_OK(Stack * stack)
+{
+  if()
+}*/
