@@ -153,7 +153,12 @@ void stack_resize(Stack * stack)
 }
 
 
-/*bool is_OK(Stack * stack)
+int is_OK(Stack * stack)
 {
-  if()
-}*/
+  if(stack->eagle1 != eagle1_val)
+    return 0;
+  else if(stack->eagle2 != eagle2_val)
+    return 0;
+  else
+    return 1;
+}

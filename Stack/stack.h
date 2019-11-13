@@ -46,14 +46,15 @@ enum
 };
 
 void init(Stack * new_stack);
-void invite();
 void destroy(Stack * old_stack);
 
 void push(Stack * stack);
 my_type peek(Stack * stack);
 my_type pop(Stack * stack);
 void stack_resize(Stack * stack);
+int is_OK(Stack * stack);
 
+void invite();
 void split();
 int what_to_do(Stack * stack);
 
