@@ -72,54 +72,38 @@ Line * ptr_maker(char * txt, int * strings)
 
   for(; txt[i] != '\0'; i++)
   {
-    //printf("Making pointers txt[%d]\n", i);
     if(txt[i] == '\n')
     {
-      //printf("Here we need ptr: txt[%d]\n", i);
       txt[i] = '\0';
       str_info[string].start = &(txt[i+1]);
       str_info[string - 1].len = str_info[string].start - str_info[string - 1].start;
       string++;
-      //printf("strings: %d\n", string);
     }
   }
 
-  /*for(; txt[i] != '\0'; i++)
-  {
-    if(txt[i] == '\n')
-    {
-      while(isspace(txt[i]))
-        i++;
-      //printf("Here we need ptr: txt[%d]\n", i);
-      txt[i] = '\0';
-      str_info[string].start = &(txt[i+1]);
-      str_info[string - 1].len = str_info[string].start - str_info[string - 1].start;
-      string++;
-      printf("strings: %d\n", string);
-    }
-  }*/
-
   str_info[string].len = &(txt[i]) - str_info[string].start;
-  //printf("END OF ptr_maker\n");
+
   return str_info;
 }
 
 
 int line_compare(const void * str1, const void * str2)
 {
-  int p = 0, q = 0;
-
   Line line1 = *(Line*)str1;
   Line line2 = *(Line*)str2;
 
-  while((*(line1.start + p) != '\0') && (*(line2.start + q) != '\0'))
+  char* l1 = line1.start;
+  char* l2 = line2.start;
+
+  int p = 0, q = 0;
+  while((l1[p] != '\0') && (l2[q] != '\0'))
   {
-    while((!isalpha(*(line1.start + p)))&&(*(line1.start + p) != '\0'))
+    while((!isalpha(l1[p]))&&(l1[p] != '\0'))
       p++;
-    while((!isalpha(*(line2.start + q)))&&(*(line2.start + q) != '\0'))
+    while((!isalpha(l2[q]))&&(l2[q] != '\0'))
       q++;
 
-    if(*(line1.start + p) == *(line2.start + q))
+    if(l1[p] == l2[q])
     {
       p++;
       q++;
@@ -128,72 +112,42 @@ int line_compare(const void * str1, const void * str2)
       break;
   }
 
-  char l1 = *(line1.start + p);
-  char l2 = *(line2.start + q);
+  return (tolower(l1[p]) - tolower(l2[q]));
 
-  if((*(line1.start + p) == '\0') && (*(line2.start + q) == '\0'))
-    return 0;
-  else if(tolower(l1) == tolower(l2))
-    return 0;
-  else if(*(line1.start + p) == '\0')
-    return -1;
-  else if(*(line2.start + q) == '\0')
-    return 1;
-  else if(tolower(l1) < tolower(l2))
-    return -1;
-  else if(tolower(l1) > tolower(l2))
-    return 1;
-  else
-    return 0;
-
-  return -100;
 }
+
 
 int back_line_compare(const void * str1, const void * str2)
 {
-  int p = 0, q = 0;
-
   Line line1 = *(Line*)str1;
   Line line2 = *(Line*)str2;
 
-  char * last1 = line1.start + line1.len - 1;
-  char * last2 = line2.start + line2.len - 1;
+  char* l1 = line1.start;
+  char* l2 = line2.start;
 
-  while((last1 - p >= line1.start) && (last2 - q >= line2.start))
+  int p = line1.len - 1;
+  int q = line2.len - 1;
+
+  while((p >= 0) && (q >= 0))
   {
-    while((!isalpha(*(last1 - p)))&&(last1 - p >= line1.start))
-      p++;
-    while((!isalpha(*(last2 - q)))&&(last2 - q >= line2.start))
-      q++;
+    while((!isalpha(l1[p]))&&(p >= 0))
+      p--;
+    while((!isalpha(l2[q]))&&(q >= 0))
+      q--;
 
-    if(*(last1 - p) == *(last2 - q))
+    if(l1[p] == l2[q])
     {
-      p++;
-      q++;
+      p--;
+      q--;
     }
     else
       break;
   }
 
-  char l1 = *(last1 - p);
-  char l2 = *(last2 - q);
-
-  if((last1 - p == line1.start) && (last2 - q == line2.start))
-    return 0;
-  else if(tolower(l1) == tolower(l2))
-    return 0;
-  else if(l1 == '\0')
-    return -1;
-  else if(l2 == '\0')
-    return 1;
-  else if(tolower(l1) < tolower(l2))
-    return -1;
-  else if(tolower(l1) > tolower(l2))
-    return 1;
+  if(l1[p] == l2[q])
+    return (p - q);
   else
-    return 0;
-
-  return -100;
+    return (tolower(l1[p]) - tolower(l2[q]));
 }
 
 
@@ -210,7 +164,6 @@ void print_text(Line * str_info, int strings)
   FILE * f = fopen("Out.txt", "ab");
   for (int i = 0; i < strings; i++)
   {
-    //printf("%s\n", str_info[i].start);
     for(int p = 0; *(str_info[i].start+p) != '\0'; p++)
       fputc(*(str_info[i].start+p), f);
     fputc('\n', f);
@@ -218,16 +171,14 @@ void print_text(Line * str_info, int strings)
   fclose(f);
 }
 
-void print_buf(char * txt)
+/*void print_buf(char * txt, int strings)
 {
   FILE * f = fopen("Out.txt", "ab");
-  for(int i = 0; txt[i] != EOF; i++)
+  for (int i = 0; i < strings; i++)
   {
-    if(txt[i] == '\n')
-      fputc('\n', f);
-    else
+    for(int p = 0; txt[i] != '\0'; p++)
       fputc(txt[i], f);
+    fputc('\n', f);
   }
-  fputc('\n', f);
   fclose(f);
-}
+}*/
