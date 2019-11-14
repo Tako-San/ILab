@@ -4,12 +4,15 @@
 void init(Stack * new_stack)
 {
   //new_stack->data = (my_type *)((can_type *)calloc(STARTSIZE*sizeof(my_type)+2*sizeof(can_type), 1) + 1);
-  new_stack->data = (my_type *)calloc(STARTSIZE, sizeof(my_type));
-  if(new_stack->data == NULL)
+  new_stack->can1 = (can_type*)calloc(STARTSIZE*sizeof(my_type) + 2*sizeof(can_type), 1);
+  if(new_stack->can1 == NULL)
   {
     printf("Memory allocation error\n");
     exit(1);
   }
+
+  new_stack->data = (my_type *)(new_stack->can1 + 1);
+  new_stack->can2 = (can_type *)(new_stack->data + STARTSIZE);
 
   new_stack->size = STARTSIZE;
   new_stack->cur_size = 0;
@@ -18,17 +21,15 @@ void init(Stack * new_stack)
   new_stack->eagle2 = eagle2_val;
 
   new_stack->hash = hash_calc(new_stack);
-  /*new_stack->can1 = (can_type *)(new_stack->data) - 1;
-  new_stack->can2 = (can_type *)(new_stack->data + STARTSIZE) + 1;
 
   *(new_stack->can1) = can1_val;
-  *(new_stack->can2) = can2_val;*/
+  *(new_stack->can2) = can2_val;
 }
 
 void destroy(Stack * old_stack)
 {
   //free((can_type *)old_stack->data - 1);
-  free(old_stack->data);
+  free(old_stack->can1);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
   old_stack->hash = hash_calc(old_stack);
@@ -150,7 +151,7 @@ void stack_resize(Stack * stack)
     exit(1);
   }
   //stack->can2 = (can_type *)(stack->data + stack->size)+1;*/
-  my_type * temp = (my_type *)realloc(stack->data, stack->size*sizeof(my_type));
+  can_type * temp = (can_type *)realloc(stack->can1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
   if(!temp)
   {
     printf("REallocation error\n");
@@ -158,7 +159,12 @@ void stack_resize(Stack * stack)
   }
   else
   {
-    stack->data = temp;
+    stack->can1 = (can_type *)temp;
+    stack->data = (my_type *)(temp + 1);
+    stack->can2 = (can_type *)(stack->data + stack->size);
+
+    *stack->can2 = can2_val;
+
     stack->hash = hash_calc(stack);
   }
 }
@@ -175,6 +181,18 @@ bool is_OK(Stack * stack)
   else if(stack->eagle2 != eagle2_val)
   {
     printf("\n\nEAGLE2 CHANGED\n\n");
+    fury();
+    exit(1);
+  }
+  else if(*stack->can1 != can1_val)
+  {
+    printf("\n\nCANARY1 CHANGED\n\n");
+    fury();
+    exit(1);
+  }
+  else if(*stack->can2 != can2_val)
+  {
+    printf("\n\nCANARY2 CHANGED\n\n");
     fury();
     exit(1);
   }
@@ -197,11 +215,22 @@ void fury()
     split();
 }
 
+
 hash_type hash_calc(Stack * stack)
 {
   hash_type hash = 0;
 
-  for(unsigned i = 0; i < stack->cur_size; i++)
+  for (size_type i = 0; i < stack->cur_size; i++)
+  {
+      hash += (unsigned char)(stack->data[i]);
+      hash += (hash << 10);
+      hash ^= (hash >> 6);
+  }
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
+
+  /*for(unsigned i = 0; i < stack->cur_size; i++)
   {
     hash += (stack->cur_size - i)*stack->data[i];
   }
@@ -209,7 +238,7 @@ hash_type hash_calc(Stack * stack)
   hash += 69*(stack->eagle1%420);
   hash += 420*(stack->eagle2%69);
   hash += 89*(stack->size/30);
-  hash += 17*(stack->cur_size);
+  hash += 17*(stack->cur_size);*/
 
   return hash;
 }

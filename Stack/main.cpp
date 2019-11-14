@@ -48,12 +48,12 @@ int main()
   char condition = 1;
   while(condition)
   {
-    condition = what_to_do(&my_stack);
     if(!is_OK(&my_stack))
     {
       printf("Stack is not OK\n");
       exit(1);
     }
+    condition = what_to_do(&my_stack);
   }
 //#endif
   return 0;
