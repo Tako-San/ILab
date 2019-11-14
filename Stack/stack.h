@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <assert.h>
 
 
 typedef int my_type;
@@ -57,5 +58,6 @@ int is_OK(Stack * stack);
 void invite();
 void split();
 int what_to_do(Stack * stack);
+void fury();
 
 #endif
