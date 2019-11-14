@@ -43,7 +43,8 @@ typedef struct Stack
 enum
 {
   STARTSIZE = 1, //начальный размер массива стека
-  DEADSTACK = 0  //мертвый стек
+  DEADSTACK = 0, //мертвый стек
+  DEADHASH = 0
 };
 
 void init(Stack * new_stack);
@@ -53,7 +54,9 @@ void push(Stack * stack);
 my_type peek(Stack * stack);
 my_type pop(Stack * stack);
 void stack_resize(Stack * stack);
-int is_OK(Stack * stack);
+
+bool is_OK(Stack * stack);
+hash_type hash_calc(Stack * stack);
 
 void invite();
 void split();

@@ -10,12 +10,14 @@ void init(Stack * new_stack)
     printf("Memory allocation error\n");
     exit(1);
   }
+
   new_stack->size = STARTSIZE;
   new_stack->cur_size = 0;
 
   new_stack->eagle1 = eagle1_val;
   new_stack->eagle2 = eagle2_val;
 
+  new_stack->hash = hash_calc(new_stack);
   /*new_stack->can1 = (can_type *)(new_stack->data) - 1;
   new_stack->can2 = (can_type *)(new_stack->data + STARTSIZE) + 1;
 
@@ -29,6 +31,7 @@ void destroy(Stack * old_stack)
   free(old_stack->data);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
+  old_stack->hash = hash_calc(old_stack);
 }
 
 
@@ -111,6 +114,7 @@ void push(Stack * stack)
   printf("Enter next stack element: ");
   //scanf("%d", &(stack->data[stack->cur_size - 1]));
   std::cin >> stack->data[stack->cur_size - 1];
+  stack->hash = hash_calc(stack);
   printf("\n");
 }
 
@@ -119,6 +123,7 @@ my_type peek(Stack * stack)
   assert(is_OK(stack));
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
+  //stack->hash = hash_calc(stack);
   return rez;
 }
 
@@ -128,6 +133,7 @@ my_type pop(Stack * stack)
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
   stack->cur_size--;
+  stack->hash = hash_calc(stack);
   return rez;
 }
 
@@ -153,11 +159,12 @@ void stack_resize(Stack * stack)
   else
   {
     stack->data = temp;
+    stack->hash = hash_calc(stack);
   }
 }
 
 
-int is_OK(Stack * stack)
+bool is_OK(Stack * stack)
 {
   if(stack->eagle1 != eagle1_val)
   {
@@ -171,15 +178,38 @@ int is_OK(Stack * stack)
     fury();
     exit(1);
   }
+  else if(stack->hash != hash_calc(stack))
+  {
+    printf("\n\nHASH CHANGED\n\n");
+    fury();
+    exit(1);
+  }
   else
-    return 1;
+    return true;
 }
 
 void fury()
 {
   for(int i = 0; i < 4; i++)
     split();
-  printf("YOU WANNA FUCK MY EAGLES? FUCK YOU\n");
+  printf("YOU WANNA FUCK MY STACK? FUCK YOU\n");
   for(int i = 0; i < 4; i++)
     split();
+}
+
+hash_type hash_calc(Stack * stack)
+{
+  hash_type hash = 0;
+
+  for(unsigned i = 0; i < stack->cur_size; i++)
+  {
+    hash += (stack->cur_size - i)*stack->data[i];
+  }
+
+  hash += 69*(stack->eagle1%420);
+  hash += 420*(stack->eagle2%69);
+  hash += 89*(stack->size/30);
+  hash += 17*(stack->cur_size);
+
+  return hash;
 }
