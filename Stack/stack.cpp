@@ -3,7 +3,6 @@
 
 void init(Stack * new_stack)
 {
-  //new_stack->data = (my_type *)((can_type *)calloc(STARTSIZE*sizeof(my_type)+2*sizeof(can_type), 1) + 1);
   new_stack->can1 = (can_type*)calloc(STARTSIZE*sizeof(my_type) + 2*sizeof(can_type), 1);
   if(new_stack->can1 == NULL)
   {
@@ -28,7 +27,6 @@ void init(Stack * new_stack)
 
 void destroy(Stack * old_stack)
 {
-  //free((can_type *)old_stack->data - 1);
   free(old_stack->can1);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
@@ -48,7 +46,7 @@ void invite()
 
 void split()
 {
-  printf("___________________________\n\n");
+  printf("_____________________________________________\n\n");
 }
 
 int what_to_do(Stack * stack)
@@ -58,7 +56,11 @@ int what_to_do(Stack * stack)
   my_type last_elem;
 
   printf("Your choose is number: ");
-  scanf("%d", &user_wish);
+  while(!scanf("%d", &user_wish))
+  {
+    printf("Wrong number, man. Try again\n");
+    scanf("%*[^\n]");
+  }
   printf("\n");
 
   switch(user_wish)
