@@ -144,6 +144,7 @@ void stack_resize(Stack * stack)
 {
   assert(is_OK(stack));
   stack->size *= 2;
+  can_type can2_temp = *stack->can2;
   /*stack->can1 = (can_type *)realloc((can_type *)stack->data - 1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
   stack->data = (my_type *)(stack->can1 + 1);
   stack->can2 = (can_type *)(stack->data + stack->size - 1);
@@ -165,7 +166,7 @@ void stack_resize(Stack * stack)
     stack->data = (my_type *)(temp + 1);
     stack->can2 = (can_type *)(stack->data + stack->size);
 
-    *stack->can2 = can2_val;
+    *stack->can2 = can2_temp;
 
     stack->hash = hash_calc(stack);
   }

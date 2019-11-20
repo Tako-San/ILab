@@ -1,6 +1,6 @@
 #include "stack.h"
 
-class Tortue
+/*class Tortue
 {
 public:
   int exec1;
@@ -23,7 +23,7 @@ public:
   {
     destroy(&victim);
   }
-};
+};*/
 
 
 
