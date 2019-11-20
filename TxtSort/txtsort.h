@@ -21,6 +21,7 @@ Line * ptr_maker(char * txt, int * strings);
 int line_compare(const void * str1, const void * str2);
 int back_line_compare(const void * str1, const void * str2);
 
+void Lines_copy(Line* dst, Line* src, int size);
 void line_swap(Line * line1, Line * line2);
 void print_text(Line * str_info, int strings);
 //void print_buf(char * txt, int strings);

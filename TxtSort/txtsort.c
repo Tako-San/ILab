@@ -171,6 +171,14 @@ void print_text(Line * str_info, int strings)
   fclose(f);
 }
 
+void Lines_copy(Line* dst, Line* src, int size)
+{
+  for(int i = 0; i < size; i++)
+  {
+    dst[i].start = src[i].start;
+    dst[i].len = src[i].len;
+  }
+}
 /*void print_buf(char * txt, int strings)
 {
   FILE * f = fopen("Out.txt", "ab");
