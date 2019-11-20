@@ -171,7 +171,7 @@ void print_text(Line * str_info, int strings)
   fclose(f);
 }
 
-void Lines_copy(Line* dst, Line* src, int size)
+void lines_copy(Line* dst, Line* src, int size)
 {
   for(int i = 0; i < size; i++)
   {

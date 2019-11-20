@@ -10,7 +10,7 @@ int main()
   Line * str_info = ptr_maker(text, &strings);
 
   Line * original_text = (Line*)calloc(strings, sizeof(Line));
-  Lines_copy(original_text, str_info, strings);
+  lines_copy(original_text, str_info, strings);
 
   qsort(str_info, strings, sizeof(str_info[0]), line_compare);
   print_text(str_info, strings);
