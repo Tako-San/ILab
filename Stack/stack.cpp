@@ -47,7 +47,7 @@ void invite()
 
 void split()
 {
-  printf("_____________________________________________\n\n");
+  printf("_____________________________________________________\n\n");
 }
 
 int what_to_do(Stack * stack)
@@ -56,7 +56,9 @@ int what_to_do(Stack * stack)
   int condition = 1;
   my_type last_elem;
 
-  printf("0 - exit  1 - push  2 - peek  3 - pop  4 - print data\n\n");
+  split();
+  printf("0 - exit  1 - push  2 - peek  3 - pop  4 - print data\n");
+  split();
   printf("Your choose is number: ");
   while(!scanf("%d", &user_wish))
   {
@@ -73,34 +75,37 @@ int what_to_do(Stack * stack)
             break;
     case 1: push(stack);
             condition = 1;
-            split();
+            //split();
             break;
     case 2: if(stack->cur_size == 0)
               printf("Your stack is empty\n");
             else
             {
               last_elem = peek(stack);
-              std::cout << "Last elem = " << last_elem << "\n";
+              printf("\nLast elem = ");
+              std::cout << last_elem;
+              printf("\n");
             }
             condition = 1;
-            split();
+            //split();
             break;
     case 3: if(stack->cur_size == 0)
-              printf("Your stack is empty\n");
+              printf("\nYour stack is empty\n");
             else
             {
               last_elem = pop(stack);
-              //printf("Last elem = %d. And it was deleted\n", last_elem);
-              std::cout << "Last elem = " << last_elem << "\nIt was deleted\n";
+              printf("\nLast elem = ");
+              std::cout << last_elem;
+              printf("\nIt was deleted\n");
             }
             condition = 1;
-            split();
+            //split();
             break;
     case 4: data_print(stack);
             break;
     default:  printf("Wrong number, man. Try again\n");
               condition = 1;
-              split();
+              //split();
               break;
   }
 
@@ -183,30 +188,35 @@ bool is_OK(Stack * stack)
   {
     printf("\n\nEAGLE1 CHANGED\n\n");
     fury();
+    dump(stack);
     exit(1);
   }
   else if(stack->eagle2 != eagle2_val)
   {
     printf("\n\nEAGLE2 CHANGED\n\n");
     fury();
+    dump(stack);
     exit(1);
   }
   else if(*stack->can1 != can1_val)
   {
     printf("\n\nCANARY1 CHANGED\n\n");
     fury();
+    dump(stack);
     exit(1);
   }
   else if(*stack->can2 != can2_val)
   {
     printf("\n\nCANARY2 CHANGED\n\n");
     fury();
+    dump(stack);
     exit(1);
   }
   else if(stack->hash != hash_calc(stack))
   {
     printf("\n\nHASH CHANGED\n\n");
     fury();
+    dump(stack);
     exit(1);
   }
   else
@@ -218,7 +228,7 @@ void data_print(Stack * stack)
   printf("\n");
   for(size_type i = 0; i < stack->cur_size; i++)
   {
-    printf("stack.data[%d] = ", i);
+    printf("stack.data[%llu] = ", i);
     std::cout <<stack->data[i]<< "\n";
   }
   printf("\n");
@@ -226,8 +236,15 @@ void data_print(Stack * stack)
 
 void dump(Stack * stack)
 {
-  printf("can1 = %llu\n", stack->can1);
-  printf("can2 = %llu\n", stack->can2);
+  printf("can1 = %llu   can1_val = %llu\n", *(stack->can1), can1_val);
+  printf("can2 = %llu   can2_val = %llu\n", *(stack->can2), can2_val);
+
+  printf("eagle1 = %llu   eagle1_val = %llu\n", stack->eagle1, eagle1_val);
+  printf("eagle2 = %llu   eagle2_val = %llu\n", stack->eagle2, eagle2_val);
+
+  printf("size = %llu\n", stack->size);
+  printf("cur_size = %llu\n", stack->cur_size);
+
   data_print(stack);
 }
 
