@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "interface.h"
 
 
 void init(Stack * new_stack)
@@ -34,86 +34,6 @@ void destroy(Stack * old_stack)
 }
 
 
-
-void invite()
-{
-  printf("What u wanna do, dude? You can:\n");
-  printf("      0 - exit\n");
-  printf("      1 - add number to stack\n");
-  printf("      2 - see last element\n");
-  printf("      3 - look at last elemet last time and delete\n");
-  printf("      4 - print stack data\n\n");
-}
-
-void split()
-{
-  printf("_____________________________________________________\n\n");
-}
-
-int what_to_do(Stack * stack)
-{
-  int user_wish;
-  int condition = 1;
-  my_type last_elem;
-
-  split();
-  printf("0 - exit  1 - push  2 - peek  3 - pop  4 - print data\n");
-  split();
-  printf("Your choose is number: ");
-  while(!scanf("%d", &user_wish))
-  {
-    printf("Wrong number, man. Try again\n");
-    scanf("%*[^\n]");
-  }
-  printf("\n");
-
-  switch(user_wish)
-  {
-    case 0: destroy(stack);
-            printf("Bye ;(\n\n");
-            condition = 0;
-            break;
-    case 1: push(stack);
-            condition = 1;
-            //split();
-            break;
-    case 2: if(stack->cur_size == 0)
-              printf("Your stack is empty\n");
-            else
-            {
-              last_elem = peek(stack);
-              printf("\nLast elem = ");
-              std::cout << last_elem;
-              printf("\n");
-            }
-            condition = 1;
-            //split();
-            break;
-    case 3: if(stack->cur_size == 0)
-              printf("\nYour stack is empty\n");
-            else
-            {
-              last_elem = pop(stack);
-              printf("\nLast elem = ");
-              std::cout << last_elem;
-              printf("\nIt was deleted\n");
-            }
-            condition = 1;
-            //split();
-            break;
-    case 4: data_print(stack);
-            break;
-    default:  printf("Wrong number, man. Try again\n");
-              condition = 1;
-              //split();
-              break;
-  }
-
-  return condition;
-}
-
-
-
 void push(Stack * stack)
 {
   assert(is_OK(stack));
@@ -124,7 +44,6 @@ void push(Stack * stack)
 
   stack->cur_size++;
   printf("Enter next stack element: ");
-  //scanf("%d", &(stack->data[stack->cur_size - 1]));
   std::cin >> stack->data[stack->cur_size - 1];
   stack->hash = hash_calc(stack);
   printf("\n");
@@ -135,7 +54,6 @@ my_type peek(Stack * stack)
   assert(is_OK(stack));
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
-  //stack->hash = hash_calc(stack);
   return rez;
 }
 
@@ -154,15 +72,7 @@ void stack_resize(Stack * stack)
   assert(is_OK(stack));
   stack->size *= 2;
   can_type can2_temp = *stack->can2;
-  /*stack->can1 = (can_type *)realloc((can_type *)stack->data - 1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
-  stack->data = (my_type *)(stack->can1 + 1);
-  stack->can2 = (can_type *)(stack->data + stack->size - 1);
-  if(!stack->data)
-  {
-    printf("REallocation error\n");
-    exit(1);
-  }
-  //stack->can2 = (can_type *)(stack->data + stack->size)+1;*/
+
   can_type * temp = (can_type *)realloc(stack->can1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
   if(!temp)
   {
@@ -180,6 +90,7 @@ void stack_resize(Stack * stack)
     stack->hash = hash_calc(stack);
   }
 }
+
 
 
 bool is_OK(Stack * stack)
@@ -242,35 +153,45 @@ void dump(Stack * stack)
   printf("eagle1 = %llu   eagle1_val = %llu\n", stack->eagle1, eagle1_val);
   printf("eagle2 = %llu   eagle2_val = %llu\n", stack->eagle2, eagle2_val);
 
+  printf("hash = %llu\n", stack->hash);
+
   printf("size = %llu\n", stack->size);
   printf("cur_size = %llu\n", stack->cur_size);
 
   data_print(stack);
 }
 
-void fury()
-{
-  for(int i = 0; i < 4; i++)
-    split();
-  printf("YOU WANNA FUCK MY STACK? FUCK YOU\n");
-  for(int i = 0; i < 4; i++)
-    split();
-}
-
-
 hash_type hash_calc(Stack * stack)
 {
+  hash_type old_hash = stack->hash;
+  stack->hash = 0;
+
+  const unsigned char* bytes = (unsigned char*)stack;
+  size_t bytes_len = sizeof(*stack);
+
   hash_type hash = 0;
 
-  for (size_type i = 0; i < stack->cur_size; i++)
+  for (size_type i = 0; i < bytes_len; i++)
   {
-      hash += (unsigned char)(stack->data[i]);
-      hash += (hash << 10);
-      hash ^= (hash >> 6);
+    hash += (unsigned char)(bytes[i]);
+    hash += (hash << 10);
+    hash ^= (hash >> 6);
   }
   hash += (hash << 3);
   hash ^= (hash >> 11);
   hash += (hash << 15);
+
+  /*hash_type hash = 0;
+
+  for (size_type i = 0; i < stack->cur_size; i++)
+  {
+    hash += (unsigned char)(stack->data[i]);
+    hash += (hash << 10);
+    hash ^= (hash >> 6);
+  }
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);*/
 
   /*for(unsigned i = 0; i < stack->cur_size; i++)
   {
@@ -281,6 +202,16 @@ hash_type hash_calc(Stack * stack)
   hash += 420*(stack->eagle2%69);
   hash += 89*(stack->size/30);
   hash += 17*(stack->cur_size);*/
+  stack->hash = old_hash;
 
   return hash;
+}
+
+void fury()
+{
+  for(int i = 0; i < 3; i++)
+    split();
+  printf("YOU WANNA FUCK MY STACK? FUCK YOU\n");
+  for(int i = 0; i < 3; i++)
+    split();
 }

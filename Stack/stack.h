@@ -1,12 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <assert.h>
-
 
 typedef int my_type;
 
@@ -59,10 +57,5 @@ void data_print(Stack * stack);
 void dump(Stack * stack);
 bool is_OK(Stack * stack);
 hash_type hash_calc(Stack * stack);
-
-void invite();
-void split();
-int what_to_do(Stack * stack);
-void fury();
 
 #endif
