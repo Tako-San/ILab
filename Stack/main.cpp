@@ -1,3 +1,4 @@
+#include "stack.h"
 #include "interface.h"
 
 /*class Tortue

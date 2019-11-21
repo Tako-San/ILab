@@ -50,6 +50,7 @@ int what_to_do(Stack * stack)
             condition = 1;
             break;
     case 4: data_print(stack);
+            //dump(stack);
             break;
     default:  printf("Wrong number, man. Try again\n");
               condition = 1;
@@ -62,6 +63,7 @@ int what_to_do(Stack * stack)
 void invite()
 {
   printf("What u wanna do, dude? You can:\n\n");
+  split();
   printf("      0 - exit\n");
   printf("      1 - add number to stack\n");
   printf("      2 - see last element\n");

@@ -23,8 +23,10 @@ const can_type eagle2_val = 0xAAADDDCB;
 
 
 
-typedef struct Stack
+class Stack
 {
+public:
+
   can_type eagle1;
 
   my_type* data;     //массив со стеком
@@ -36,7 +38,7 @@ typedef struct Stack
   can_type* can2;
 
   can_type eagle2;
-}Stack;
+};
 
 enum
 {

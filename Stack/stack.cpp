@@ -1,5 +1,5 @@
+#include "stack.h"
 #include "interface.h"
-
 
 void init(Stack * new_stack)
 {
@@ -43,7 +43,14 @@ void push(Stack * stack)
   }
 
   stack->cur_size++;
+
   printf("Enter next stack element: ");
+
+  /*my_type temp = 0;
+  while(!(std::cin >> temp))
+    fflush(stdin);
+  stack->data[stack->cur_size - 1] = temp;*/
+  
   std::cin >> stack->data[stack->cur_size - 1];
   stack->hash = hash_calc(stack);
   printf("\n");
@@ -52,18 +59,22 @@ void push(Stack * stack)
 my_type peek(Stack * stack)
 {
   assert(is_OK(stack));
+
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
+
   return rez;
 }
 
 my_type pop(Stack * stack)
 {
   assert(is_OK(stack));
+
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
   stack->cur_size--;
   stack->hash = hash_calc(stack);
+
   return rez;
 }
 
@@ -150,10 +161,16 @@ void dump(Stack * stack)
   printf("can1 = %llu   can1_val = %llu\n", *(stack->can1), can1_val);
   printf("can2 = %llu   can2_val = %llu\n", *(stack->can2), can2_val);
 
+  printf("\n");
+
   printf("eagle1 = %llu   eagle1_val = %llu\n", stack->eagle1, eagle1_val);
   printf("eagle2 = %llu   eagle2_val = %llu\n", stack->eagle2, eagle2_val);
 
+  printf("\n");
+
   printf("hash = %llu\n", stack->hash);
+
+  printf("\n");
 
   printf("size = %llu\n", stack->size);
   printf("cur_size = %llu\n", stack->cur_size);
@@ -206,6 +223,8 @@ hash_type hash_calc(Stack * stack)
 
   return hash;
 }
+
+
 
 void fury()
 {
