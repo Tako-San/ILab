@@ -37,11 +37,12 @@ void destroy(Stack * old_stack)
 
 void invite()
 {
-  printf("What u wanna do, dude? You can:\n\n");
-  printf("0 - exit\n");
-  printf("1 - add number to stack\n");
-  printf("2 - see last element\n");
-  printf("3 - look at last elemet last time and delete\n\n");
+  printf("What u wanna do, dude? You can:\n");
+  printf("      0 - exit\n");
+  printf("      1 - add number to stack\n");
+  printf("      2 - see last element\n");
+  printf("      3 - look at last elemet last time and delete\n");
+  printf("      4 - print stack data\n\n");
 }
 
 void split()
@@ -55,6 +56,7 @@ int what_to_do(Stack * stack)
   int condition = 1;
   my_type last_elem;
 
+  printf("0 - exit  1 - push  2 - peek  3 - pop  4 - print data\n\n");
   printf("Your choose is number: ");
   while(!scanf("%d", &user_wish))
   {
@@ -93,6 +95,8 @@ int what_to_do(Stack * stack)
             }
             condition = 1;
             split();
+            break;
+    case 4: data_print(stack);
             break;
     default:  printf("Wrong number, man. Try again\n");
               condition = 1;
@@ -207,6 +211,24 @@ bool is_OK(Stack * stack)
   }
   else
     return true;
+}
+
+void data_print(Stack * stack)
+{
+  printf("\n");
+  for(size_type i = 0; i < stack->cur_size; i++)
+  {
+    printf("stack.data[%d] = ", i);
+    std::cout <<stack->data[i]<< "\n";
+  }
+  printf("\n");
+}
+
+void dump(Stack * stack)
+{
+  printf("can1 = %llu\n", stack->can1);
+  printf("can2 = %llu\n", stack->can2);
+  data_print(stack);
 }
 
 void fury()

@@ -55,6 +55,8 @@ my_type peek(Stack * stack);
 my_type pop(Stack * stack);
 void stack_resize(Stack * stack);
 
+void data_print(Stack * stack);
+void dump(Stack * stack);
 bool is_OK(Stack * stack);
 hash_type hash_calc(Stack * stack);
 
