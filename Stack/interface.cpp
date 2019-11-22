@@ -1,14 +1,14 @@
 #include "interface.h"
 
 
-int what_to_do(Stack * stack)
+int what_to_do(Stack * stack, STK_ERR * err_code)
 {
   int user_wish;
   int condition = 1;
   my_type last_elem;
 
   split();
-  printf("0 - exit  1 - push  2 - peek  3 - pop  4 - print data\n");
+  printf("0 - exit    1 - push    2 - peek    3 - pop    4 - print data\n");
   split();
   printf("Your choose is number: ");
   while(!scanf("%d", &user_wish))
@@ -20,44 +20,44 @@ int what_to_do(Stack * stack)
 
   switch(user_wish)
   {
-    case 0: destroy(stack);
+    case 0: destroy(stack, err_code);
             printf("Bye ;(\n\n");
-            condition = 0;
+            //condition = 0;
             break;
-    case 1: push(stack);
-            condition = 1;
+    case 1: push(stack, err_code);
+            //condition = 1;
             break;
     case 2: if(stack->cur_size == 0)
               printf("Your stack is empty\n");
             else
             {
-              last_elem = peek(stack);
+              last_elem = peek(stack, err_code);
               printf("\nLast elem = ");
               std::cout << last_elem;
               printf("\n");
             }
-            condition = 1;
+            //condition = 1;
             break;
     case 3: if(stack->cur_size == 0)
               printf("\nYour stack is empty\n");
             else
             {
-              last_elem = pop(stack);
+              last_elem = pop(stack, err_code);
               printf("\nLast elem = ");
               std::cout << last_elem;
               printf("\nIt was deleted\n");
             }
-            condition = 1;
+            //condition = 1;
             break;
-    case 4: data_print(stack);
-            //dump(stack);
+    case 4: //data_print(stack);
+            dump(stack, err_code);
             break;
     default:  printf("Wrong number, man. Try again\n");
-              condition = 1;
+              //condition = 1;
               break;
   }
 
-  return condition;
+  return 0;
 }
 
 void invite()
@@ -73,5 +73,5 @@ void invite()
 
 void split()
 {
-  printf("_____________________________________________________\n\n");
+  printf("______________________________________________________________\n\n");
 }

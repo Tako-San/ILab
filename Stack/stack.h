@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <iostream>
 #include <assert.h>
 
@@ -42,22 +43,40 @@ public:
 
 enum
 {
+  RE_COEFF = 2,  //коэффициент при увеличении размера стека
   STARTSIZE = 1, //начальный размер массива стека
   DEADSTACK = 0, //мертвый стек
-  DEADHASH = 0
+  DEADHASH = 0,
+  MAGICNUM = 500,
 };
 
-void init(Stack * new_stack);
-void destroy(Stack * old_stack);
+enum STK_ERR
+{
+  STACK_NICE             =     0,
+  STACK_OVERFLOW         =     1,
+  STACK_CAN1_ERROR       =     2,
+  STACK_CAN2_ERROR       =     3,
+  STACK_HASH_ERROR       =     4,
+  STACK_SIZE_ERROR       =     5,
+  STACK_DATA_ERROR       =     6,
+  STACK_MEM_ERROR        =     7,
+  STACK_NEW_SIZE_ERROR   =     8,
+  STACK_EAGLE1_ERROR     =     9,
+  STACK_EAGLE2_ERROR     =    10,
+  STACK_DESTROYED        =    11,
+};
 
-void push(Stack * stack);
-my_type peek(Stack * stack);
-my_type pop(Stack * stack);
-void stack_resize(Stack * stack);
+void init(Stack * new_stack, STK_ERR * err_code);
+void destroy(Stack * old_stack, STK_ERR * err_code);
+
+void push(Stack * stack, STK_ERR * err_code);
+my_type peek(Stack * stack, STK_ERR * err_code);
+my_type pop(Stack * stack, STK_ERR * err_code);
+void stack_resize(Stack * stack, STK_ERR * err_code);
 
 void data_print(Stack * stack);
-void dump(Stack * stack);
-bool is_OK(Stack * stack);
-hash_type hash_calc(Stack * stack);
+void dump(Stack * stack, STK_ERR * err_code);
+bool is_OK(Stack * stack, STK_ERR* err_code);
+hash_type hash_calc(Stack * stack, STK_ERR * err_code);
 
 #endif
