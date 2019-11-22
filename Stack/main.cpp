@@ -60,6 +60,7 @@ int main()
     }*/
     //condition = what_to_do(&my_stack, &err_code);
     what_to_do(&my_stack, &err_code);
+    is_OK(&my_stack, &err_code);
   }
 //#endif
   return 0;

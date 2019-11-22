@@ -20,6 +20,7 @@ void init(Stack * new_stack, STK_ERR * err_code)
   new_stack->eagle1 = eagle1_val;
   new_stack->eagle2 = eagle2_val;
 
+  new_stack->data_hash = data_hash(new_stack, err_code);
   new_stack->hash = hash_calc(new_stack, err_code);
 
   *(new_stack->can1) = can1_val;
@@ -44,6 +45,8 @@ void push(Stack * stack, STK_ERR * err_code)
   if(stack->cur_size >= stack->size)
   {
     stack_resize(stack, err_code);
+    if(!is_OK(stack, err_code))
+      return;
   }
 
   stack->cur_size++;
@@ -109,32 +112,47 @@ void stack_resize(Stack * stack, STK_ERR * err_code)
   can_type * temp = (can_type *)realloc(stack->can1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
   if(!temp)
   {
-    printf("REallocation error\n");
-    exit(1);
+    *err_code = STACK_NEW_SIZE_ERROR;
+    is_OK(stack, err_code);
+    return;
+    //printf("REallocation error\n");
+    //exit(1);
   }
-  else
-  {
-    stack->can1 = (can_type *)temp;
-    stack->data = (my_type *)(temp + 1);
-    stack->can2 = (can_type *)(stack->data + stack->size);
 
-    *stack->can2 = can2_temp;
+  stack->can1 = (can_type *)temp;
+  stack->data = (my_type *)(temp + 1);
+  stack->can2 = (can_type *)(stack->data + stack->size);
 
-    stack->data_hash = data_hash(stack, err_code);
-    stack->hash = hash_calc(stack, err_code);
-  }
+  *stack->can2 = can2_temp;
+
+  stack->data_hash = data_hash(stack, err_code);
+  stack->hash = hash_calc(stack, err_code);
 }
 
 
 
 bool is_OK(Stack * stack, STK_ERR* err_code)
 {
-  if(stack->eagle1 != eagle1_val)
+  if(*err_code == STACK_NEW_SIZE_ERROR)
+  {
+    dump(stack, err_code);
+    destroy(stack, err_code);
+    return false;
+  }
+  else if(stack->size < stack->cur_size)
+  {
+    *err_code = STACK_SIZE_ERROR;
+    dump(stack, err_code);
+    destroy(stack, err_code);
+    return false;
+  }
+  else if(stack->eagle1 != eagle1_val)
   {
     *err_code = STACK_EAGLE1_ERROR;
     //printf("\n\nEAGLE1 CHANGED\n\n");
     //fury();
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
     //exit(1);
   }
@@ -144,6 +162,7 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     //printf("\n\nEAGLE2 CHANGED\n\n");
     //fury();
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
     //exit(1);
   }
@@ -153,6 +172,7 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     //printf("\n\nCANARY1 CHANGED\n\n");
     //fury();
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
     //exit(1);
   }
@@ -162,6 +182,7 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     //printf("\n\nCANARY2 CHANGED\n\n");
     //fury();
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
     //exit(1);
   }
@@ -169,6 +190,7 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
   {
     *err_code = STACK_DATA_ERROR;
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
   }
   else if(stack->hash != hash_calc(stack, err_code))
@@ -177,6 +199,7 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     //printf("\n\nHASH CHANGED\n\n");
     //fury();
     dump(stack, err_code);
+    destroy(stack, err_code);
     return false;
     //exit(1);
   }
@@ -209,7 +232,10 @@ void dump(Stack * stack, STK_ERR * err_code)
 
   printf("\n");
 
-  hash_type temp = hash_calc(stack, err_code);
+  hash_type temp = data_hash(stack, err_code);
+  printf("dhash =  %16llX     real dhash = %15llX   %s\n", stack->data_hash, temp, temp == stack->data_hash?"OK":"ERR");
+  
+  temp = hash_calc(stack, err_code);
   printf("hash =   %16llX     real hash = %16llX   %s\n", stack->hash, temp, temp == stack->hash?"OK":"ERR");
 
   printf("\n");
@@ -239,27 +265,7 @@ hash_type hash_calc(Stack * stack, STK_ERR * err_code)
   hash += (hash << 3);
   hash ^= (hash >> 11);
   hash += (hash << 15);
-  /*hash_type hash = 0;
 
-  for (size_type i = 0; i < stack->cur_size; i++)
-  {
-    hash += (unsigned char)(stack->data[i]);
-    hash += (hash << 10);
-    hash ^= (hash >> 6);
-  }
-  hash += (hash << 3);
-  hash ^= (hash >> 11);
-  hash += (hash << 15);*/
-
-  /*for(unsigned i = 0; i < stack->cur_size; i++)
-  {
-    hash += (stack->cur_size - i)*stack->data[i];
-  }
-
-  hash += 69*(stack->eagle1%420);
-  hash += 420*(stack->eagle2%69);
-  hash += 89*(stack->size/30);
-  hash += 17*(stack->cur_size);*/
   stack->hash = old_hash;
 
   return hash;
@@ -294,10 +300,10 @@ void fury(STK_ERR* err_code)
     case STACK_OVERFLOW:      strcpy(rage, "STACK");
                               strcpy(reason, "Stack overflow.");
                               break;
-    case STACK_CAN1_ERROR:    strcpy(rage, "CANARY1");
+    case STACK_CAN1_ERROR:    strcpy(rage, "FIRST CANARY");
                               strcpy(reason, "Canary1 value changed.");
                               break;
-    case STACK_CAN2_ERROR:    strcpy(rage, "CANARY2");
+    case STACK_CAN2_ERROR:    strcpy(rage, "SECOND CANARY");
                               strcpy(reason, "Canary2 value changed.");
                               break;
     case STACK_HASH_ERROR:    strcpy(rage, "HASH");
@@ -315,10 +321,10 @@ void fury(STK_ERR* err_code)
     case STACK_NEW_SIZE_ERROR:strcpy(rage, "NEW SIZE OF STACK");
                               strcpy(reason, "Memory reallocation error.");
                               break;
-    case STACK_EAGLE1_ERROR:  strcpy(rage, "EAGLE1");
+    case STACK_EAGLE1_ERROR:  strcpy(rage, "FIRST EAGLE");
                               strcpy(reason, "Eagle1 value changed.");
                               break;
-    case STACK_EAGLE2_ERROR:  strcpy(rage, "EAGLE2");
+    case STACK_EAGLE2_ERROR:  strcpy(rage, "SECOND EAGLE");
                               strcpy(reason, "Eagle2 value changed.");
                               break;
     case STACK_DESTROYED:     strcpy(rage, "DEADSTACK");
@@ -328,7 +334,7 @@ void fury(STK_ERR* err_code)
 
   for(int i = 0; i < 2; i++)
     split();
-  printf("YOU WANNA FUCK MY %s? FUCK YOU.\n", rage);
+  printf("YOU WANNA FUCK MY %s? FUCK YOU.\n\n", rage);
   printf("%s\n", reason);
   for(int i = 0; i < 2; i++)
     split();
