@@ -4,7 +4,7 @@
 int what_to_do(Stack * stack, STK_ERR * err_code)
 {
   int user_wish;
-  int condition = 1;
+  //int condition = 1;
   my_type last_elem;
 
   split();

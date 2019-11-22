@@ -35,6 +35,7 @@ public:
   size_type cur_size;    //активный размер стека
 
   hash_type hash;       //хэш
+  hash_type data_hash;
   can_type* can1;
   can_type* can2;
 
@@ -77,6 +78,7 @@ void stack_resize(Stack * stack, STK_ERR * err_code);
 void data_print(Stack * stack);
 void dump(Stack * stack, STK_ERR * err_code);
 bool is_OK(Stack * stack, STK_ERR* err_code);
+hash_type data_hash(Stack * stack, STK_ERR * err_code);
 hash_type hash_calc(Stack * stack, STK_ERR * err_code);
 
 #endif

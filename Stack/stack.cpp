@@ -56,7 +56,10 @@ void push(Stack * stack, STK_ERR * err_code)
   stack->data[stack->cur_size - 1] = temp;*/
 
   std::cin >> stack->data[stack->cur_size - 1];
+
+  stack->data_hash = data_hash(stack, err_code);
   stack->hash = hash_calc(stack, err_code);
+
   printf("\n");
 
   if(!is_OK(stack, err_code))
@@ -85,6 +88,8 @@ my_type pop(Stack * stack, STK_ERR * err_code)
   size_type i = stack->cur_size - 1;
   my_type rez = stack->data[i];
   stack->cur_size--;
+
+  stack->data_hash = data_hash(stack, err_code);
   stack->hash = hash_calc(stack, err_code);
 
   if(!is_OK(stack, err_code))
@@ -115,6 +120,7 @@ void stack_resize(Stack * stack, STK_ERR * err_code)
 
     *stack->can2 = can2_temp;
 
+    stack->data_hash = data_hash(stack, err_code);
     stack->hash = hash_calc(stack, err_code);
   }
 }
@@ -158,6 +164,12 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     dump(stack, err_code);
     return false;
     //exit(1);
+  }
+  else if(stack->data_hash != data_hash(stack, err_code))
+  {
+    *err_code = STACK_DATA_ERROR;
+    dump(stack, err_code);
+    return false;
   }
   else if(stack->hash != hash_calc(stack, err_code))
   {
@@ -227,7 +239,6 @@ hash_type hash_calc(Stack * stack, STK_ERR * err_code)
   hash += (hash << 3);
   hash ^= (hash >> 11);
   hash += (hash << 15);
-
   /*hash_type hash = 0;
 
   for (size_type i = 0; i < stack->cur_size; i++)
@@ -254,13 +265,29 @@ hash_type hash_calc(Stack * stack, STK_ERR * err_code)
   return hash;
 }
 
+hash_type data_hash(Stack * stack, STK_ERR * err_code)
+{
+  hash_type hash = 0;
 
+  for (size_t i = 0; i < stack->cur_size; i++)
+  {
+      hash += (unsigned char)(stack->data[i]);
+      hash += (hash << 10);
+      hash ^= (hash >> 6);
+  }
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
+
+  return hash;
+}
 
 void fury(STK_ERR* err_code)
 {
   char rage[MAGICNUM] = {};
   char reason[MAGICNUM] = {};
-  switch (*err_code) {
+  switch (*err_code)
+  {
     case STACK_NICE:          strcpy(rage, "idk what, why r u called me");
                               strcpy(reason, "Error code is STACK_NICE.");
                               break;
