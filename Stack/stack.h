@@ -67,7 +67,7 @@ enum STK_ERR
   STACK_DESTROYED        =    11,
 };
 
-void init(Stack * new_stack, STK_ERR * err_code);
+void init(Stack * baby_stack, STK_ERR * err_code);
 void destroy(Stack * old_stack, STK_ERR * err_code);
 
 void push(Stack * stack, STK_ERR * err_code);
@@ -76,9 +76,14 @@ my_type pop(Stack * stack, STK_ERR * err_code);
 void stack_resize(Stack * stack, STK_ERR * err_code);
 
 void data_print(Stack * stack);
-void dump(Stack * stack, STK_ERR * err_code);
+void dumb(Stack * stack, STK_ERR * err_code);
 bool is_OK(Stack * stack, STK_ERR* err_code);
-hash_type data_hash(Stack * stack);
-hash_type hash_calc(Stack * stack);
+
+hash_type hash_calc(void *data, size_t size_of, size_t num = 1);
+bool hash_recalc(Stack * stack);
+hash_type hash_hash(Stack * stack);
+
+/*hash_type data_hash(Stack * stack);
+hash_type hash_calc(Stack * stack);*/
 
 #endif

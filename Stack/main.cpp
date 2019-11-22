@@ -41,27 +41,14 @@ int main()
   Stack my_stack;
 
   init(&my_stack, &err_code);
+  
   if(!is_OK(&my_stack, &err_code))
-  {
-    //printf("Stack is not OK\n");
-    //exit(1);
     return 0;
-  }
 
   invite();
 
-  //char condition = 1;
   while(err_code == STACK_NICE)
-  {
-    /*if(!is_OK(&my_stack, &err_code))
-    {
-      printf("Stack is not OK\n");
-      exit(1);
-    }*/
-    //condition = what_to_do(&my_stack, &err_code);
-    //is_OK(&my_stack, &err_code);
     what_to_do(&my_stack, &err_code);
-  }
 //#endif
   return 0;
 }

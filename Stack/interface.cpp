@@ -50,7 +50,7 @@ int what_to_do(Stack * stack, STK_ERR * err_code)
             //condition = 1;
             break;
     case 4: //data_print(stack);
-            dump(stack, err_code);
+            dumb(stack, err_code);
             break;
     default:  printf("Wrong number, man. Try again\n");
               //condition = 1;
