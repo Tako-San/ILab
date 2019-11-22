@@ -20,8 +20,8 @@ void init(Stack * new_stack, STK_ERR * err_code)
   new_stack->eagle1 = eagle1_val;
   new_stack->eagle2 = eagle2_val;
 
-  new_stack->data_hash = data_hash(new_stack, err_code);
-  new_stack->hash = hash_calc(new_stack, err_code);
+  new_stack->data_hash = data_hash(new_stack);
+  new_stack->hash = hash_calc(new_stack);
 
   *(new_stack->can1) = can1_val;
   *(new_stack->can2) = can2_val;
@@ -33,7 +33,7 @@ void destroy(Stack * old_stack, STK_ERR * err_code)
   free(old_stack->can1);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
-  old_stack->hash = hash_calc(old_stack, err_code);
+  old_stack->hash = hash_calc(old_stack);
 }
 
 
@@ -60,8 +60,8 @@ void push(Stack * stack, STK_ERR * err_code)
 
   std::cin >> stack->data[stack->cur_size - 1];
 
-  stack->data_hash = data_hash(stack, err_code);
-  stack->hash = hash_calc(stack, err_code);
+  stack->data_hash = data_hash(stack);
+  stack->hash = hash_calc(stack);
 
   printf("\n");
 
@@ -92,8 +92,8 @@ my_type pop(Stack * stack, STK_ERR * err_code)
   my_type rez = stack->data[i];
   stack->cur_size--;
 
-  stack->data_hash = data_hash(stack, err_code);
-  stack->hash = hash_calc(stack, err_code);
+  stack->data_hash = data_hash(stack);
+  stack->hash = hash_calc(stack);
 
   if(!is_OK(stack, err_code))
     return 666;
@@ -125,8 +125,8 @@ void stack_resize(Stack * stack, STK_ERR * err_code)
 
   *stack->can2 = can2_temp;
 
-  stack->data_hash = data_hash(stack, err_code);
-  stack->hash = hash_calc(stack, err_code);
+  stack->data_hash = data_hash(stack);
+  stack->hash = hash_calc(stack);
 }
 
 
@@ -186,14 +186,14 @@ bool is_OK(Stack * stack, STK_ERR* err_code)
     return false;
     //exit(1);
   }
-  else if(stack->data_hash != data_hash(stack, err_code))
+  else if(stack->data_hash != data_hash(stack))
   {
     *err_code = STACK_DATA_ERROR;
     dump(stack, err_code);
     destroy(stack, err_code);
     return false;
   }
-  else if(stack->hash != hash_calc(stack, err_code))
+  else if(stack->hash != hash_calc(stack))
   {
     *err_code = STACK_HASH_ERROR;
     //printf("\n\nHASH CHANGED\n\n");
@@ -232,10 +232,10 @@ void dump(Stack * stack, STK_ERR * err_code)
 
   printf("\n");
 
-  hash_type temp = data_hash(stack, err_code);
+  hash_type temp = data_hash(stack);
   printf("dhash =  %16llX     real dhash = %15llX   %s\n", stack->data_hash, temp, temp == stack->data_hash?"OK":"ERR");
-  
-  temp = hash_calc(stack, err_code);
+
+  temp = hash_calc(stack);
   printf("hash =   %16llX     real hash = %16llX   %s\n", stack->hash, temp, temp == stack->hash?"OK":"ERR");
 
   printf("\n");
@@ -246,7 +246,7 @@ void dump(Stack * stack, STK_ERR * err_code)
   data_print(stack);
 }
 
-hash_type hash_calc(Stack * stack, STK_ERR * err_code)
+hash_type hash_calc(Stack * stack)
 {
   hash_type old_hash = stack->hash;
   stack->hash = 0;
@@ -271,7 +271,7 @@ hash_type hash_calc(Stack * stack, STK_ERR * err_code)
   return hash;
 }
 
-hash_type data_hash(Stack * stack, STK_ERR * err_code)
+hash_type data_hash(Stack * stack)
 {
   hash_type hash = 0;
 

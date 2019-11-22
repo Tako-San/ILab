@@ -78,7 +78,7 @@ void stack_resize(Stack * stack, STK_ERR * err_code);
 void data_print(Stack * stack);
 void dump(Stack * stack, STK_ERR * err_code);
 bool is_OK(Stack * stack, STK_ERR* err_code);
-hash_type data_hash(Stack * stack, STK_ERR * err_code);
-hash_type hash_calc(Stack * stack, STK_ERR * err_code);
+hash_type data_hash(Stack * stack);
+hash_type hash_calc(Stack * stack);
 
 #endif
