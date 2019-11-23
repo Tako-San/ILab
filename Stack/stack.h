@@ -14,7 +14,7 @@ typedef unsigned long long size_type;
 typedef unsigned long long hash_type;
 typedef unsigned long long can_type;
 
-//#define (STARTSIZE*sizeof(my_type)+2*sizeof(can_type)) INIT
+//#define (STARTSIZE*sizeof(my_type)+2*sizeof(can_type)) stack_init
 
 const can_type can1_val = 0xBBBDFDFD;
 const can_type can2_val = 0XBACFCABF;
@@ -49,6 +49,7 @@ enum
   DEADSTACK = 0, //мертвый стек
   DEADHASH = 0,
   MAGICNUM = 500,
+  THE_STRASHNAYA_CONSTANTA = 666,
 };
 
 enum STK_ERR
@@ -65,25 +66,24 @@ enum STK_ERR
   STACK_EAGLE1_ERROR     =     9,
   STACK_EAGLE2_ERROR     =    10,
   STACK_DESTROYED        =    11,
+  STACK_UNDERFLOW        =    12,
 };
 
-void init(Stack * baby_stack, STK_ERR * err_code);
-void destroy(Stack * old_stack, STK_ERR * err_code);
+void      stack_init(Stack * baby_stack, STK_ERR * err_code);
+void      stack_destroy(Stack * old_stack, STK_ERR * err_code);
 
-void push(Stack * stack, STK_ERR * err_code);
-my_type peek(Stack * stack, STK_ERR * err_code);
-my_type pop(Stack * stack, STK_ERR * err_code);
-void stack_resize(Stack * stack, STK_ERR * err_code);
+void      stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem);
+my_type   stack_peek(Stack * stack, STK_ERR * err_code);
+my_type   stack_pop(Stack * stack, STK_ERR * err_code);
+void      stack_stack_resize(Stack * stack, STK_ERR * err_code);
 
-void data_print(Stack * stack);
-void dumb(Stack * stack, STK_ERR * err_code);
-bool is_OK(Stack * stack, STK_ERR* err_code);
+void      stack_data_print(Stack * stack);
+void      stack_dump(Stack * stack, STK_ERR * err_code);
+bool      stack_is_OK(Stack * stack, STK_ERR* err_code);
+void      stack_fury(STK_ERR* err_code);
 
-hash_type hash_calc(void *data, size_t size_of, size_t num = 1);
-bool hash_recalc(Stack * stack);
+hash_type stack_hash_calc(void *data, size_t size_of, size_t num = 1);
+bool      stack_hash_recalc(Stack * stack);
 hash_type hash_hash(Stack * stack);
-
-/*hash_type data_hash(Stack * stack);
-hash_type hash_calc(Stack * stack);*/
 
 #endif

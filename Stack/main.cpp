@@ -11,7 +11,7 @@ public:
   Tortue( void ) : exec1(0),
                    exec2(0)
   {
-    init(&victim);
+    stack_init(&victim);
   }
 
   void StackFuck( void )
@@ -22,7 +22,7 @@ public:
 
   ~Tortue( void )
   {
-    destroy(&victim);
+    stack_destroy(&victim);
   }
 };*/
 
@@ -30,19 +30,19 @@ public:
 
 int main()
 {
-  /*Tortue trt;
+  /*Torture trt;
   trt.StackFuck();
-  if (!is_OK(&trt.victim))
+  if (!stack_is_OK(&trt.victim))
     printf("ERROR\n");
   printf("%llu\n%llu\n", trt.victim.eagle1, trt.victim.eagle2);
 #if 0*/
 
   STK_ERR err_code = STACK_NICE;
-  Stack my_stack;
+  Stack my_stack = {};
 
-  init(&my_stack, &err_code);
-  
-  if(!is_OK(&my_stack, &err_code))
+  stack_init(&my_stack, &err_code);
+
+  if(!stack_is_OK(&my_stack, &err_code))
     return 0;
 
   invite();
