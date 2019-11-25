@@ -1,21 +1,21 @@
 #include "stack.h"
 #include "interface.h"
 
-bool stack_init(Stack * baby_stack, STK_ERR * err_code)
+bool stack_init(Stack * baby_stack)
 {
-#define STACK_BABYSITTER(err)             \
-{                                         \
-  *err_code = err;                        \
-  stack_is_OK(baby_stack, err_code);      \
-  return false;                           \
+#define STACK_BABYSITTER(cond, err)               \
+if (cond)                                         \
+{                                                 \
+  baby_stack->err_code = err;                     \
+  stack_is_OK(baby_stack);                        \
+  return false;                                   \
 }
 
-  if(!baby_stack)
-    STACK_BABYSITTER(STACK_NULLPTR_ERROR)
+  STACK_BABYSITTER(!baby_stack, STACK_NULLPTR_ERROR)
 
   baby_stack->can1 = (can_type*)calloc(STARTSIZE*sizeof(my_type) + 2*sizeof(can_type), sizeof(char));
-  if(!baby_stack->can1)
-    STACK_BABYSITTER(STACK_MEM_ERROR)
+
+  STACK_BABYSITTER(!baby_stack->can1, STACK_MEM_ERROR)
 
   baby_stack->data = (my_type *)(baby_stack->can1 + 1);
   baby_stack->can2 = (can_type *)(baby_stack->data + STARTSIZE);
@@ -36,15 +36,15 @@ bool stack_init(Stack * baby_stack, STK_ERR * err_code)
 #undef STACK_BABYSITTER
 }
 
-void stack_destroy(Stack * old_stack, STK_ERR * err_code)
+void stack_destroy(Stack * old_stack)
 {
   if(!old_stack)
   {
-    *err_code = STACK_NULLPTR_ERROR;
-    stack_is_OK(old_stack, err_code);
+    old_stack->err_code = STACK_NULLPTR_ERROR;
+    stack_is_OK(old_stack);
     return;
   }
-  *err_code = STACK_DESTROYED;
+  old_stack->err_code = STACK_DESTROYED;
   free(old_stack->can1);
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
@@ -52,15 +52,15 @@ void stack_destroy(Stack * old_stack, STK_ERR * err_code)
 }
 
 
-bool stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem)
+bool stack_push(Stack * stack, my_type new_elem)
 {
-  if(!stack_is_OK(stack, err_code))
+  if(!stack_is_OK(stack))
     return false;
 
   if(stack->cur_size >= stack->size)
   {
-    stack_resize(stack, err_code, STACK_INCREASE);
-    if(!stack_is_OK(stack, err_code))
+    stack_resize(stack, STACK_INCREASE);
+    if(!stack_is_OK(stack))
       return false;
   }
 
@@ -69,39 +69,45 @@ bool stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem)
 
   stack_hash_recalc(stack);
 
-  if(!stack_is_OK(stack, err_code))
+  if(!stack_is_OK(stack))
     return false;
 
   return true;
 }
 
-my_type stack_peek(Stack * stack, STK_ERR * err_code)
+my_type stack_peek(Stack * stack)
 {
   if(stack->cur_size == 0)
-    *err_code = STACK_UNDERFLOW;
-  if(!stack_is_OK(stack, err_code))
+  {
+    stack->err_code = STACK_UNDERFLOW;
+    stack->hash = stack_hash_calc(stack, sizeof(Stack));
+  }
+  if(!stack_is_OK(stack))
     return THE_STRASHNAYA_CONSTANTA;  // See: Pennywise et al. Murder and Nightmare. Proc. Prof. Killers conf. NY, 2019
 
   size_type pos = stack->cur_size - 1;
   my_type   res = stack->data[pos];
 
-  if(!stack_is_OK(stack, err_code))
+  if(!stack_is_OK(stack))
     return THE_STRASHNAYA_CONSTANTA;
   else
     return res;
 }
 
-my_type stack_pop(Stack * stack, STK_ERR * err_code)
+my_type stack_pop(Stack * stack)
 {
   if(stack->cur_size == 0)
-    *err_code = STACK_UNDERFLOW;
-  if(!stack_is_OK(stack, err_code))
+  {
+    stack->err_code = STACK_UNDERFLOW;
+    stack->hash = stack_hash_calc(stack, sizeof(Stack));
+  }
+  if(!stack_is_OK(stack))
     return THE_STRASHNAYA_CONSTANTA;
 
   if(stack->cur_size < (stack->size/RE_COEFF) - DELTA)
   {
-    stack_resize(stack, err_code, STACK_REDUCE);
-    if(!stack_is_OK(stack, err_code))
+    stack_resize(stack, STACK_REDUCE);
+    if(!stack_is_OK(stack))
       return THE_STRASHNAYA_CONSTANTA;
   }
 
@@ -109,22 +115,23 @@ my_type stack_pop(Stack * stack, STK_ERR * err_code)
 
   stack_hash_recalc(stack);
 
-  if(!stack_is_OK(stack, err_code))
+  if(!stack_is_OK(stack))
     return THE_STRASHNAYA_CONSTANTA;
   else
     return res;
 }
 
-bool stack_resize(Stack * stack, STK_ERR * err_code, STK_RESIZE relay)
+bool stack_resize(Stack * stack, STK_RESIZE relay)
 {
 #define STACK_CALL_THE_POLICE(err)                        \
 {                                                         \
-  *err_code = err;                                        \
-  stack_is_OK(stack, err_code);                           \
+  stack->err_code = err;                                  \
+  stack->hash = stack_hash_calc(stack, sizeof(Stack));    \
+  stack_is_OK(stack);                                     \
   return false;                                           \
 }
 
-  if(!stack_is_OK(stack, err_code))
+  if(!stack_is_OK(stack))
     return false;
 
   if(relay == STACK_INCREASE)
@@ -154,23 +161,24 @@ bool stack_resize(Stack * stack, STK_ERR * err_code, STK_RESIZE relay)
 
 
 
-bool stack_is_OK(Stack * stack, STK_ERR* err_code)
+bool stack_is_OK(Stack * stack)
 {
 #define STACK_COND_CHECK(cond, err)                    \
 else if(cond)                                          \
 {                                                      \
-  *err_code = err;                                     \
-  stack_dump(stack, err_code);                         \
-  stack_destroy(stack, err_code);                      \
+  stack->err_code = err;                               \
+  stack->hash = stack_hash_calc(stack, sizeof(Stack)); \
+  stack_dump(stack);                                   \
+  stack_destroy(stack);                                \
   return false;                                        \
 }
 
-if(*err_code == STACK_UNDERFLOW)
+if(stack->err_code == STACK_UNDERFLOW)
   return false;
 
 STACK_COND_CHECK(stack == nullptr, STACK_NULLPTR_ERROR)
 
-STACK_COND_CHECK(*err_code == STACK_NEW_SIZE_ERROR, STACK_NEW_SIZE_ERROR)
+STACK_COND_CHECK(stack->err_code == STACK_NEW_SIZE_ERROR, STACK_NEW_SIZE_ERROR)
 
 STACK_COND_CHECK(stack->size < stack->cur_size, STACK_SIZE_ERROR)
 
@@ -210,9 +218,9 @@ void stack_data_print(Stack * stack)
   printf("\n");
 }
 
-void stack_dump(Stack * stack, STK_ERR * err_code)
+void stack_dump(Stack * stack)
 {
-  stack_fury(err_code);
+  stack_fury(stack->err_code);
 
   printf("can1 =   %16llX     can1_val =  %17llX    %s\n", *(stack->can1), can1_val, can1_val == *(stack->can1)?"OK":"ERR");
   printf("can2 =   %16llX     can2_val =  %17llX    %s\n", *(stack->can2), can2_val, can2_val == *(stack->can2)?"OK":"ERR");
@@ -281,7 +289,7 @@ bool stack_hash_recalc(Stack * stack)
 }
 
 
-void stack_fury(STK_ERR* err_code)
+void stack_fury(STK_ERR err_code)
 {
   char rage[MAGICNUM] = {};
   char reason[MAGICNUM] = {};
@@ -291,7 +299,7 @@ void stack_fury(STK_ERR* err_code)
                      strcpy(reason, str2);               \
                      break;                              \
 
-  switch(*err_code)
+  switch(err_code)
   {
     STACK_PHRASE_CHOISE(STACK_NICE, "idk what, why r u called me", "Error code is STACK_NICE.")
 

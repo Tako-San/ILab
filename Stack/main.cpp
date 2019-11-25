@@ -37,19 +37,19 @@ int main()
   printf("%llu\n%llu\n", trt.victim.eagle1, trt.victim.eagle2);
 #if 0*/
 
-  STK_ERR err_code = STACK_NICE;
+  //STK_ERR err_code = STACK_NICE;
   Stack my_stack = {};
 
-  if(!stack_init(&my_stack, &err_code))
+  if(!stack_init(&my_stack))
     return 0;
 
-  if(!stack_is_OK(&my_stack, &err_code))
+  if(!stack_is_OK(&my_stack))
     return 0;
 
   invite();
 
-  while(err_code == STACK_NICE)
-    what_to_do(&my_stack, &err_code);
+  while(my_stack.err_code == STACK_NICE)
+    what_to_do(&my_stack);
 //#endif
   return 0;
 }

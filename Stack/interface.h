@@ -5,6 +5,6 @@
 
 void invite();
 void split();
-int  what_to_do(Stack * stack, STK_ERR * err_code);
+int  what_to_do(Stack * stack);
 
 #endif

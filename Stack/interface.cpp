@@ -1,7 +1,7 @@
 #include "interface.h"
 
 
-int what_to_do(Stack * stack, STK_ERR * err_code)
+int what_to_do(Stack * stack)
 {
   int user_wish = 0;
 
@@ -19,23 +19,23 @@ int what_to_do(Stack * stack, STK_ERR * err_code)
 
   switch(user_wish)
   {
-    case 0:   stack_destroy(stack, err_code);
+    case 0:   stack_destroy(stack);
               printf("Bye ;(\n\n");
               break;
 
     case 1:   my_type new_elem;
               printf("Enter next stack element: ");
               std::cin >> new_elem;
-              stack_push(stack, err_code, new_elem);
+              stack_push(stack, new_elem);
               printf("\n");
               break;
 
     case 2:   my_type last_elem1;
-              last_elem1 = stack_peek(stack, err_code);
-              if(*err_code == STACK_UNDERFLOW)
+              last_elem1 = stack_peek(stack);
+              if(stack->err_code == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
-                *err_code = STACK_NICE;
+                stack->err_code = STACK_NICE;
               }
               else
               {
@@ -46,11 +46,11 @@ int what_to_do(Stack * stack, STK_ERR * err_code)
               break;
 
     case 3:   my_type last_elem2;
-              last_elem2 = stack_pop(stack, err_code);
-              if(*err_code == STACK_UNDERFLOW)
+              last_elem2 = stack_pop(stack);
+              if(stack->err_code == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
-                *err_code = STACK_NICE;
+                stack->err_code = STACK_NICE;
               }
               else
               {
@@ -60,7 +60,7 @@ int what_to_do(Stack * stack, STK_ERR * err_code)
               }
               break;
 
-    case 4:   stack_dump(stack, err_code);
+    case 4:   stack_dump(stack);
               break;
 
     default:  printf("%d is wrong number, yo man. Try again\n", user_wish);
