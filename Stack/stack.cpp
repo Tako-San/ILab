@@ -1,14 +1,22 @@
 #include "stack.h"
 #include "interface.h"
 
-void stack_init(Stack * baby_stack, STK_ERR * err_code)
+bool stack_init(Stack * baby_stack, STK_ERR * err_code)
 {
+#define STACK_BABYSITTER(err)             \
+{                                         \
+  *err_code = err;                        \
+  stack_is_OK(baby_stack, err_code);      \
+  return false;                           \
+}
+
+  if(!baby_stack)
+    STACK_BABYSITTER(STACK_NULLPTR_ERROR)
+
   baby_stack->can1 = (can_type*)calloc(STARTSIZE*sizeof(my_type) + 2*sizeof(can_type), sizeof(char));
-  if(baby_stack->can1 == NULL)
-  {
-    *err_code = STACK_MEM_ERROR;
-    return;
-  }
+  if(!baby_stack->can1)
+    STACK_BABYSITTER(STACK_MEM_ERROR)
+
   baby_stack->data = (my_type *)(baby_stack->can1 + 1);
   baby_stack->can2 = (can_type *)(baby_stack->data + STARTSIZE);
 
@@ -22,6 +30,10 @@ void stack_init(Stack * baby_stack, STK_ERR * err_code)
   *(baby_stack->can2) = can2_val;
 
   stack_hash_recalc(baby_stack);
+
+  return true;
+  
+#undef STACK_BABYSITTER
 }
 
 void stack_destroy(Stack * old_stack, STK_ERR * err_code)
@@ -34,25 +46,27 @@ void stack_destroy(Stack * old_stack, STK_ERR * err_code)
 }
 
 
-void stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem)
+bool stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem)
 {
   if(!stack_is_OK(stack, err_code))
-    return;
+    return false;
 
   if(stack->cur_size >= stack->size)
   {
-    stack_stack_resize(stack, err_code);
+    stack_resize(stack, err_code, STACK_INCREASE);
     if(!stack_is_OK(stack, err_code))
-      return;
+      return false;
   }
 
   size_type pos = stack->cur_size++;
   stack->data[pos] = new_elem;
-  
+
   stack_hash_recalc(stack);
 
   if(!stack_is_OK(stack, err_code))
-    return;
+    return false;
+
+  return true;
 }
 
 my_type stack_peek(Stack * stack, STK_ERR * err_code)
@@ -62,14 +76,13 @@ my_type stack_peek(Stack * stack, STK_ERR * err_code)
   if(!stack_is_OK(stack, err_code))
     return THE_STRASHNAYA_CONSTANTA;  // See: Pennywise et al. Murder and Nightmare. Proc. Prof. Killers conf. NY, 2019
 
-  size_type poz = stack->cur_size - 1;
-  my_type   rez = stack->data[poz];
+  size_type pos = stack->cur_size - 1;
+  my_type   res = stack->data[pos];
 
   if(!stack_is_OK(stack, err_code))
     return THE_STRASHNAYA_CONSTANTA;
-
   else
-    return rez;
+    return res;
 }
 
 my_type stack_pop(Stack * stack, STK_ERR * err_code)
@@ -79,31 +92,47 @@ my_type stack_pop(Stack * stack, STK_ERR * err_code)
   if(!stack_is_OK(stack, err_code))
     return THE_STRASHNAYA_CONSTANTA;
 
-  my_type rez = stack->data [--stack->cur_size];
+  if(stack->cur_size < (stack->size/RE_COEFF) - 1)
+  {
+    stack_resize(stack, err_code, STACK_REDUCE);
+    if(!stack_is_OK(stack, err_code))
+      return THE_STRASHNAYA_CONSTANTA;
+  }
+
+  my_type res = stack->data [--stack->cur_size];
 
   stack_hash_recalc(stack);
 
   if(!stack_is_OK(stack, err_code))
     return THE_STRASHNAYA_CONSTANTA;
   else
-    return rez;
+    return res;
 }
 
-void stack_stack_resize(Stack * stack, STK_ERR * err_code)
+bool stack_resize(Stack * stack, STK_ERR * err_code, STK_RESIZE relay)
 {
-  if(!stack_is_OK(stack, err_code))
-    return;
+#define STACK_CALL_THE_POLICE(err)                        \
+{                                                         \
+  *err_code = err;                                        \
+  stack_is_OK(stack, err_code);                           \
+  return false;                                           \
+}
 
-  stack->size *= RE_COEFF;
+  if(!stack_is_OK(stack, err_code))
+    return false;
+
+  if(relay == STACK_INCREASE)
+    stack->size *= RE_COEFF;
+  else if(relay == STACK_REDUCE)
+    stack->size /= RE_COEFF;
+  else
+    STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
+
   can_type can2_temp = *stack->can2;
 
   can_type * temp = (can_type *)realloc(stack->can1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
   if(!temp)
-  {
-    *err_code = STACK_NEW_SIZE_ERROR;
-    stack_is_OK(stack, err_code);
-    return;
-  }
+    STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
 
   stack->can1 = (can_type *)temp;
   stack->data = (my_type *)(temp + 1);
@@ -112,6 +141,9 @@ void stack_stack_resize(Stack * stack, STK_ERR * err_code)
   *stack->can2 = can2_temp;
 
   stack_hash_recalc(stack);
+
+  return true;
+#undef STACK_CALL_THE_POLICE
 }
 
 
@@ -130,6 +162,8 @@ else if(cond)                                          \
 if(*err_code == STACK_UNDERFLOW)
   return false;
 
+STACK_COND_CHECK(stack == nullptr, STACK_NULLPTR_ERROR)
+
 STACK_COND_CHECK(*err_code == STACK_NEW_SIZE_ERROR, STACK_NEW_SIZE_ERROR)
 
 STACK_COND_CHECK(stack->size < stack->cur_size, STACK_SIZE_ERROR)
@@ -144,7 +178,7 @@ STACK_COND_CHECK(*stack->can2 != can2_val, STACK_CAN2_ERROR)
 
 STACK_COND_CHECK(stack->data_hash != stack_hash_calc(stack->data, sizeof(my_type), stack->size), STACK_DATA_ERROR)
 
-STACK_COND_CHECK(stack->hash != hash_hash(stack), STACK_HASH_ERROR)
+STACK_COND_CHECK(stack->hash != stack_hash_hash(stack), STACK_HASH_ERROR)
 
 else
   return true;
@@ -187,7 +221,7 @@ void stack_dump(Stack * stack, STK_ERR * err_code)
   hash_type temp = stack_hash_calc(stack->data, sizeof(my_type), stack->size);
   printf("dhash =  %16llX     real dhash = %16llX    %s\n", stack->data_hash, temp, temp == stack->data_hash?"OK":"ERR");
 
-  temp = hash_hash(stack);
+  temp = stack_hash_hash(stack);
   printf("hash =   %16llX     real hash =  %16llX    %s\n", stack->hash, temp, temp == stack->hash?"OK":"ERR");
 
   printf("\n");
@@ -219,7 +253,7 @@ hash_type stack_hash_calc(void *data, size_t size_of, size_t num)
   return hash;
 }
 
-hash_type hash_hash(Stack * stack)
+hash_type stack_hash_hash(Stack * stack)
 {
   hash_type temp = stack->hash;
   stack->hash = 0;
@@ -278,6 +312,8 @@ void stack_fury(STK_ERR* err_code)
     STACK_PHRASE_CHOISE(STACK_DESTROYED, "DEADSTACK", "Stack is already dead, don't touch it.")
 
     STACK_PHRASE_CHOISE(STACK_UNDERFLOW, "EMPTY STACK", "How dare you call me to underflow stack?")
+
+    STACK_PHRASE_CHOISE(STACK_NULLPTR_ERROR, "YOU DON'T EVEN KNOW WHAT", "Yor stack has nullptr.")
   }
 
   for(int i = 0; i < 2; i++)

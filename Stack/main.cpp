@@ -40,7 +40,8 @@ int main()
   STK_ERR err_code = STACK_NICE;
   Stack my_stack = {};
 
-  stack_init(&my_stack, &err_code);
+  if(!stack_init(&my_stack, &err_code))
+    return 0;
 
   if(!stack_is_OK(&my_stack, &err_code))
     return 0;

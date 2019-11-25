@@ -66,34 +66,13 @@ int what_to_do(Stack * stack, STK_ERR * err_code)
     default:  printf("%d is wrong number, yo man. Try again\n", user_wish);
               break;
   }
-  /*if(stack->cur_size == 0)
-  printf("Your stack is empty\n");
-  else
-  {
-    my_type last_elem = stack_peek(stack, err_code);
-    printf("\nLast elem = ");
-    std::cout << last_elem;
-    printf("\n");
-  }*/
-
-  /*if(stack->cur_size == 0)
-  printf("\nYour stack is empty\n");
-  else
-  {
-    my_type last_elem = stack_pop(stack, err_code);
-    printf("\nLast elem = ");
-    std::cout << last_elem;
-    printf("\nIt was deleted\n");
-  }*/
-
-  //stack_data_print(stack);
 
   return 0;
 }
 
 void invite()
 {
-  printf("What u wanna do, dude? You can:\n\n");
+  printf("\nWhat u wanna do, dude? You can:\n\n");
   split();
   printf("            0 - exit\n");
   printf("            1 - add number to stack\n");

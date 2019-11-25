@@ -52,6 +52,11 @@ enum
   THE_STRASHNAYA_CONSTANTA = 666,
 };
 
+enum STK_RESIZE
+{
+  STACK_INCREASE   = 10,
+  STACK_REDUCE     =  1,
+};
 enum STK_ERR
 {
   STACK_NICE             =     0,
@@ -65,17 +70,18 @@ enum STK_ERR
   STACK_NEW_SIZE_ERROR   =     8,
   STACK_EAGLE1_ERROR     =     9,
   STACK_EAGLE2_ERROR     =    10,
-  STACK_DESTROYED        =    11,
-  STACK_UNDERFLOW        =    12,
+  STACK_NULLPTR_ERROR    =    11,
+  STACK_DESTROYED        =    12,
+  STACK_UNDERFLOW        =    13,
 };
 
-void      stack_init(Stack * baby_stack, STK_ERR * err_code);
+bool      stack_init(Stack * baby_stack, STK_ERR * err_code);
 void      stack_destroy(Stack * old_stack, STK_ERR * err_code);
 
-void      stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem);
+bool      stack_push(Stack * stack, STK_ERR * err_code, my_type new_elem);
 my_type   stack_peek(Stack * stack, STK_ERR * err_code);
 my_type   stack_pop(Stack * stack, STK_ERR * err_code);
-void      stack_stack_resize(Stack * stack, STK_ERR * err_code);
+bool      stack_resize(Stack * stack, STK_ERR * err_code, STK_RESIZE relay);
 
 void      stack_data_print(Stack * stack);
 void      stack_dump(Stack * stack, STK_ERR * err_code);
@@ -84,6 +90,6 @@ void      stack_fury(STK_ERR* err_code);
 
 hash_type stack_hash_calc(void *data, size_t size_of, size_t num = 1);
 bool      stack_hash_recalc(Stack * stack);
-hash_type hash_hash(Stack * stack);
+hash_type stack_hash_hash(Stack * stack);
 
 #endif
