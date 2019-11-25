@@ -32,12 +32,18 @@ bool stack_init(Stack * baby_stack, STK_ERR * err_code)
   stack_hash_recalc(baby_stack);
 
   return true;
-  
+
 #undef STACK_BABYSITTER
 }
 
 void stack_destroy(Stack * old_stack, STK_ERR * err_code)
 {
+  if(!old_stack)
+  {
+    *err_code = STACK_NULLPTR_ERROR;
+    stack_is_OK(old_stack, err_code);
+    return;
+  }
   *err_code = STACK_DESTROYED;
   free(old_stack->can1);
   old_stack->size = DEADSTACK;
@@ -92,7 +98,7 @@ my_type stack_pop(Stack * stack, STK_ERR * err_code)
   if(!stack_is_OK(stack, err_code))
     return THE_STRASHNAYA_CONSTANTA;
 
-  if(stack->cur_size < (stack->size/RE_COEFF) - 1)
+  if(stack->cur_size < (stack->size/RE_COEFF) - DELTA)
   {
     stack_resize(stack, err_code, STACK_REDUCE);
     if(!stack_is_OK(stack, err_code))
