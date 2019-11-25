@@ -175,8 +175,7 @@ void lines_copy(Line* dst, Line* src, int size)
 {
   for(int i = 0; i < size; i++)
   {
-    dst[i].start = src[i].start;
-    dst[i].len = src[i].len;
+    dst[i] = src[i];
   }
 }
 /*void print_buf(char * txt, int strings)
