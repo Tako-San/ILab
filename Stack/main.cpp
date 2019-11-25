@@ -37,7 +37,6 @@ int main()
   printf("%llu\n%llu\n", trt.victim.eagle1, trt.victim.eagle2);
 #if 0*/
 
-  //STK_ERR err_code = STACK_NICE;
   Stack my_stack = {};
 
   if(!stack_init(&my_stack))

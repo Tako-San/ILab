@@ -32,10 +32,12 @@ int what_to_do(Stack * stack)
 
     case 2:   my_type last_elem1;
               last_elem1 = stack_peek(stack);
+
               if(stack->err_code == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
                 stack->err_code = STACK_NICE;
+                stack->hash = stack_hash_hash(stack);
               }
               else
               {
@@ -47,10 +49,12 @@ int what_to_do(Stack * stack)
 
     case 3:   my_type last_elem2;
               last_elem2 = stack_pop(stack);
+
               if(stack->err_code == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
                 stack->err_code = STACK_NICE;
+                //stack->hash = stack_hash_hash(stack);
               }
               else
               {
@@ -58,6 +62,7 @@ int what_to_do(Stack * stack)
                 std::cout << last_elem2;
                 printf("\nIt was deleted\n");
               }
+
               break;
 
     case 4:   stack_dump(stack);
