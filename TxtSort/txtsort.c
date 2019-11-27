@@ -51,9 +51,7 @@ Line * ptr_maker(char * txt, int * strings)
   for(int i = 0; txt[i] != '\0'; i++)
   {
     if(txt[i] == '\n')
-    {
       StrCount++;
-    }
   }
   StrCount++;
   *strings = StrCount;
@@ -81,7 +79,7 @@ Line * ptr_maker(char * txt, int * strings)
     }
   }
 
-  str_info[string].len = &(txt[i]) - str_info[string].start;
+  str_info[string - 1].len = &(txt[i]) - str_info[string].start;
 
   return str_info;
 }
@@ -161,12 +159,19 @@ void line_swap(Line * line1, Line * line2)
 
 void print_text(Line * str_info, int strings)
 {
-  FILE * f = fopen("Out.txt", "ab");
+  FILE * f;
+  if ((f = fopen("Out.txt", "ab")) == NULL)
+  {
+    printf("File opening failure.\n");
+    exit(1);
+  }
+
   for (int i = 0; i < strings; i++)
   {
-    for(int p = 0; *(str_info[i].start+p) != '\0'; p++)
+    /*for(int p = 0; *(str_info[i].start+p) != '\0'; p++)
       fputc(*(str_info[i].start+p), f);
-    fputc('\n', f);
+    fputc('\n', f);*/
+    fputs(str_info[i].start, f);
   }
   fclose(f);
 }
@@ -174,9 +179,7 @@ void print_text(Line * str_info, int strings)
 void lines_copy(Line* dst, Line* src, int size)
 {
   for(int i = 0; i < size; i++)
-  {
     dst[i] = src[i];
-  }
 }
 /*void print_buf(char * txt, int strings)
 {
