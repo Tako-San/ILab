@@ -166,12 +166,12 @@ my_type stack_pop(Stack * stack)
 */
 bool stack_resize(Stack * stack, STK_RESIZE relay)
 {
-#define STACK_CALL_THE_POLICE(err)                        \
-{                                                         \
-  stack->err_code = err;                                  \
-  stack->hash = stack_hash_calc(stack, sizeof(Stack));    \
-  stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);                                     \
-  return false;                                           \
+#define STACK_CALL_THE_POLICE(err)                                    \
+{                                                                     \
+  stack->err_code = err;                                              \
+  stack->hash = stack_hash_calc(stack, sizeof(Stack));                \
+  stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);        \
+  return false;                                                       \
 }
 
   if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
@@ -211,14 +211,14 @@ bool stack_resize(Stack * stack, STK_RESIZE relay)
 */
 bool stack_is_OK(Stack * stack, int line, const char * filename, const char * funcname)
 {
-#define STACK_COND_CHECK(cond, err)                    \
-else if(cond)                                          \
-{                                                      \
-  stack->err_code = err;                               \
-  stack->hash = stack_hash_calc(stack, sizeof(Stack)); \
-  stack_dump(stack, line, filename, funcname);         \
-  stack_destroy(stack);                                \
-  return false;                                        \
+#define STACK_COND_CHECK(cond, err)                                   \
+else if(cond)                                                         \
+{                                                                     \
+  stack->err_code = err;                                              \
+  stack->hash = stack_hash_calc(stack, sizeof(Stack));                \
+  stack_dump(stack, line, filename, funcname);                        \
+  stack_destroy(stack);                                               \
+  return false;                                                       \
 }
 
 if(stack->err_code == STACK_UNDERFLOW)
@@ -282,10 +282,10 @@ void stack_dump(Stack * stack, int line, const char * filename, const char * fun
   stack_fury(stack->err_code);
 
 
-  printf("In file: %s\n", filename);
-  printf("function: %s\n", funcname);
-  printf("Line: %d\n", line);
-  printf("\n");
+  printf("File: %s\n\n", filename);
+  printf("Function: %s\n\n", funcname);
+  printf("Line: %d\n\n", line);
+  //printf("\n");
 
   printf("can1 =   %16llX     can1_val =  %17llX    %s\n", *(stack->can1), can1_val, can1_val == *(stack->can1)?"OK":"ERR");
   printf("can2 =   %16llX     can2_val =  %17llX    %s\n", *(stack->can2), can2_val, can2_val == *(stack->can2)?"OK":"ERR");
