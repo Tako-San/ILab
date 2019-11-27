@@ -7,14 +7,15 @@
 #include <iostream>
 #include <assert.h>
 
-typedef int my_type;
+#define LOCATION __LINE__, __FILE__, __PRETTY_FUNCTION__
 
+
+typedef int my_type;
 
 typedef unsigned long long size_type;
 typedef unsigned long long hash_type;
 typedef unsigned long long can_type;
 
-//#define (STARTSIZE*sizeof(my_type)+2*sizeof(can_type)) stack_init
 
 const can_type can1_val   = 0xBBBDFDFD;
 const can_type can2_val   = 0XBACFCABF;
@@ -86,8 +87,9 @@ my_type    stack_pop(Stack * stack);
 bool       stack_resize(Stack * stack, STK_RESIZE relay);
 
 void       stack_data_print(Stack * stack);
-void       stack_dump(Stack * stack);
-bool       stack_is_OK(Stack * stac);
+//void       stack_dump(Stack * stack);
+void       stack_dump(Stack * stack, int line, const char * filename, const char * funcname);
+bool       stack_is_OK(Stack * stack, int line, const char * filename, const char * funcname);
 void       stack_fury(STK_ERR err_code);
 
 hash_type  stack_hash_calc(void *data, size_t size_of, size_t num = 1);

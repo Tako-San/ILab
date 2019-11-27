@@ -42,7 +42,7 @@ int main()
   if(!stack_init(&my_stack))
     return 0;
 
-  if(!stack_is_OK(&my_stack))
+  if(!stack_is_OK(&my_stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return 0;
 
   invite();

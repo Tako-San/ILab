@@ -1,6 +1,10 @@
 #include "interface.h"
 
-
+/**
+ * \Allows user choose what to do.
+ * \param [in] stack  Pointer to stack structure.
+ * \return zero
+*/
 int what_to_do(Stack * stack)
 {
   int user_wish = 0;
@@ -28,6 +32,7 @@ int what_to_do(Stack * stack)
               std::cin >> new_elem;
               stack_push(stack, new_elem);
               printf("\n");
+              //printf("%d %s %s\n", __LINE__, __FILE__, __PRETTY_FUNCTION__);
               break;
 
     case 2:   my_type last_elem1;
@@ -65,7 +70,8 @@ int what_to_do(Stack * stack)
 
               break;
 
-    case 4:   stack_dump(stack);
+    case 4:   //stack_data_print(stack);
+              stack_dump(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);
               break;
 
     default:  printf("%d is wrong number, yo man. Try again\n", user_wish);
@@ -73,8 +79,13 @@ int what_to_do(Stack * stack)
   }
 
   return 0;
-}
+}/* End of 'what_to_do' function */
 
+
+/**
+ * \Print invite.
+ * \return none
+*/
 void invite()
 {
   printf("\nWhat u wanna do, dude? You can:\n\n");
@@ -84,9 +95,13 @@ void invite()
   printf("            2 - see last element\n");
   printf("            3 - look at last elemet last time and delete\n");
   printf("            4 - print stack data\n\n");
-}
+}/* End of 'invite' function */
 
+/**
+ * \Print line
+ * \return none
+*/
 void split()
 {
   printf("_______________________________________________________________________________\n\n");
-}
+}/* End of 'split' function */

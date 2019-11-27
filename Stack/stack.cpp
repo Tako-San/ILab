@@ -1,14 +1,20 @@
 #include "stack.h"
 #include "interface.h"
 
+/**
+ * \Create stack by using dynamic memory.
+ * \param [in, out] baby_stack  Pointer to stack structure.
+ * \return true if stack initialisation is OK.
+ * \return false otherwise.
+ */
 bool stack_init(Stack * baby_stack)
 {
-#define STACK_BABYSITTER(cond, err)               \
-if (cond)                                         \
-{                                                 \
-  baby_stack->err_code = err;                     \
-  stack_is_OK(baby_stack);                        \
-  return false;                                   \
+#define STACK_BABYSITTER(cond, err)                                   \
+if (cond)                                                             \
+{                                                                     \
+  baby_stack->err_code = err;                                         \
+  stack_is_OK(baby_stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);   \
+  return false;                                                       \
 }
 
   STACK_BABYSITTER(!baby_stack, STACK_NULLPTR_ERROR)
@@ -34,14 +40,20 @@ if (cond)                                         \
   return true;
 
 #undef STACK_BABYSITTER
-}
+}/* End of 'stack_init' function */
 
+
+/**
+ * \Destroy old stack, and free allocated memory.
+ * \param [in, out] old_stack  Pointer to stack structure.
+ * \return none.
+*/
 void stack_destroy(Stack * old_stack)
 {
   if(!old_stack)
   {
     old_stack->err_code = STACK_NULLPTR_ERROR;
-    stack_is_OK(old_stack);
+    stack_is_OK(old_stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);
     return;
   }
   old_stack->err_code = STACK_DESTROYED;
@@ -49,18 +61,25 @@ void stack_destroy(Stack * old_stack)
   old_stack->size = DEADSTACK;
   old_stack->cur_size = DEADSTACK;
   stack_hash_recalc(old_stack);
-}
+}/* End of 'stack_destroy' function */
 
 
+/**
+ * \Pushing new element to stack.
+ * \param [in, out] stack  Pointer to stack structure.
+ * \param [out] new_elem Value of new stack element.
+ * \return true if all is OK.
+ * \return false otherwise.
+*/
 bool stack_push(Stack * stack, my_type new_elem)
 {
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return false;
 
   if(stack->cur_size >= stack->size)
   {
     stack_resize(stack, STACK_INCREASE);
-    if(!stack_is_OK(stack))
+    if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
       return false;
   }
 
@@ -69,12 +88,19 @@ bool stack_push(Stack * stack, my_type new_elem)
 
   stack_hash_recalc(stack);
 
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return false;
 
   return true;
-}
+}/* End of 'stack_push' function */
 
+/**
+ * \Pushing new element to stack.
+ * \param [in, out] stack  Pointer to stack structure.
+ * \param [out] new_elem Value of new stack element.
+ * \return true if all is OK.
+ * \return false otherwise.
+*/
 my_type stack_peek(Stack * stack)
 {
   if(stack->cur_size == 0)
@@ -82,18 +108,26 @@ my_type stack_peek(Stack * stack)
     stack->err_code = STACK_UNDERFLOW;
     stack->hash = stack_hash_calc(stack, sizeof(Stack));
   }
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return THE_STRASHNAYA_CONSTANTA;  // See: Pennywise et al. Murder and Nightmare. Proc. Prof. Killers conf. NY, 2019
 
   size_type pos = stack->cur_size - 1;
   my_type   res = stack->data[pos];
 
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return THE_STRASHNAYA_CONSTANTA;
   else
     return res;
-}
+}/* End of 'stack_peek' function */
 
+
+/**
+ * \Pop last stack element and delete it.
+ * \param [in, out] stack  Pointer to stack structure.
+ * \param [out] new_elem Value of new stack element.
+ * \return true if all is OK.
+ * \return false otherwise.
+*/
 my_type stack_pop(Stack * stack)
 {
   if(stack->cur_size == 0)
@@ -101,13 +135,13 @@ my_type stack_pop(Stack * stack)
     stack->err_code = STACK_UNDERFLOW;
     stack->hash = stack_hash_calc(stack, sizeof(Stack));
   }
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return THE_STRASHNAYA_CONSTANTA;
 
   if(stack->cur_size < (stack->size/RE_COEFF) - DELTA)
   {
     stack_resize(stack, STACK_REDUCE);
-    if(!stack_is_OK(stack))
+    if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
       return THE_STRASHNAYA_CONSTANTA;
   }
 
@@ -115,23 +149,32 @@ my_type stack_pop(Stack * stack)
 
   stack_hash_recalc(stack);
 
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return THE_STRASHNAYA_CONSTANTA;
   else
     return res;
-}
+}/* End of 'stack_pop' function */
 
+
+/**
+ * \Changing stack data size.
+ * \param [in, out] stack  Pointer to stack structure.
+ * \param [in] relay Shows to func what to do: increase stack or reduce.
+ * \param [out] new_elem Value of new stack element.
+ * \return true if all is OK.
+ * \return false otherwise.
+*/
 bool stack_resize(Stack * stack, STK_RESIZE relay)
 {
 #define STACK_CALL_THE_POLICE(err)                        \
 {                                                         \
   stack->err_code = err;                                  \
   stack->hash = stack_hash_calc(stack, sizeof(Stack));    \
-  stack_is_OK(stack);                                     \
+  stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__);                                     \
   return false;                                           \
 }
 
-  if(!stack_is_OK(stack))
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return false;
 
   if(relay == STACK_INCREASE)
@@ -157,18 +200,23 @@ bool stack_resize(Stack * stack, STK_RESIZE relay)
 
   return true;
 #undef STACK_CALL_THE_POLICE
-}
+}/* End of 'stack_resize' function */
 
 
-
-bool stack_is_OK(Stack * stack)
+/**
+ * \Cheking stack condition
+ * \param [in, out] stack  Pointer to stack structure.
+ * \return true if all is OK.
+ * \return false and calling dump otherwise.
+*/
+bool stack_is_OK(Stack * stack, int line, const char * filename, const char * funcname)
 {
 #define STACK_COND_CHECK(cond, err)                    \
 else if(cond)                                          \
 {                                                      \
   stack->err_code = err;                               \
   stack->hash = stack_hash_calc(stack, sizeof(Stack)); \
-  stack_dump(stack);                                   \
+  stack_dump(stack, line, filename, funcname);         \
   stack_destroy(stack);                                \
   return false;                                        \
 }
@@ -198,14 +246,19 @@ else
   return true;
 
 #undef STACK_COND_CHECK
-}
+}/* End of 'stack_is_OK' function */
 
+/**
+ * \Prin stack data if stack is not empty
+ * \param [in, out] stack  Pointer to stack structure.
+ * \return none
+*/
 void stack_data_print(Stack * stack)
 {
   printf("\n");
   if(stack->cur_size == 0)
   {
-    printf("Stack is empty\n");
+    printf("Stack is empty.\n");
   }
   else
   {
@@ -216,11 +269,23 @@ void stack_data_print(Stack * stack)
     }
   }
   printf("\n");
-}
+}/* End of 'stack_data_print' function */
 
-void stack_dump(Stack * stack)
+
+/**
+ * \Print all information about stack.
+ * \param [in, out] stack  Pointer to stack structure.
+ * \return none.
+*/
+void stack_dump(Stack * stack, int line, const char * filename, const char * funcname)
 {
   stack_fury(stack->err_code);
+
+
+  printf("In file: %s\n", filename);
+  printf("function: %s\n", funcname);
+  printf("Line: %d\n", line);
+  printf("\n");
 
   printf("can1 =   %16llX     can1_val =  %17llX    %s\n", *(stack->can1), can1_val, can1_val == *(stack->can1)?"OK":"ERR");
   printf("can2 =   %16llX     can2_val =  %17llX    %s\n", *(stack->can2), can2_val, can2_val == *(stack->can2)?"OK":"ERR");
@@ -245,8 +310,16 @@ void stack_dump(Stack * stack)
 
   stack_data_print(stack);
   split();
-}
+}/* End of 'stack_dump' function */
 
+
+/**
+ * \Calculating hash.
+ * \param [in] data  Pointer we need to hash.
+ * \param [in] size_of Size of massive element.
+ * \param [in] num Number of massive elements.
+ * \return Calculated hash value.
+*/
 hash_type stack_hash_calc(void *data, size_t size_of, size_t num)
 {
   const unsigned char* bytes = (unsigned char*)data;
@@ -265,8 +338,14 @@ hash_type stack_hash_calc(void *data, size_t size_of, size_t num)
   hash += (hash << 15);
 
   return hash;
-}
+}/* End of 'stack_hash_calc' function */
 
+
+/**
+ * Calculating hash for all stack structure.
+ * \param [in] stack  Pointer to stack structure.
+ * \return Calculated hash value.
+*/
 hash_type stack_hash_hash(Stack * stack)
 {
   hash_type temp = stack->hash;
@@ -276,8 +355,14 @@ hash_type stack_hash_hash(Stack * stack)
   stack->hash = temp;
 
   return result;
-}
+}/* End of 'stack_hash_hash' function */
 
+
+/**
+ * Writing to stack hash for data and all stack structure.
+ * \param [in] stack  Pointer to stack structure.
+ * \return Calculated hash value.
+*/
 bool stack_hash_recalc(Stack * stack)
 {
   stack->hash = stack->data_hash = 0;
@@ -286,9 +371,14 @@ bool stack_hash_recalc(Stack * stack)
   stack->hash = stack_hash_calc(stack, sizeof(Stack));
 
   return true;
-}
+}/* End of 'stack_hash_recalc' function */
 
 
+/**
+ * Being angry to bad user.
+ * \param [in] err_code  Error code.
+ * \return None.
+*/
 void stack_fury(STK_ERR err_code)
 {
   char rage[MAGICNUM] = {};
@@ -338,4 +428,4 @@ void stack_fury(STK_ERR err_code)
     split();
 
   #undef STACK_PHRASE_CHOISE
-}
+}/* End of 'stack_fury' function */
