@@ -64,12 +64,12 @@ public:
 enum
 {
   RE_COEFF                 =     2,  //коэффициент при увеличении размера стека
-  STARTSIZE                =     1, //начальный размер массива стека
+  STARTSIZE                =     3, //начальный размер массива стека
   DEADSTACK                =     0, //мертвый стек
   DEADHASH                 =     0,
   MAGICNUM                 =   500,
   THE_STRASHNAYA_CONSTANTA =   666,
-  DELTA                    =     2,
+  DELTA                    =     1,
 };
 
 enum STK_RESIZE

@@ -133,19 +133,27 @@ my_type stack_pop(Stack * stack)
   if(stack->cur_size == 0)
   {
     stack->err_code = STACK_UNDERFLOW;
-    stack->hash = stack_hash_calc(stack, sizeof(Stack));
+    stack_hash_recalc(stack);
+    return THE_STRASHNAYA_CONSTANTA;
   }
   if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
     return THE_STRASHNAYA_CONSTANTA;
 
-  if(stack->cur_size < (stack->size/RE_COEFF) - DELTA)
-  {
-    stack_resize(stack, STACK_REDUCE);
-    if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
-      return THE_STRASHNAYA_CONSTANTA;
-  }
+  my_type res = stack->data[stack->cur_size-1];
 
-  my_type res = stack->data [--stack->cur_size];
+  if(stack->cur_size <= (stack->size/RE_COEFF) - DELTA)
+  {
+    if(!stack_resize(stack, STACK_REDUCE))
+      return THE_STRASHNAYA_CONSTANTA;
+    stack->cur_size--;
+    /*stack_resize(stack, STACK_REDUCE);
+    if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
+      return THE_STRASHNAYA_CONSTANTA;*/
+  }
+  else
+  {
+    stack->cur_size--;
+  }
 
   stack_hash_recalc(stack);
 
@@ -197,6 +205,9 @@ bool stack_resize(Stack * stack, STK_RESIZE relay)
   *stack->can2 = can2_temp;
 
   stack_hash_recalc(stack);
+
+  if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
+    return false;
 
   return true;
 #undef STACK_CALL_THE_POLICE

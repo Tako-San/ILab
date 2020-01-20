@@ -59,6 +59,7 @@ int what_to_do(Stack * stack)
               {
                 printf("Your stack is empty\n");
                 stack->err_code = STACK_NICE;
+                stack_hash_recalc(stack);
                 //stack->hash = stack_hash_hash(stack);
               }
               else
