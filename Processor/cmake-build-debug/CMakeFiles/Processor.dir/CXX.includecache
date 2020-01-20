@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/farid/ILab/Processor/Stack/interface.h
+stack.h
+/home/farid/ILab/Processor/Stack/stack.h
+
+/home/farid/ILab/Processor/Stack/stack.cpp
+stack.h
+/home/farid/ILab/Processor/Stack/stack.h
+interface.h
+/home/farid/ILab/Processor/Stack/interface.h
+
+/home/farid/ILab/Processor/Stack/stack.h
+cstdio
+-
+cstdlib
+-
+cstring
+-
+iostream
+-
+cassert
+-
+

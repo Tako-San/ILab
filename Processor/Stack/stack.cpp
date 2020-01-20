@@ -1,3 +1,7 @@
+//
+// Created by farid on 28.11.2019.
+//
+
 #include "stack.h"
 #include "interface.h"
 
@@ -48,7 +52,7 @@ if (cond)                                                             \
  * \param [in, out] old_stack  Pointer to stack structure.
  * \return none.
 */
-void stack_destroy(Stack * old_stack)
+void stack_destroy(Stack *old_stack = nullptr)
 {
     if(!old_stack)
     {
@@ -134,18 +138,24 @@ my_type stack_pop(Stack * stack)
     {
         stack->err_code = STACK_UNDERFLOW;
         stack->hash = stack_hash_calc(stack, sizeof(Stack));
+        return THE_STRASHNAYA_CONSTANTA;
     }
+
     if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
         return THE_STRASHNAYA_CONSTANTA;
 
-    if(stack->cur_size < (stack->size/RE_COEFF) - DELTA)
-    {
-        stack_resize(stack, STACK_REDUCE);
-        if(!stack_is_OK(stack, __LINE__, __FILE__, __PRETTY_FUNCTION__))
-            return THE_STRASHNAYA_CONSTANTA;
-    }
+    my_type res = stack->data[stack->cur_size-1];
 
-    my_type res = stack->data [--stack->cur_size];
+    if((stack->cur_size < ((stack->size/RE_COEFF) - DELTA))&&(stack->cur_size > STARTSIZE))
+    {
+        if(!stack_resize(stack, STACK_REDUCE))
+            return THE_STRASHNAYA_CONSTANTA;
+        stack->cur_size--;
+    }
+    else
+    {
+        stack->cur_size--;
+    }
 
     stack_hash_recalc(stack);
 
@@ -182,13 +192,13 @@ bool stack_resize(Stack * stack, STK_RESIZE relay)
     else if(relay == STACK_REDUCE)
         stack->size /= RE_COEFF;
     else
-    STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
+        STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
 
     can_type can2_temp = *stack->can2;
 
     can_type * temp = (can_type *)realloc(stack->can1, stack->size*sizeof(my_type) + 2*sizeof(can_type));
     if(!temp)
-    STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
+        STACK_CALL_THE_POLICE(STACK_NEW_SIZE_ERROR)
 
     stack->can1 = (can_type *)temp;
     stack->data = (my_type *)(temp + 1);
@@ -270,6 +280,16 @@ void stack_data_print(Stack * stack)
     }
     printf("\n");
 }/* End of 'stack_data_print' function */
+
+
+/**
+ * \Print line
+ * \return none
+*/
+void split()
+{
+    printf("_______________________________________________________________________________\n\n");
+}/* End of 'split' function */
 
 
 /**
@@ -429,3 +449,4 @@ void stack_fury(STK_ERR err_code)
 
 #undef STACK_PHRASE_CHOISE
 }/* End of 'stack_fury' function */
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Processor.dir/Stack/main.cpp.o CMakeFiles/Processor.dir/Stack/interface.cpp.o CMakeFiles/Processor.dir/Stack/stack.cpp.o  -o Processor 
