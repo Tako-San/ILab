@@ -7,9 +7,6 @@
 int main()
 {
     file_to_buf
-    cut_buf
-    sint_an
-    sem_an
     bin_to_file
     return 0;
 }

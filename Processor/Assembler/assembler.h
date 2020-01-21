@@ -12,15 +12,15 @@
 #include <cassert>
 #include <cstdint>
 
-typedef struct
+/*typedef struct
 {
     char flag;
     int64_t integer;
-    /*union
+    union
     {
         double floating;
         int64_t integer;
-    };*/
+    };
 }Lexem;
 
 typedef struct
@@ -33,9 +33,11 @@ typedef struct
     {
         double floating;
         int64_t integer;
-    };*/
-}Command;
+    };
+}Command;*/
 
 const char * DELIM = " \t\n\r";
+
+
 
 #endif //PROCESSOR_ASSEMBLER_H
