@@ -20,20 +20,20 @@ enum
   IS_OK                          = 0,
   MEM_ALLOC_ERR                  = 1,
 
-  MAKER_TXT_NULL_PTR_ERR         = 2,
-  STRINGS_NUM_NULL_PTR_ERR       = 3,
+  PRINT_STR_NUM_BELOW_ZERO_ERR   = 2,
+  PRINT_FILE_OPENING_ERR         = 3,
 
-  PRINT_LINE_BUFF_NULL_PTR_ERR   = 4,
-  PRINT_STR_NUM_BELOW_ZERO_ERR   = 5,
-  PRINT_FILE_OPENING_ERR         = 6,
+  READ_FILE_OPENING_ERR          = 4,
 
-  READ_FILE_OPENING_ERR          = 7,
+  FILE_TO_BUF_FILE_OPENING_ERR   = 5,
 
-  FILE_TO_BUF_FILE_OPENING_ERR   = 8
+  FUNC_ARG_NULL_PTR_ERR          = 6,
+
+  FSEEK_ERR                      = 7,
 };
 
 char * file_to_buf(int * txtlen, int * err_code, const char * filename);
-int    file_length(FILE * f);
+int    file_length(FILE * f, int * err_code);
 Line * ptr_maker(char * txt, int * strings, int * err_code);
 
 int line_compare(const void * str1, const void * str2);

@@ -2,6 +2,11 @@
 
 char * file_to_buf(int * txtlen, int * err_code, const char * filename)
 {
+  if(txtlen == NULL || filename == NULL)
+  {
+    * err_code = FUNC_ARG_NULL_PTR_ERR;
+    return NULL;
+  }
   FILE * f;
   if ((f = fopen(filename, "rb")) == NULL)
   {
@@ -12,7 +17,10 @@ char * file_to_buf(int * txtlen, int * err_code, const char * filename)
     return NULL;
   }
 
-  int flen = file_length(f);
+  int flen = file_length(f, err_code);
+
+  if(!is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__))
+    return NULL;
 
   char * text = (char *)calloc(flen + 1, sizeof(text[0]));
   if(!text)
@@ -35,14 +43,21 @@ char * file_to_buf(int * txtlen, int * err_code, const char * filename)
 }
 
 
-int file_length(FILE * f)
+int file_length(FILE * f, int * err_code)
 {
+  if(f == NULL)
+  {
+    * err_code = FUNC_ARG_NULL_PTR_ERR;
+    return 0;
+  }
   fseek(f, 0, SEEK_END);
   int len = ftell(f);
   if(len == -1L)
   {
-    printf("fseek error\n");
-    exit(1);
+    //printf("fseek error\n");
+    //exit(1);
+    * err_code = FSEEK_ERR;
+    return 0;
   }
   rewind(f);
   return len;
@@ -51,18 +66,13 @@ int file_length(FILE * f)
 
 Line * ptr_maker(char * txt, int * strings, int * err_code)
 {
-  if(txt == NULL)
+  if(txt == NULL || strings == NULL)
   {
-    * err_code = MAKER_TXT_NULL_PTR_ERR;
+    * err_code = FUNC_ARG_NULL_PTR_ERR;
     is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
     return NULL;
   }
-  else if(strings == NULL)
-  {
-    * err_code = STRINGS_NUM_NULL_PTR_ERR;
-    is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
-    return NULL;
-  }
+
   int StrCount = 0;
 
   for(int i = 0; txt[i] != '\0'; i++)
@@ -181,7 +191,7 @@ void print_text(Line * str_info, int strings, int * err_code)
 {
   if(str_info == NULL)
   {
-    * err_code = PRINT_LINE_BUFF_NULL_PTR_ERR;
+    * err_code = FUNC_ARG_NULL_PTR_ERR;
     is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
     return;
   }
@@ -237,7 +247,7 @@ void lines_copy(Line* dst, Line* src, int size, int * err_code)
 int is_OK(int * err_code, int line, const char * filename, const char * funcname)
 {
 #define COND_CHECK(err_name, err_massage)  \
-else if(* err_code == err_name)              \
+else if(* err_code == err_name)            \
 {                                          \
   printf("%s\n", err_massage);             \
   printf("File: %s\n", filename);          \
@@ -246,24 +256,25 @@ else if(* err_code == err_name)              \
   return 0;                                \
 }                                          \
 
-if(* err_code == IS_OK)
-  return 1;
-COND_CHECK(MEM_ALLOC_ERR, "Memory allocation error")
+  if(* err_code == IS_OK)
+    return 1;
+  COND_CHECK(MEM_ALLOC_ERR, "Memory allocation error")
+  COND_CHECK(FUNC_ARG_NULL_PTR_ERR, "Function argument pointer is NULL.")
 
-COND_CHECK(MAKER_TXT_NULL_PTR_ERR, "Text buffer pointer is NULL")
-COND_CHECK(STRINGS_NUM_NULL_PTR_ERR, "Strings num pointer is NULL")
+  //COND_CHECK(MAKER_TXT_NULL_PTR_ERR, "Text buffer pointer is NULL")
+  //COND_CHECK(STRINGS_NUM_NULL_PTR_ERR, "Strings num pointer is NULL")
 
-COND_CHECK(PRINT_LINE_BUFF_NULL_PTR_ERR, "line buffer pointer is NULL")
-COND_CHECK(PRINT_STR_NUM_BELOW_ZERO_ERR, "String number is too low.")
-COND_CHECK(PRINT_FILE_OPENING_ERR, "Writing file opening error.")
+  //COND_CHECK(PRINT_LINE_BUFF_NULL_PTR_ERR, "line buffer pointer is NULL")
+  COND_CHECK(PRINT_STR_NUM_BELOW_ZERO_ERR, "String number is too low.")
+  COND_CHECK(PRINT_FILE_OPENING_ERR, "Writing file opening error.")
 
-COND_CHECK(READ_FILE_OPENING_ERR, "Reading file opening error.")
+  COND_CHECK(READ_FILE_OPENING_ERR, "Reading file opening error.")
 
-else
-{
-  printf("Unknown error code\n");
-  return 0;
-}
+  else
+  {
+    printf("Unknown error code\n");
+    return 0;
+  }
 
 
 #undef COND_CHECK
