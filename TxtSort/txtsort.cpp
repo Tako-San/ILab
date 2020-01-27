@@ -187,7 +187,7 @@ void line_swap(Line * line1, Line * line2)
 }
 
 
-void print_text(Line * str_info, int strings, int * err_code)
+void print_text(Line * str_info, int strings, int * err_code, char * filename)
 {
   if(str_info == NULL)
   {
@@ -204,7 +204,7 @@ void print_text(Line * str_info, int strings, int * err_code)
   }
 
   FILE * f;
-  if ((f = fopen("Out.txt", "ab")) == NULL)
+  if ((f = fopen(filename, "ab")) == NULL)
   {
     //printf("File opening failure.\n");
     //exit(1);

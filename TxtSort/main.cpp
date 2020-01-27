@@ -21,14 +21,14 @@ if(err_code != IS_OK)     \
   ERR_CHECK()
 
   qsort(str_info, strings, sizeof(str_info[0]), line_compare);
-  print_text(str_info, strings, &err_code);
+  print_text(str_info, strings, &err_code, "Out.txt");
   ERR_CHECK()
 
   qsort(str_info, strings, sizeof(str_info[0]), back_line_compare);
-  print_text(str_info, strings, &err_code);
+  print_text(str_info, strings, &err_code, "Out.txt");
   ERR_CHECK()
 
-  print_text(original_text, strings, &err_code);
+  print_text(original_text, strings, &err_code, "Out.txt");
   ERR_CHECK()
 
   free(original_text);

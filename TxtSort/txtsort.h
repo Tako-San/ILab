@@ -41,7 +41,7 @@ int back_line_compare(const void * str1, const void * str2);
 
 void lines_copy(Line* dst, Line* src, int size, int * err_code);
 void line_swap(Line * line1, Line * line2);
-void print_text(Line * str_info, int strings, int * err_code);
+void print_text(Line * str_info, int strings, int * err_code, char * filename);
 //void print_buf(char * txt, int strings);
 
 int is_OK(int * err_code, int line, const char * filename, const char * funcname);
