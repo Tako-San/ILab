@@ -1,21 +1,31 @@
 #include "str_funcs.h"
 
-char * file_to_buf(int * txtlen, char * filename)
+char * file_to_buf(int * txtlen, int * err_code, const char * filename)
 {
+    if(txtlen == NULL || filename == NULL)
+    {
+        * err_code = FUNC_ARG_NULL_PTR_ERR;
+        return NULL;
+    }
     FILE * f;
     if ((f = fopen(filename, "rb")) == NULL)
     {
-        printf("File reading failure.\n");
-        exit(1);
+        * err_code = FILE_TO_BUF_FILE_OPENING_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return NULL;
     }
 
-    int flen = file_length(f);
+    int flen = file_length(f, err_code);
+
+    if(!is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__))
+        return NULL;
 
     char * text = (char *)calloc(flen + 1, sizeof(text[0]));
     if(!text)
     {
-        printf("Allocation failure\n");
-        exit(1);
+        * err_code = MEM_ALLOC_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return NULL;
     }
 
     flen = fread(text, sizeof(text[0]), flen, f);
@@ -29,22 +39,33 @@ char * file_to_buf(int * txtlen, char * filename)
 }
 
 
-int file_length(FILE * f)
+int file_length(FILE * f, int * err_code)
 {
+    if(f == NULL)
+    {
+        * err_code = FUNC_ARG_NULL_PTR_ERR;
+        return 0;
+    }
     fseek(f, 0, SEEK_END);
     int len = ftell(f);
     if(len == -1L)
     {
-        printf("fseek error\n");
-        exit(1);
+        * err_code = FSEEK_ERR;
+        return 0;
     }
     rewind(f);
     return len;
 }
 
 
-Line * ptr_maker(char * txt, int * strings)
+Line * ptr_maker(char * txt, int * strings, int * err_code)
 {
+    if(txt == NULL || strings == NULL)
+    {
+        * err_code = FUNC_ARG_NULL_PTR_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return NULL;
+    }
 
     int StrCount = 0;
 
@@ -53,14 +74,15 @@ Line * ptr_maker(char * txt, int * strings)
         if(txt[i] == '\n')
             StrCount++;
     }
-    StrCount++;
     *strings = StrCount;
+    StrCount++;
 
     Line * str_info = (Line *)calloc(StrCount, sizeof(Line));
     if(!str_info)
     {
-        printf("Allocation failure\n");
-        exit(1);
+        * err_code = MEM_ALLOC_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return NULL;
     }
 
     str_info[0].start = txt;
@@ -70,7 +92,7 @@ Line * ptr_maker(char * txt, int * strings)
 
     for(; txt[i] != '\0'; i++)
     {
-        if(txt[i] == '\n' && txt[i] == ' ' && txt[i] == '\r' && txt[i] == '\t')
+        if(txt[i] == '\n')
         {
             txt[i] = '\0';
             str_info[string].start = &(txt[i+1]);
@@ -111,6 +133,7 @@ int line_compare(const void * str1, const void * str2)
     }
 
     return (tolower(l1[p]) - tolower(l2[q]));
+
 }
 
 
@@ -156,24 +179,75 @@ void line_swap(Line * line1, Line * line2)
 }
 
 
-void print_text(Line * str_info, int strings)
+void print_text(Line * str_info, int strings, int * err_code, char * filename)
 {
-    FILE * f;
-    if ((f = fopen("Out.txt", "ab")) == NULL)
+    if(str_info == NULL)
     {
-        printf("File opening failure.\n");
-        exit(1);
+        * err_code = FUNC_ARG_NULL_PTR_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if(strings <= 0)
+    {
+        *err_code = PRINT_STR_NUM_BELOW_ZERO_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return;
+    }
+
+    FILE * f;
+    if ((f = fopen(filename, "ab")) == NULL)
+    {
+        * err_code = PRINT_FILE_OPENING_ERR;
+        is_OK(err_code, __LINE__, __FILE__, __PRETTY_FUNCTION__);
+        return;
     }
 
     for (int i = 0; i < strings; i++)
     {
         fputs(str_info[i].start, f);
+        fputc('\n', f);
     }
+
+    fputc('\n', f);
+
     fclose(f);
 }
 
-void lines_copy(Line* dst, Line* src, int size)
+void lines_copy(Line* dst, Line* src, int size, int * err_code)
 {
     for(int i = 0; i < size; i++)
         dst[i] = src[i];
+}
+
+int is_OK(int * err_code, int line, const char * filename, const char * funcname)
+{
+#define COND_CHECK(err_name, err_massage)  \
+else if(* err_code == err_name)            \
+{                                          \
+  printf("%s\n", err_massage);             \
+  printf("File: %s\n", filename);          \
+  printf("Func: %s\n", funcname);          \
+  printf("Line: %d\n", line);              \
+  return 0;                                \
+}                                          \
+
+    if(* err_code == IS_OK)
+        return 1;
+
+    COND_CHECK(MEM_ALLOC_ERR, "Memory allocation error")
+    COND_CHECK(FUNC_ARG_NULL_PTR_ERR, "Function argument pointer is NULL.")
+
+    COND_CHECK(PRINT_STR_NUM_BELOW_ZERO_ERR, "String number is too low.")
+    COND_CHECK(PRINT_FILE_OPENING_ERR, "Writing file opening error.")
+
+    COND_CHECK(READ_FILE_OPENING_ERR, "Reading file opening error.")
+
+    else
+    {
+        printf("Unknown error code\n");
+        return 0;
+    }
+
+#undef COND_CHECK
 }
