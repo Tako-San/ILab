@@ -12,6 +12,8 @@
 #include <cassert>
 #include <cstdint>
 
+#include "../Str_funcs/str_funcs.h"
+
 /*typedef struct
 {
     char flag;
@@ -36,8 +38,26 @@ typedef struct
     };
 }Command;*/
 
+typedef struct
+{
+    Line * words;
+    int num;
+}Lex;
+
+typedef struct
+{
+    char * buf;
+    int buf_len;
+}RAM;
+
+enum
+{
+    ASMR_PUSH = 1,
+    ASMR_POP
+}Commands;
+
 const char * DELIM = " \t\n\r";
 
-
+#define LONGEST_NAME 15
 
 #endif //PROCESSOR_ASSEMBLER_H
