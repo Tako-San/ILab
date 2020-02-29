@@ -87,7 +87,6 @@ my_type    stack_pop(Stack * stack);
 bool       stack_resize(Stack * stack, STK_RESIZE relay);
 
 void       stack_data_print(Stack * stack);
-//void       stack_dump(Stack * stack);
 void       stack_dump(Stack * stack, int line, const char * filename, const char * funcname);
 bool       stack_is_OK(Stack * stack, int line, const char * filename, const char * funcname);
 void       stack_fury(STK_ERR err_code);
