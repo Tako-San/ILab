@@ -3,4 +3,4 @@ project(Processor)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Processor Stack/main.cpp Stack/interface.cpp Stack/interface.h Stack/stack.cpp Stack/stack.h)
+add_executable(Processor Assembler/main.cpp Assembler/assembler.cpp Assembler/assembler.h Stack/stack.cpp Stack/stack.h Str_funcs/str_funcs.cpp Str_funcs/str_funcs.h)

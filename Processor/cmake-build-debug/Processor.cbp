@@ -84,19 +84,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/farid/ILab/Processor/Stack/interface.cpp">
+		<Unit filename="/home/farid/ILab/Processor/Assembler/assembler.cpp">
 			<Option target="Processor"/>
 		</Unit>
-		<Unit filename="/home/farid/ILab/Processor/Stack/interface.h">
+		<Unit filename="/home/farid/ILab/Processor/Assembler/assembler.h">
 			<Option target="Processor"/>
 		</Unit>
-		<Unit filename="/home/farid/ILab/Processor/Stack/main.cpp">
+		<Unit filename="/home/farid/ILab/Processor/Assembler/main.cpp">
 			<Option target="Processor"/>
 		</Unit>
 		<Unit filename="/home/farid/ILab/Processor/Stack/stack.cpp">
 			<Option target="Processor"/>
 		</Unit>
 		<Unit filename="/home/farid/ILab/Processor/Stack/stack.h">
+			<Option target="Processor"/>
+		</Unit>
+		<Unit filename="/home/farid/ILab/Processor/Str_funcs/str_funcs.cpp">
+			<Option target="Processor"/>
+		</Unit>
+		<Unit filename="/home/farid/ILab/Processor/Str_funcs/str_funcs.h">
 			<Option target="Processor"/>
 		</Unit>
 		<Unit filename="/home/farid/ILab/Processor/CMakeLists.txt">

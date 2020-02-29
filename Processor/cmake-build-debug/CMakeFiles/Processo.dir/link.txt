@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Processo.dir/Stack/stack.cpp.o  -o Processo 

@@ -21,7 +21,7 @@ int main()
     Lex prog;
     prog.words = ptr_maker(mem.buf, &prog.num, &str_err);
 
-    assembly()
+    assembly();
 
 
     free(mem.buf);

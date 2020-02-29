@@ -38,7 +38,7 @@ typedef struct
     };
 }Command;*/
 
-typedef struct
+/*typedef struct
 {
     Line * words;
     int num;
@@ -48,12 +48,15 @@ typedef struct
 {
     char * buf;
     int buf_len;
-}RAM;
+}RAM;*/
 
 enum
 {
     ASMR_PUSH = 1,
-    ASMR_POP
+    ASMR_POP,
+    ASMR_END,
+    ASMR_ADD,
+
 }Commands;
 
 const char * DELIM = " \t\n\r";

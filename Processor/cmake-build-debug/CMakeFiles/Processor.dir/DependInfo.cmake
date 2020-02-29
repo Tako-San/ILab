@@ -4,9 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/farid/ILab/Processor/Stack/interface.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Stack/interface.cpp.o"
-  "/home/farid/ILab/Processor/Stack/main.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Stack/main.cpp.o"
+  "/home/farid/ILab/Processor/Assembler/assembler.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Assembler/assembler.cpp.o"
+  "/home/farid/ILab/Processor/Assembler/main.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Assembler/main.cpp.o"
   "/home/farid/ILab/Processor/Stack/stack.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Stack/stack.cpp.o"
+  "/home/farid/ILab/Processor/Str_funcs/str_funcs.cpp" "/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -12,10 +12,10 @@
 
 }*/
 
-char * assembly()
+/*char * assembly()
 {
     int pos = 0;
-    buf_out = (int *)calloc(prog->lex_num, sizeof(int));
+    int * buf_out = (int *)calloc(prog->lex_num, sizeof(int));
     int * bptr = buf_out;
 
     for(int cur_word_num = 0; cur_word_num < prog->lex_num; cur_word_num++)
@@ -25,7 +25,7 @@ char * assembly()
             return false;
         if(!line_compare(cur_word, "end"))
         {
-            *bptr++ = ASM_END;
+            *bptr++ = ASMR_END;
             break;
         }
         else if(!line_compare(cur_word, "push"))
@@ -34,7 +34,7 @@ char * assembly()
             cur_word_num++;
             if(sscanf(prog->words[cur_word_num], " %d", &push_num) != 1)
             {
-                *bptr++ = ASM_PUSH;
+                *bptr++ = ASMR_PUSH;
                 *bptr++ = push_num;
             }
             else
@@ -44,7 +44,7 @@ char * assembly()
         }
         else if(!line_compare(cur_word, "add")
         {
-            *bptr++ = ASM_ADD;
+            *bptr++ = ASMR_ADD;
         }
         else
         {
@@ -53,7 +53,7 @@ char * assembly()
         }
     }
     return true;
-}
+}*/
 
 bool buf_to_file(int * buf, char * filename)
 {

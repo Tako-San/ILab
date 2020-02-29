@@ -123,59 +123,59 @@ Processor/fast:
 	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/build
 .PHONY : Processor/fast
 
-Stack/interface.o: Stack/interface.cpp.o
+Assembler/assembler.o: Assembler/assembler.cpp.o
 
-.PHONY : Stack/interface.o
-
-# target to build an object file
-Stack/interface.cpp.o:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/interface.cpp.o
-.PHONY : Stack/interface.cpp.o
-
-Stack/interface.i: Stack/interface.cpp.i
-
-.PHONY : Stack/interface.i
-
-# target to preprocess a source file
-Stack/interface.cpp.i:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/interface.cpp.i
-.PHONY : Stack/interface.cpp.i
-
-Stack/interface.s: Stack/interface.cpp.s
-
-.PHONY : Stack/interface.s
-
-# target to generate assembly for a file
-Stack/interface.cpp.s:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/interface.cpp.s
-.PHONY : Stack/interface.cpp.s
-
-Stack/main.o: Stack/main.cpp.o
-
-.PHONY : Stack/main.o
+.PHONY : Assembler/assembler.o
 
 # target to build an object file
-Stack/main.cpp.o:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/main.cpp.o
-.PHONY : Stack/main.cpp.o
+Assembler/assembler.cpp.o:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/assembler.cpp.o
+.PHONY : Assembler/assembler.cpp.o
 
-Stack/main.i: Stack/main.cpp.i
+Assembler/assembler.i: Assembler/assembler.cpp.i
 
-.PHONY : Stack/main.i
+.PHONY : Assembler/assembler.i
 
 # target to preprocess a source file
-Stack/main.cpp.i:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/main.cpp.i
-.PHONY : Stack/main.cpp.i
+Assembler/assembler.cpp.i:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/assembler.cpp.i
+.PHONY : Assembler/assembler.cpp.i
 
-Stack/main.s: Stack/main.cpp.s
+Assembler/assembler.s: Assembler/assembler.cpp.s
 
-.PHONY : Stack/main.s
+.PHONY : Assembler/assembler.s
 
 # target to generate assembly for a file
-Stack/main.cpp.s:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/main.cpp.s
-.PHONY : Stack/main.cpp.s
+Assembler/assembler.cpp.s:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/assembler.cpp.s
+.PHONY : Assembler/assembler.cpp.s
+
+Assembler/main.o: Assembler/main.cpp.o
+
+.PHONY : Assembler/main.o
+
+# target to build an object file
+Assembler/main.cpp.o:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/main.cpp.o
+.PHONY : Assembler/main.cpp.o
+
+Assembler/main.i: Assembler/main.cpp.i
+
+.PHONY : Assembler/main.i
+
+# target to preprocess a source file
+Assembler/main.cpp.i:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/main.cpp.i
+.PHONY : Assembler/main.cpp.i
+
+Assembler/main.s: Assembler/main.cpp.s
+
+.PHONY : Assembler/main.s
+
+# target to generate assembly for a file
+Assembler/main.cpp.s:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/main.cpp.s
+.PHONY : Assembler/main.cpp.s
 
 Stack/stack.o: Stack/stack.cpp.o
 
@@ -204,6 +204,33 @@ Stack/stack.cpp.s:
 	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/stack.cpp.s
 .PHONY : Stack/stack.cpp.s
 
+Str_funcs/str_funcs.o: Str_funcs/str_funcs.cpp.o
+
+.PHONY : Str_funcs/str_funcs.o
+
+# target to build an object file
+Str_funcs/str_funcs.cpp.o:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o
+.PHONY : Str_funcs/str_funcs.cpp.o
+
+Str_funcs/str_funcs.i: Str_funcs/str_funcs.cpp.i
+
+.PHONY : Str_funcs/str_funcs.i
+
+# target to preprocess a source file
+Str_funcs/str_funcs.cpp.i:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.i
+.PHONY : Str_funcs/str_funcs.cpp.i
+
+Str_funcs/str_funcs.s: Str_funcs/str_funcs.cpp.s
+
+.PHONY : Str_funcs/str_funcs.s
+
+# target to generate assembly for a file
+Str_funcs/str_funcs.cpp.s:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.s
+.PHONY : Str_funcs/str_funcs.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,15 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Processor"
 	@echo "... edit_cache"
-	@echo "... Stack/interface.o"
-	@echo "... Stack/interface.i"
-	@echo "... Stack/interface.s"
-	@echo "... Stack/main.o"
-	@echo "... Stack/main.i"
-	@echo "... Stack/main.s"
+	@echo "... Assembler/assembler.o"
+	@echo "... Assembler/assembler.i"
+	@echo "... Assembler/assembler.s"
+	@echo "... Assembler/main.o"
+	@echo "... Assembler/main.i"
+	@echo "... Assembler/main.s"
 	@echo "... Stack/stack.o"
 	@echo "... Stack/stack.i"
 	@echo "... Stack/stack.s"
+	@echo "... Str_funcs/str_funcs.o"
+	@echo "... Str_funcs/str_funcs.i"
+	@echo "... Str_funcs/str_funcs.s"
 .PHONY : help
 
 
