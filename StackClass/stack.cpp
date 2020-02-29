@@ -427,3 +427,24 @@ void Stack::fury()
 
   #undef STACK_PHRASE_CHOISE
 }/* End of 'fury' function */
+
+/**
+ * Changing stack err_code.
+ * \param [in] new_err_code  Error code.
+ * \return None.
+*/
+void Stack::err_code_setter(STK_ERR new_err_code)
+{
+  err_code = new_err_code;
+}/* End of 'err_code_setter' function */
+
+
+/**
+ * Shows stack err_code.
+ * \param [in] new_err_code  Error code.
+ * \return err_code.
+*/
+STK_ERR Stack::err_code_getter()
+{
+  return err_code;
+}/* End of 'err_code_getter' function */

@@ -47,7 +47,7 @@ int main()
 
   invite();
 
-  while(my.err_code == STACK_NICE)
+  while(my.err_code_getter() == STACK_NICE)
     what_to_do(&my);
 //#endif
   return 0;

@@ -37,10 +37,10 @@ int what_to_do(Stack * stack)
     case 2:   my_type last_elem1;
               last_elem1 = stack->peek();
 
-              if(stack->err_code == STACK_UNDERFLOW)
+              if(stack->err_code_getter() == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
-                stack->err_code = STACK_NICE;
+                stack->err_code_setter(STACK_NICE);
                 stack->hash_recalc();
               }
               else
@@ -54,10 +54,10 @@ int what_to_do(Stack * stack)
     case 3:   my_type last_elem2;
               last_elem2 = stack->pop();
 
-              if(stack->err_code == STACK_UNDERFLOW)
+              if(stack->err_code_getter() == STACK_UNDERFLOW)
               {
                 printf("Your stack is empty\n");
-                stack->err_code = STACK_NICE;
+                stack->err_code_setter(STACK_NICE);
                 stack->hash_recalc();
               }
               else

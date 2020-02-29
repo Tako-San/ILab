@@ -64,10 +64,6 @@ private:
   can_type*   can1;
   can_type*   can2;
 
-  can_type    eagle2;
-
-public:
-  
   STK_ERR    err_code;
 
 public:
@@ -90,11 +86,18 @@ public:
   hash_type  hash_calc(void *data, size_t size_of, size_t num = 1);
   bool       hash_recalc();
   hash_type  hash_hash();
+
+  void       err_code_setter(STK_ERR);
+  STK_ERR    err_code_getter();
+
+private:
+
+  can_type    eagle2;
 };
 
 enum
 {
-  RE_COEFF                 =     2,  //коэффициент при увеличении размера стека
+  RE_COEFF                 =     2, //коэффициент при увеличении размера стека
   STARTSIZE                =     3, //начальный размер массива стека
   DEADSTACK                =     0, //мертвый стек
   DEADHASH                 =     0,
