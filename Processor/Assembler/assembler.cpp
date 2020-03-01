@@ -3,59 +3,49 @@
 //
 
 #include "assembler.h"
-#include "../Str_funcs/str_funcs.h"
 
-/*void (Lex * prog)
+bool Asmr::assembly(const char file_in[], const char file_out[])
 {
-    /*prog->fer = file_to_buf(prof->fer.len, "Prog.txt");
-    prog->words = ptr_maker(&(prog->fer.mem), &(prog->lex_num));
+    txt_get(file_in);
+    asmr_parser();
+    buf_to_file(buf_out, file_out);
 
-}*/
+    /*куча всяких free*/
+}
 
-/*char * assembly()
+void Asmr::asmr_parser(/*const char file_in[]*/)
 {
-    int pos = 0;
-    int * buf_out = (int *)calloc(prog->lex_num, sizeof(int));
-    int * bptr = buf_out;
+    buf_out = (char *)calloc(tok_num, sizeof(char));
 
-    for(int cur_word_num = 0; cur_word_num < prog->lex_num; cur_word_num++)
+    for(int cur_num = 0; cur_num < tok_num; cur_num++)
     {
-        char cur_word[LONGEST_NAME] = {};
-        if(sscanf(prog->words[cur_word_num], "%s %d", cur_word, &pos) != 1)
-            return false;
-        if(!line_compare(cur_word, "end"))
+        char cur_wrd[LONGEST_WRD] = {};     //ЗАДЕФАЙНИТЬ ЛОНГЕСТ ВОРД
+        sscanf(tok_prgrm[cur_num], "%s", cur_wrd)
+
+    #define UNIV_CMD(/*записать тут всякие аргументы*/)   \
+        else if(!line_compare(cur_wrd, comm_name))        \
+        {                                                 \
+            /*тут чета делаем*/                           \
+        }                                                 \
+
+        if(/*какое-то первое условие*/)
         {
-            *bptr++ = ASMR_END;
-            break;
+            /*какое-то действие*/
         }
-        else if(!line_compare(cur_word, "push"))
-        {
-            int push_num = 0;
-            cur_word_num++;
-            if(sscanf(prog->words[cur_word_num], " %d", &push_num) != 1)
-            {
-                *bptr++ = ASMR_PUSH;
-                *bptr++ = push_num;
-            }
-            else
-            {
-                printf("Error: \"push\" without arg");
-            }
-        }
-        else if(!line_compare(cur_word, "add")
-        {
-            *bptr++ = ASMR_ADD;
-        }
+
+        #include "../command.h"
+
         else
         {
-            printf("Unknown command.");
-            return false;
+            /*Чел, синтаксическая ошибка*/
         }
-    }
-    return true;
-}*/
 
-bool buf_to_file(int * buf, char * filename)
+    #undef MULTI_CMD
+
+    }
+}
+
+bool Asmr::buf_to_file(int * buf, char * filename)
 {
     FILE * out = fopen(filename, "wb");
 
@@ -64,3 +54,22 @@ bool buf_to_file(int * buf, char * filename)
     fclose(out);
     return true;
 }
+
+void Asmr::txt_get(const char file_in[])
+{
+#define ERR_CHECK()         \
+if(err_code != IS_OK)       \
+    return;                 \
+
+    int err_code = IS_OK;
+
+    int txtlen = 0;
+    prgrm = file_to_buf(&txtlen, &err_code, file_in);
+    ERR_CHECK()
+
+    tok_prgrm = ptr_maker(prgrm, &tok_num, &err_code); //токенизированная прога, ток нум - кол-во слов
+    ERR_CHECK()
+
+#undef ERR_CHECK
+}
+

@@ -68,7 +68,6 @@ private:
 
 public:
 
-
   Stack();
   void       destroy();
 

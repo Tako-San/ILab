@@ -14,53 +14,25 @@
 
 #include "../Str_funcs/str_funcs.h"
 
-/*typedef struct
+class Asmr
 {
-    char flag;
-    int64_t integer;
-    union
-    {
-        double floating;
-        int64_t integer;
-    };
-}Lexem;
+private:
 
-typedef struct
-{
-    char CMD_flag;
-    uint16_t CMD_CODE;
-    char arg_flag;
-    int64_t integer;
-    /*union
-    {
-        double floating;
-        int64_t integer;
-    };
-}Command;*/
+    char * prgrm, * buf_out;
+    int    prgrm_len, buf_out_len;
 
-/*typedef struct
-{
-    Line * words;
-    int num;
-}Lex;
+public:
 
-typedef struct
-{
-    char * buf;
-    int buf_len;
-}RAM;*/
+    Asmr();
+    bool   assembly(const char file_in[], const char file_out[]);
+    ~Asmr();
 
-enum
-{
-    ASMR_PUSH = 1,
-    ASMR_POP,
-    ASMR_END,
-    ASMR_ADD,
+private:
 
-}Commands;
+    void   asmr_parser(/*const char file_in[]*/);
+    void   txt_get(const char file_in[];
+    bool   buf_to_file(int * buf, char * filename);
 
-const char * DELIM = " \t\n\r";
-
-#define LONGEST_NAME 15
+};
 
 #endif //PROCESSOR_ASSEMBLER_H
