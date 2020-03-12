@@ -79,5 +79,20 @@ int main()
 
     //test 13
 
+    c = "Shit";
+    c.print();
+    printf("\n");
+
+    //test14
+
+    String d = "ACAB";
+    d.print();
+    printf("\n");
+    return 0;
+
+    //test15
+
+    printf("%c\n", d[1]);
+
     return 0;
 }

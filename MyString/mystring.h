@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cassert>
 //#include <string>
 
 #define CAP 50
@@ -31,10 +32,18 @@ namespace F
         void clear();
         void push_back(char new_letter);
         char pop_back();
+
         String& operator+=(const String& to_add);
         String& operator+=(const char * to_add);
 
         String& operator=(const String& to_eq);
+        String& operator=(const char * to_eq);
+
+        String& operator+(const String& term2) const;
+        //String& operator+(const String& term2) const;
+
+        char& operator[](size_t pos);
+
 
     };
 

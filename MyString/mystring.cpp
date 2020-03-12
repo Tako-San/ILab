@@ -84,6 +84,7 @@ bool String::empty()
  */
 void String::clear()
 {
+    asser(size < 0);
     for(size_t i = 0; i < size; i++)
         str[i] = '\0';
     size = 0;
@@ -94,8 +95,7 @@ void String::clear()
  */
 void String::push_back(char new_letter)
 {
-    if(size >= cap)
-        return;
+    assert(size >= cap);
     str[size++] = new_letter;
 }
 
@@ -104,8 +104,7 @@ void String::push_back(char new_letter)
  */
 char String::pop_back()
 {
-    if(size <= 0)
-        return '\0';
+    asser(size <= 0);
     char res = str[--size];
     str[size] = '\0';
     return res;
@@ -128,8 +127,10 @@ String& String::operator+=(const String& to_add)
  */
 String& String::operator+=(const char * to_add)
 {
-    for(size_t i = 0; size < cap; size++, i++)
-        str[size] = to_add[i];
+    /*for(size_t i = 0; size < cap; size++, i++)
+        str[size] = to_add[i];*/
+    for(int i = 0; size < cap; i++)
+        push_back(to_add[i]);
 
     return *this;
 }
@@ -139,8 +140,35 @@ String& String::operator+=(const char * to_add)
  */
 String& String::operator=(const String& to_eq)
 {
+    clear();
     strcpy(str, to_eq.str);
     cap = to_eq.cap;
     size = to_eq.size;
     return *this;
+}
+
+/**
+ * a = const char*.
+ */
+String& String::operator=(const char* to_eq)
+{
+    clear();
+    for(int i = 0; size < cap; i++)
+        push_back(to_eq[i]);
+    return *this;
+}
+
+/**
+ * a + b.
+ */
+String& String::operator+(const String& term2) const
+{
+    /*String& tmp = (String&)calloc(1, )
+    return tmp*/
+}
+
+char& String::operator[](size_t pos)
+{
+    assert(pos >= size);
+    return str[pos];
 }
