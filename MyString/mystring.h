@@ -24,6 +24,8 @@ namespace F
         String(const String &a);
         String(const char str[]);
 
+        ~String();
+
         void print();
         size_t length();
         size_t capacity();

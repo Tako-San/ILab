@@ -9,6 +9,7 @@ String::String() : str{0},
                    cap(CAP),
                    size(0)
 {
+    printf("Hello, I'm constructor!\n");
 }
 
 /**
@@ -18,6 +19,7 @@ String::String(const String &a) : str{0},
                             cap(a.cap),
                             size(a.size)
 {
+    printf("Hello, I'm constructor!\n");
     strncpy(str, a.str, a.size);
 }
 
@@ -28,6 +30,13 @@ String::String(const char str[]) : str{0},
                                    cap(CAP),
                                    size(my_strcpy(this->str, str))
 {
+    printf("Hello, I'm constructor!\n");
+}
+
+String::~String()
+{
+    printf("Hello, I'm destructor!\n");
+    clear();
 }
 
 /**
@@ -84,7 +93,6 @@ bool String::empty()
  */
 void String::clear()
 {
-    asser(size < 0);
     for(size_t i = 0; i < size; i++)
         str[i] = '\0';
     size = 0;
@@ -95,7 +103,7 @@ void String::clear()
  */
 void String::push_back(char new_letter)
 {
-    assert(size >= cap);
+    assert(size <= cap);
     str[size++] = new_letter;
 }
 
@@ -104,7 +112,9 @@ void String::push_back(char new_letter)
  */
 char String::pop_back()
 {
-    asser(size <= 0);
+    if(size == 0)
+        return '\0';
+        
     char res = str[--size];
     str[size] = '\0';
     return res;
