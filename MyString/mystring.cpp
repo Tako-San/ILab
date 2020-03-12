@@ -6,7 +6,7 @@ using namespace F;
  * Sting class default costructor.
  */
 String::String() : str{0},
-                   cap(CAP + 1),
+                   cap(CAP),
                    size(0)
 {
 }
@@ -14,7 +14,7 @@ String::String() : str{0},
 /**
  * Sting class copy costructor.
  */
-String::String(String &a) : str{0},
+String::String(const String &a) : str{0},
                             cap(a.cap),
                             size(a.size)
 {
@@ -51,7 +51,7 @@ size_t F::my_strcpy(char *dst, const char *src)
  */
 void String::print()
 {
-    printf("%s", this->str);
+    printf("%s", str);
 }
 
 /**
@@ -59,7 +59,7 @@ void String::print()
  */
 size_t String::length()
 {
-    return this->size;
+    return size;
 }
 
 
@@ -68,13 +68,79 @@ size_t String::length()
  */
 size_t String::capacity()
 {
-    return this->cap;
+    return cap;
 }
 
 /**
- * Returning true if stack is epmty.
+ * Returning true if string is epmty.
  */
 bool String::empty()
 {
-    return (this->size == 0);
+    return (size == 0);
+}
+
+/**
+ * Cleaning string.
+ */
+void String::clear()
+{
+    for(size_t i = 0; i < size; i++)
+        str[i] = '\0';
+    size = 0;
+}
+
+/**
+ * Pushing back new element.
+ */
+void String::push_back(char new_letter)
+{
+    if(size >= cap)
+        return;
+    str[size++] = new_letter;
+}
+
+/**
+ * Popping last elem.
+ */
+char String::pop_back()
+{
+    if(size <= 0)
+        return '\0';
+    char res = str[--size];
+    str[size] = '\0';
+    return res;
+}
+
+/**
+ * Add new str to our.
+ */
+String& String::operator+=(const String& to_add)
+{
+    strncpy(str + size, to_add.str, cap - size - to_add.size);
+    size += to_add.size;
+    if(size > cap)
+        size = cap;
+    return *this;
+}
+
+/**
+ * Add c string to our.
+ */
+String& String::operator+=(const char * to_add)
+{
+    for(size_t i = 0; size < cap; size++, i++)
+        str[size] = to_add[i];
+
+    return *this;
+}
+
+/**
+ * a = b.
+ */
+String& String::operator=(const String& to_eq)
+{
+    strcpy(str, to_eq.str);
+    cap = to_eq.cap;
+    size = to_eq.size;
+    return *this;
 }

@@ -13,14 +13,14 @@ namespace F
     {
     public:
 
-        char str[CAP];
+        char str[CAP + 1];
         size_t cap;
         size_t size;
 
     public:
 
         String();
-        String(String &a);
+        String(const String &a);
         String(const char str[]);
 
         void print();
@@ -28,7 +28,13 @@ namespace F
         size_t capacity();
         bool empty();
 
-        
+        void clear();
+        void push_back(char new_letter);
+        char pop_back();
+        String& operator+=(const String& to_add);
+        String& operator+=(const char * to_add);
+
+        String& operator=(const String& to_eq);
 
     };
 
