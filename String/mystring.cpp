@@ -337,3 +337,24 @@ bool F::operator<=(const char* lhs, const String& rhs)
 {
     return strcmp(lhs, rhs.str) <= 0;
 }
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator!=(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) != 0;
+}
+
+bool F::operator!=(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) != 0;
+}
+
+bool F::operator!=(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) != 0;
+}

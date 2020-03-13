@@ -73,6 +73,11 @@ namespace F
     bool operator==(const char* lhs, const String& rhs);
     //bool operator==(const char* lhs, const char* rhs);
 
+    bool operator!=(const String& lhs, const String& rhs);
+    bool operator!=(const String& lhs, const char* rhs);
+    bool operator!=(const char* lhs, const String& rhs);
+    //bool operator!=(const char* lhs, const char* rhs);
+
     bool operator>=(const String& lhs, const String& rhs);
     bool operator>=(const String& lhs, const char* rhs);
     bool operator>=(const char* lhs, const String& rhs);
