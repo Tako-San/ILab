@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/farid/ILab/Processor/Assembler/assembler.cpp
-assembler.h
-/home/farid/ILab/Processor/Assembler/assembler.h
-../Str_funcs/str_funcs.h
-/home/farid/ILab/Processor/Str_funcs/str_funcs.h
-
 /home/farid/ILab/Processor/Assembler/assembler.h
 cstdio
 -

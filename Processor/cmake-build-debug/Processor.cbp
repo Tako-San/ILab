@@ -93,10 +93,10 @@
 		<Unit filename="/home/farid/ILab/Processor/Assembler/main.cpp">
 			<Option target="Processor"/>
 		</Unit>
-		<Unit filename="/home/farid/ILab/Processor/Stack/stack.cpp">
+		<Unit filename="/home/farid/ILab/Processor/StackClass/stack.cpp">
 			<Option target="Processor"/>
 		</Unit>
-		<Unit filename="/home/farid/ILab/Processor/Stack/stack.h">
+		<Unit filename="/home/farid/ILab/Processor/StackClass/stack.h">
 			<Option target="Processor"/>
 		</Unit>
 		<Unit filename="/home/farid/ILab/Processor/Str_funcs/str_funcs.cpp">

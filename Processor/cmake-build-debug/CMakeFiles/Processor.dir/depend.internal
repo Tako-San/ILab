@@ -5,14 +5,14 @@ CMakeFiles/Processor.dir/Assembler/assembler.cpp.o
  /home/farid/ILab/Processor/Assembler/assembler.cpp
  /home/farid/ILab/Processor/Assembler/assembler.h
  /home/farid/ILab/Processor/Str_funcs/str_funcs.h
+ /home/farid/ILab/Processor/commands.h
 CMakeFiles/Processor.dir/Assembler/main.cpp.o
  /home/farid/ILab/Processor/Assembler/assembler.h
  /home/farid/ILab/Processor/Assembler/main.cpp
  /home/farid/ILab/Processor/Str_funcs/str_funcs.h
-CMakeFiles/Processor.dir/Stack/stack.cpp.o
- /home/farid/ILab/Processor/Stack/interface.h
- /home/farid/ILab/Processor/Stack/stack.cpp
- /home/farid/ILab/Processor/Stack/stack.h
+CMakeFiles/Processor.dir/StackClass/stack.cpp.o
+ /home/farid/ILab/Processor/StackClass/stack.cpp
+ /home/farid/ILab/Processor/StackClass/stack.h
 CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o
  /home/farid/ILab/Processor/Str_funcs/str_funcs.cpp
  /home/farid/ILab/Processor/Str_funcs/str_funcs.h

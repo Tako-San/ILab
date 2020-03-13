@@ -11,15 +11,17 @@
 #include <iostream>
 #include <cassert>
 #include <cstdint>
-
 #include "../Str_funcs/str_funcs.h"
+
+#define LONGEST_WRD 15
 
 class Asmr
 {
 private:
 
     char * prgrm, * buf_out;
-    int    prgrm_len, buf_out_len;
+    Line * tok_prgrm;
+    int    prgrm_len, tok_num, buf_out_len;
 
 public:
 
@@ -29,9 +31,9 @@ public:
 
 private:
 
-    void   asmr_parser(/*const char file_in[]*/);
-    void   txt_get(const char file_in[];
-    bool   buf_to_file(int * buf, char * filename);
+    bool   asmr_parser(const char file_in[]);
+    void   txt_get(const char file_in[]);
+    bool   buf_to_file(const char file_out[]);
 
 };
 

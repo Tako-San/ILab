@@ -4,14 +4,14 @@
 CMakeFiles/Processor.dir/Assembler/assembler.cpp.o: ../Assembler/assembler.cpp
 CMakeFiles/Processor.dir/Assembler/assembler.cpp.o: ../Assembler/assembler.h
 CMakeFiles/Processor.dir/Assembler/assembler.cpp.o: ../Str_funcs/str_funcs.h
+CMakeFiles/Processor.dir/Assembler/assembler.cpp.o: ../commands.h
 
 CMakeFiles/Processor.dir/Assembler/main.cpp.o: ../Assembler/assembler.h
 CMakeFiles/Processor.dir/Assembler/main.cpp.o: ../Assembler/main.cpp
 CMakeFiles/Processor.dir/Assembler/main.cpp.o: ../Str_funcs/str_funcs.h
 
-CMakeFiles/Processor.dir/Stack/stack.cpp.o: ../Stack/interface.h
-CMakeFiles/Processor.dir/Stack/stack.cpp.o: ../Stack/stack.cpp
-CMakeFiles/Processor.dir/Stack/stack.cpp.o: ../Stack/stack.h
+CMakeFiles/Processor.dir/StackClass/stack.cpp.o: ../StackClass/stack.cpp
+CMakeFiles/Processor.dir/StackClass/stack.cpp.o: ../StackClass/stack.h
 
 CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o: ../Str_funcs/str_funcs.cpp
 CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o: ../Str_funcs/str_funcs.h

@@ -83,18 +83,18 @@ CMakeFiles/Processor.dir/Assembler/assembler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Processor.dir/Assembler/assembler.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/farid/ILab/Processor/Assembler/assembler.cpp -o CMakeFiles/Processor.dir/Assembler/assembler.cpp.s
 
-CMakeFiles/Processor.dir/Stack/stack.cpp.o: CMakeFiles/Processor.dir/flags.make
-CMakeFiles/Processor.dir/Stack/stack.cpp.o: ../Stack/stack.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Processor.dir/Stack/stack.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Processor.dir/Stack/stack.cpp.o -c /home/farid/ILab/Processor/Stack/stack.cpp
+CMakeFiles/Processor.dir/StackClass/stack.cpp.o: CMakeFiles/Processor.dir/flags.make
+CMakeFiles/Processor.dir/StackClass/stack.cpp.o: ../StackClass/stack.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/farid/ILab/Processor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Processor.dir/StackClass/stack.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Processor.dir/StackClass/stack.cpp.o -c /home/farid/ILab/Processor/StackClass/stack.cpp
 
-CMakeFiles/Processor.dir/Stack/stack.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Processor.dir/Stack/stack.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/farid/ILab/Processor/Stack/stack.cpp > CMakeFiles/Processor.dir/Stack/stack.cpp.i
+CMakeFiles/Processor.dir/StackClass/stack.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Processor.dir/StackClass/stack.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/farid/ILab/Processor/StackClass/stack.cpp > CMakeFiles/Processor.dir/StackClass/stack.cpp.i
 
-CMakeFiles/Processor.dir/Stack/stack.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Processor.dir/Stack/stack.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/farid/ILab/Processor/Stack/stack.cpp -o CMakeFiles/Processor.dir/Stack/stack.cpp.s
+CMakeFiles/Processor.dir/StackClass/stack.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Processor.dir/StackClass/stack.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/farid/ILab/Processor/StackClass/stack.cpp -o CMakeFiles/Processor.dir/StackClass/stack.cpp.s
 
 CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o: CMakeFiles/Processor.dir/flags.make
 CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o: ../Str_funcs/str_funcs.cpp
@@ -113,7 +113,7 @@ CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.s: cmake_force
 Processor_OBJECTS = \
 "CMakeFiles/Processor.dir/Assembler/main.cpp.o" \
 "CMakeFiles/Processor.dir/Assembler/assembler.cpp.o" \
-"CMakeFiles/Processor.dir/Stack/stack.cpp.o" \
+"CMakeFiles/Processor.dir/StackClass/stack.cpp.o" \
 "CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o"
 
 # External object files for target Processor
@@ -121,7 +121,7 @@ Processor_EXTERNAL_OBJECTS =
 
 Processor: CMakeFiles/Processor.dir/Assembler/main.cpp.o
 Processor: CMakeFiles/Processor.dir/Assembler/assembler.cpp.o
-Processor: CMakeFiles/Processor.dir/Stack/stack.cpp.o
+Processor: CMakeFiles/Processor.dir/StackClass/stack.cpp.o
 Processor: CMakeFiles/Processor.dir/Str_funcs/str_funcs.cpp.o
 Processor: CMakeFiles/Processor.dir/build.make
 Processor: CMakeFiles/Processor.dir/link.txt

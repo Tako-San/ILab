@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "interface.h"
+//#include "interface.h"
 
 /**
  * \Create stack by using dynamic memory.

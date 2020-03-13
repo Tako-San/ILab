@@ -177,32 +177,32 @@ Assembler/main.cpp.s:
 	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Assembler/main.cpp.s
 .PHONY : Assembler/main.cpp.s
 
-Stack/stack.o: Stack/stack.cpp.o
+StackClass/stack.o: StackClass/stack.cpp.o
 
-.PHONY : Stack/stack.o
+.PHONY : StackClass/stack.o
 
 # target to build an object file
-Stack/stack.cpp.o:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/stack.cpp.o
-.PHONY : Stack/stack.cpp.o
+StackClass/stack.cpp.o:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/StackClass/stack.cpp.o
+.PHONY : StackClass/stack.cpp.o
 
-Stack/stack.i: Stack/stack.cpp.i
+StackClass/stack.i: StackClass/stack.cpp.i
 
-.PHONY : Stack/stack.i
+.PHONY : StackClass/stack.i
 
 # target to preprocess a source file
-Stack/stack.cpp.i:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/stack.cpp.i
-.PHONY : Stack/stack.cpp.i
+StackClass/stack.cpp.i:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/StackClass/stack.cpp.i
+.PHONY : StackClass/stack.cpp.i
 
-Stack/stack.s: Stack/stack.cpp.s
+StackClass/stack.s: StackClass/stack.cpp.s
 
-.PHONY : Stack/stack.s
+.PHONY : StackClass/stack.s
 
 # target to generate assembly for a file
-Stack/stack.cpp.s:
-	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/Stack/stack.cpp.s
-.PHONY : Stack/stack.cpp.s
+StackClass/stack.cpp.s:
+	$(MAKE) -f CMakeFiles/Processor.dir/build.make CMakeFiles/Processor.dir/StackClass/stack.cpp.s
+.PHONY : StackClass/stack.cpp.s
 
 Str_funcs/str_funcs.o: Str_funcs/str_funcs.cpp.o
 
@@ -246,9 +246,9 @@ help:
 	@echo "... Assembler/main.o"
 	@echo "... Assembler/main.i"
 	@echo "... Assembler/main.s"
-	@echo "... Stack/stack.o"
-	@echo "... Stack/stack.i"
-	@echo "... Stack/stack.s"
+	@echo "... StackClass/stack.o"
+	@echo "... StackClass/stack.i"
+	@echo "... StackClass/stack.s"
 	@echo "... Str_funcs/str_funcs.o"
 	@echo "... Str_funcs/str_funcs.i"
 	@echo "... Str_funcs/str_funcs.s"

@@ -2,3 +2,5 @@
 /workspace.xml
 
 /cmake-build-debug
+
+*.txt

@@ -6,6 +6,10 @@
 
 int main()
 {
-    assembly("programm.txt", "machine_code.f");
+    Asmr asmr;
+
+    printf("going to assembly\n");
+
+    asmr.assembly("program.txt", "machine_code.f");
     return 0;
 }
