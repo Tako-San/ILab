@@ -49,8 +49,8 @@ namespace F
 
     };
 
-
     size_t my_strcpy(char *dst, const char *src);
+    String operator+(const String& lhs, const String& rhs);
 }
 
 #endif /* MY_STRING */

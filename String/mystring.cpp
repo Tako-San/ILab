@@ -16,11 +16,11 @@ String::String() : str{0},
  * Sting class copy costructor.
  */
 String::String(const String &a) : str{0},
-                            cap(a.cap),
-                            size(a.size)
+                                  cap(a.cap),
+                                  size(a.size)
 {
     printf("Hello, I'm constructor!\n");
-    strncpy(str, a.str, a.size);
+    strcpy(str, a.str);
 }
 
 /**
@@ -177,10 +177,9 @@ char& String::operator[](size_t pos)
 /**
  * a + b.
  */
-/*String& F::operator+(const String& lhs, const String& rhs)
+String F::operator+(const String& lhs, const String& rhs)
 {
-    String * tmp = (String *)calloc(1, sizeof(String));
-    *tmp += lhs;
-    *tmp += rhs;
-    return *tmp;
-}*/
+    String tmp(lhs);
+    tmp += rhs;
+    return tmp;
+}
