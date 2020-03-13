@@ -125,10 +125,13 @@ char String::pop_back()
  */
 String& String::operator+=(const String& to_add)
 {
-    strncpy(str + size, to_add.str, cap - size - to_add.size);
+    /*strncpy(str + size, to_add.str, cap - size - to_add.size);
     size += to_add.size;
     if(size > cap)
-        size = cap;
+        size = cap;*/
+    for(size_t i = 0; (size < cap) && (i < to_add.size); i++)
+        push_back(to_add.str[i]);
+
     return *this;
 }
 
@@ -139,7 +142,7 @@ String& String::operator+=(const char * to_add)
 {
     /*for(size_t i = 0; size < cap; size++, i++)
         str[size] = to_add[i];*/
-    for(int i = 0; size < cap; i++)
+    for(size_t i = 0; (size < cap) && (to_add[i] != '\0'); i++)
         push_back(to_add[i]);
 
     return *this;
@@ -151,9 +154,12 @@ String& String::operator+=(const char * to_add)
 String& String::operator=(const String& to_eq)
 {
     clear();
-    strcpy(str, to_eq.str);
+    /*strcpy(str, to_eq.str);
     cap = to_eq.cap;
-    size = to_eq.size;
+    size = to_eq.size;*/
+    for(int i = 0; size < cap; i++)
+        push_back(to_eq.str[i]);
+
     return *this;
 }
 

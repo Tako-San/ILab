@@ -94,11 +94,15 @@ int main()
     printf("\n");
 
     //test15
-    /*printf("\ntest15\n");
+    printf("\ntest15\n");
+    a.print();
+    printf("\n");
+    b.print();
+    printf("\n");
     String e;
     e = a + b;
     e.print();
-    printf("\n");*/
+    printf("\n");
 
     //test16
     printf("\ntest16\n");
@@ -110,5 +114,6 @@ int main()
     d.print();
     printf("\n");
 
+    printf("\n");
     return 0;
 }

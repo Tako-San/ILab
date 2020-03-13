@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/farid/ILab/String/mystring.cpp
+mystring.h
+/home/farid/ILab/String/mystring.h
+
+/home/farid/ILab/String/mystring.h
+cstdio
+-
+cstring
+-
+cassert
+-
+cstdlib
+-
+
+/home/farid/ILab/String/test.cpp
+mystring.h
+/home/farid/ILab/String/mystring.h
+
