@@ -1,3 +1,4 @@
 *.out
 *.txt
 Makefile
+/cmake-build-debug
