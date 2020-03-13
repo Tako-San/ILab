@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cassert>
 #include <cstdlib>
+#include <cctype>
 //#include <string>
 
 #define CAP 50
@@ -50,7 +51,37 @@ namespace F
     };
 
     size_t my_strcpy(char *dst, const char *src);
+    //int str_compare(const String& str1, const String& str2);
+
     String operator+(const String& lhs, const String& rhs);
+    String operator+(const String& lhs, const char* rhs);
+    String operator+(const char* lhs, const String& rhs);
+    //String operator+(const char* lhs, const char* rhs);
+
+    bool operator<(const String& lhs, const String& rhs);
+    bool operator<(const String& lhs, const char* rhs);
+    bool operator<(const char* lhs, const String& rhs);
+    //bool operator<(const char* lhs, const char* rhs);
+
+    bool operator>(const String& lhs, const String& rhs);
+    bool operator>(const String& lhs, const char* rhs);
+    bool operator>(const char* lhs, const String& rhs);
+    //bool operator>(const char* lhs, const char* rhs);
+
+    bool operator==(const String& lhs, const String& rhs);
+    bool operator==(const String& lhs, const char* rhs);
+    bool operator==(const char* lhs, const String& rhs);
+    //bool operator==(const char* lhs, const char* rhs);
+
+    bool operator>=(const String& lhs, const String& rhs);
+    bool operator>=(const String& lhs, const char* rhs);
+    bool operator>=(const char* lhs, const String& rhs);
+    //bool operator>=(const char* lhs, const char* rhs);
+
+    bool operator<=(const String& lhs, const String& rhs);
+    bool operator<=(const String& lhs, const char* rhs);
+    bool operator<=(const char* lhs, const String& rhs);
+    //bool operator<=(const char* lhs, const char* rhs);
 }
 
 #endif /* MY_STRING */

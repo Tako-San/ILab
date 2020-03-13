@@ -100,7 +100,7 @@ int main()
     b.print();
     printf("\n");
     String e;
-    e = a + b;
+    e = a + b + "Too much functions..." + "I'm tired";
     e.print();
     printf("\n");
 
@@ -113,6 +113,13 @@ int main()
     d[1] = 'R';
     d.print();
     printf("\n");
+
+    //test18
+    if(a < b)
+        printf("nice\n");
+    else if (b < a)
+        printf("nice too\n");
+
 
     printf("\n");
     return 0;

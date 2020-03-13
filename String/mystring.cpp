@@ -153,6 +153,8 @@ String& String::operator+=(const char * to_add)
  */
 String& String::operator=(const String& to_eq)
 {
+    if(this == &to_eq)
+        return *this;
     clear();
     /*strcpy(str, to_eq.str);
     cap = to_eq.cap;
@@ -188,4 +190,150 @@ String F::operator+(const String& lhs, const String& rhs)
     String tmp(lhs);
     tmp += rhs;
     return tmp;
+}
+
+
+String F::operator+(const String& lhs, const char* rhs)
+{
+    String tmp(lhs);
+    tmp += rhs;
+    return tmp;
+}
+
+
+String F::operator+(const char* lhs, const String& rhs)
+{
+    String tmp(lhs);
+    tmp += rhs;
+    return tmp;
+}
+
+
+
+/**
+ * strings compare
+ * @param str1
+ * @param str2
+ * @return
+ */
+/*int F::str_compare(const String& str1, const String& str2)
+{
+    size_t p = 0, q = 0;
+    while((str1.str[p] != '\0') && (str2.str[q] != '\0') && (str1.str[p] == str2.str[q]))
+    {
+        p++;
+        q++;
+    }
+
+    return (tolower(str1.str[p]) - tolower(str2.str[q]));
+}bool F::operator<(const String& lhs, const String& rhs)
+{
+    return str_compare(lhs, rhs) < 0;
+}*/
+
+
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator<(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) < 0;
+}
+
+bool F::operator<(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) < 0;
+}
+
+bool F::operator<(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) < 0;
+}
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator>(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) > 0;
+}
+
+bool F::operator>(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) > 0;
+}
+
+bool F::operator>(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) > 0;
+}
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator==(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) == 0;
+}
+
+bool F::operator==(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) == 0;
+}
+
+bool F::operator==(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) == 0;
+}
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator>=(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) >= 0;
+}
+
+bool F::operator>=(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) >= 0;
+}
+
+bool F::operator>=(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) >= 0;
+}
+
+/**
+ *
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+bool F::operator<=(const String& lhs, const String& rhs)
+{
+    return strcmp(lhs.str, rhs.str) <= 0;
+}
+
+bool F::operator<=(const String& lhs, const char* rhs)
+{
+    return strcmp(lhs.str, rhs) <= 0;
+}
+
+bool F::operator<=(const char* lhs, const String& rhs)
+{
+    return strcmp(lhs, rhs.str) <= 0;
 }
