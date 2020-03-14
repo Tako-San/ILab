@@ -123,9 +123,22 @@ char String::pop_back()
 void String::erase(size_t idx)
 {
     assert(idx < size);
+
     for(size_t i = idx; str[i] != '\0'; i++)
         str[i] = str[i+1];
+
     size--;
+}
+
+void String::erase(size_t first, size_t last)
+{
+    assert(first < last);
+    assert(last < size);
+
+    for(size_t i = 0; (str[first + i]  != '\0') && (last + i < cap); i++)
+        str[first + i] = str[last + i];
+
+    size -= (last - first);
 }
 
 /**

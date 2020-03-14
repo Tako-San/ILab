@@ -125,6 +125,15 @@ int main()
     printf("\ntest19\n");
     d.erase(1);
     d.print();
+    printf("\n");
+
+    //test20
+    printf("\ntest20\n");
+    String f("abcdefgh");
+    f.erase(1,4);
+    f.print();
+    printf("\n%ld\n", f.length());
+
 
     printf("\n");
     return 0;
