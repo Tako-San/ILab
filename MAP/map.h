@@ -15,10 +15,10 @@ public:
     Map();
     Map(size_t key, Data val);
 
+    void print();
+
     Node * add(size_t key, Data val);
     Data& operator[](size_t usr_key);
-
-    void print();
 
     Node* find(size_t key);
 

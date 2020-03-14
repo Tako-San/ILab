@@ -36,6 +36,7 @@ namespace F
         void clear();
         void push_back(char new_letter);
         char pop_back();
+        void erase(size_t idx);
 
         String& operator+=(const String& to_add);
         String& operator+=(const char * to_add);

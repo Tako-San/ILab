@@ -115,11 +115,16 @@ int main()
     printf("\n");
 
     //test18
+    printf("\ntest18\n");
     if(a < b)
         printf("nice\n");
     else if (b < a)
         printf("nice too\n");
 
+    //test19
+    printf("\ntest19\n");
+    d.erase(1);
+    d.print();
 
     printf("\n");
     return 0;

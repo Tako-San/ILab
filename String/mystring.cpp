@@ -120,6 +120,14 @@ char String::pop_back()
     return res;
 }
 
+void String::erase(size_t idx)
+{
+    assert(idx < size);
+    for(size_t i = idx; str[i] != '\0'; i++)
+        str[i] = str[i+1];
+    size--;
+}
+
 /**
  * Add new str to our.
  */

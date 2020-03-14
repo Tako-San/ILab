@@ -38,11 +38,11 @@ Data& Map::operator[](size_t key)
     Node * tmp = find(key);
     if(tmp != nullptr)
         return tmp->val;
-    /*else
+    else
     {
         Node * tmp = add(key, 0);
         return tmp->val;
-    }*/
+    }
 
 }
 

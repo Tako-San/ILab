@@ -98,9 +98,9 @@ Node* Node::find(size_t fkey)
 {
     if(fkey == key)
         return this;
-    else if(fkey < key)
+    else if(fkey < key && left != nullptr)
         return left->find(fkey);
-    else if(fkey > key)
+    else if(fkey > key && right != nullptr)
         return right->find(fkey);
 
     return nullptr;

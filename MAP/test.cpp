@@ -39,10 +39,13 @@ int main()
     map.print();
 
     //test5
-    /*printf("\ntest5\n");
+    printf("\ntest5\n");
     map[10] = 49;
-    map.print();*/
+    map.print();
 
+    //test
+    printf("\ntest6\n");
+    printf("map[34] = %d", map[34]);
 
     return 0;
 }
