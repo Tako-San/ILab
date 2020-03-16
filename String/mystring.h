@@ -25,6 +25,10 @@ namespace F
         String();
         String(const String &a);
         String(const char str[]);
+        /*String(const String &a, const String &b);
+        Возвращать в + конструктор копирования, чтобы избежать лишних копирований
+        Придумать конструкторы которые принимают 2 строки и делают новую без лишних копирований
+        ключ -о2 оптимизация*/
 
         ~String();
 

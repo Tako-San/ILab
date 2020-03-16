@@ -33,6 +33,11 @@ String::String(const char str[]) : str{0},
     printf("Hello, I'm constructor!\n");
 }
 
+/*String::String(const String &a, const String &b)
+{
+
+}*/
+
 String::~String()
 {
     printf("Hello, I'm destructor!\n");

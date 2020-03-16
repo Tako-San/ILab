@@ -1,52 +1,50 @@
 #include "map.h"
 
-Map::Map() : root(nullptr)
+
+/**
+ * Map_t no args constructor.
+ */
+Map_t::Map_t() : key(-1),
+                 val{0}
 {
+    std::cout<<"Map_t constructor without arguments. "<<this<<"\n";
 }
 
-Map::Map(size_t key, Data val)
+/**
+ * Map_t copy constructor.
+ * @param map_data
+ */
+Map_t::Map_t(Map_t &map_data) : key(map_data.key),
+                                val(map_data.val)
 {
-    root = new Node;
-    root->set(key, val);
+    std::cout<<"Map_t copy constructor. "<<this<<"\n";
 }
 
-Node * Map::add(size_t key, Data val)
+/**
+ * Map_t constructor with arguments.
+ * @param n_key
+ * @param n_val
+ */
+Map_t::Map_t(key_t n_key, val_t n_val) : key(n_key),
+                                         val(n_val)
 {
-    if(root == nullptr)
-    {
-        root = new Node;
-        root->set(key, val);
-        return root;
-    }
-    else
-    {
-        return root->add(key, val);
-    }
-    return nullptr;
+    std::cout<<"Map_t constructor with arguments. "<<this<<"\n";
 }
 
-void Map::print()
+Map_t::~Map_t()
 {
-    if(root == nullptr)
-        return;
-
-    root->print();
+    std::cout<<"Map_t destructor. "<<this<<"\n";
 }
 
-Data& Map::operator[](size_t key)
-{
-    Node * tmp = find(key);
-    if(tmp != nullptr)
-        return tmp->val;
-    else
-    {
-        Node * tmp = add(key, 0);
-        return tmp->val;
-    }
+#include "map_operators.h"
 
-}
-
-Node* Map::find(size_t key)
+/**
+ * Comparing 2 Map_t elements.
+ * @param map_data1
+ * @param map_data2
+ * @return
+ */
+key_t map_cmp (const key_t * key1, const key_t * key2)
 {
-    return root->find(key);
+    return *key1 - *key2;
 }

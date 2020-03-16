@@ -1,16 +1,17 @@
-#ifndef MAP_NODE_H
-#define MAP_NODE_H
+#ifndef MAP_NODE2_H
+#define MAP_NODE2_H
 
 #include <cstdio>
 #include <iostream>
+#include "map.h"
 
-#define Data int
+#define Data_t Map_t
 
 class Node
 {
 public:
-    size_t key;
-    Data val;
+
+    Data_t data;
 
     Node * parent;
     Node * left;
@@ -19,22 +20,31 @@ public:
 public:
 
     Node();
-    Node(size_t new_key);
-    Node(size_t new_key, Data new_val);
+    Node(Data_t &n_data);
+    Node(key_t key, val_t val); //Only with map_t
 
-    //size_t get_key();
-    Node * add(size_t new_key, Data new_val);
+    void set(Data_t &n_data, Node * parent = 0);
+    void set(key_t key, val_t val = 0, Node * parent = 0);  //Only with map_t
 
-    void set_key(size_t new_key);
-    void set_val(Data new_val);
-    void set_parent(Node * new_parent);
-    /*void set_left(Node * new_left);
-    void set_right(Node * new_right);*/
-    void set(size_t new_key, Data new_val, Node * new_parent = nullptr);
+    Node * add(Data_t &n_data);
+    Node * add(key_t key, val_t val = 0);  //Only with map_t
 
-    void print();
+    Node * find(Data_t &n_data); //tree
+    Node * find(key_t key); //tree
 
-    Node* find(size_t fkey);
+    int depth(); //tree
+    bool is_balanced(); //tree
+
+    //void del(Data_t &to_del); //tree
+    void del(key_t key); //Only with map_t
+
+    void clear(); //tree
+    void print(); //tree
+    void print_leafs(); //tree
+    void print_lvl(int lvl); //tree
+
+    friend std::ostream& operator<< (std::ostream &out, const Node &node);
+    friend class Tree;
 };
 
-#endif //MAP_NODE_H
+#endif //MAP_NODE2_H
