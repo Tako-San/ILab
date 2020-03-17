@@ -94,10 +94,27 @@ int main()
     n10->data = m0;
 
 
-    for(int i = 3; i < 10; i++)
+    /*for(int i = 3; i < 10; i++)
     {
         n10->add(4*i-25, i);
-    }
+    }*/
+
+    n10->add(13, 15.2);
+    n10->add(17, 53.5);
+    n10->add(15, 14.5);
+    //n10->add(12, 8.8);
+    n10->add(20, 7.8);
+    //n10->add(11, 8);
+    n10->add(5, 5.5);
+    n10->add(3, 3.5);
+    n10->add(1, 1.1);
+    n10->add(4, 4.4);
+    n10->add(8, 8.88);
+    n10->add(7, 7.7);
+    n10->add(6, 6.6);
+    n10->add(9, 9.9);
+    //n10->add(, );
+
 
     std::cout<<"\n";
     n10->print();
@@ -123,6 +140,8 @@ int main()
     printf("\ntest2.8\n????????????\n");
 
     n10->del(3);
+    n10->del(13);
+    //n10->del(10);
 
     std::cout<<"\n";
     n10->print();
@@ -134,7 +153,7 @@ int main()
     n10->clear();
 
     //test3.0
-    /*printf("\ntest3.0\n");
+    printf("\ntest3.0\n");
 
     Tree tree(9, 5);
     tree.add(7,30);
@@ -151,7 +170,12 @@ int main()
     tree.print();
     std::cout<<"\n";
 
-    tree.clear();*/
+    tree.del(17);
+    std::cout<<"\n";
+    tree.print();
+    std::cout<<"\n";
+
+    tree.clear();
 
     return 0;
 }

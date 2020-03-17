@@ -35,7 +35,7 @@ public:
     int depth(); //tree
     bool is_balanced(); //tree
 
-    //void del(Data_t &to_del); //tree
+    void del(Data_t &to_del); //tree
     void del(key_t key); //Only with map_t
 
     void clear(); //tree

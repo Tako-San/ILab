@@ -212,190 +212,64 @@ bool Node::is_balanced()
     return res;
 }
 
-/*void Node::del(Data_t &to_del)
-{
-    Node * del_n = find(to_del);
-
-    printf("here we go\n");
-
-    Node * del_rt = del_n->right;
-    Node * del_lt = del_n->left;
-    Node * del_pa = del_n->parent;
-
-
-#define FORGIVE_AND_FORGET()           \
-    tmp->parent = del_pa;              \
-    tmp->left = del_lt;                \
-    tmp->right = del_rt;               \
-                                       \
-    del_lt->parent = tmp;              \
-    del_rt->parent = tmp;              \
-    if(del_pa == nullptr)              \
-        printf("parent - nullptr\n");  \
-    else if(del_pa->left == del_n)     \
-        del_pa->left = tmp;            \
-    else                               \
-        del_pa->right = tmp;           \
-
-
-    if(del_lt->depth() > del_rt->depth())
-    {
-        Node * tmp;
-        for(tmp = del_lt; tmp->right != nullptr; tmp = tmp->right);
-
-        tmp->parent->right = nullptr; //Родитель крайнего эл-та о нем забывает
-        FORGIVE_AND_FORGET()
-    }
-    else
-    {
-        Node * tmp;
-        for(tmp = del_rt; tmp->left != nullptr; tmp = tmp->left);
-
-        tmp->parent->left = nullptr; //Родитель крайнего эл-та о нем забывает
-        FORGIVE_AND_FORGET()
-    }
-
-    //delete del_n;
-
-#undef FORGIVE_AND_FORGET
-}*/
-
-/*void Node::del(key_t key)
-{
-    Node * del_n = find(key);
-    if(del_n == nullptr)
-        return;
-
-    Node * del_rt = del_n->right;
-    Node * del_lt = del_n->left;
-    Node * del_pa = del_n->parent;
-
-#define FORGIVE_AND_FORGET()           \
-    tmp->parent = del_pa;              \
-    tmp->left = del_lt;                \
-    tmp->right = del_rt;               \
-                                       \
-    del_lt->parent = tmp;              \
-    del_rt->parent = tmp;              \
-    if(del_pa == nullptr)              \
-        printf("parent - nullptr\n");  \
-    else if(del_pa->left == del_n)     \
-        del_pa->left = tmp;            \
-    else                               \
-        del_pa->right = tmp;           \
-
-
-    if(del_lt->depth() > del_rt->depth())
-    {
-        Node * tmp = del_lt;
-        for(; tmp->right != nullptr; tmp = tmp->right);
-
-        if(tmp->left != nullptr)
-        {
-            tmp->left->parent = tmp->parent;
-            tmp->parent->right = tmp->left;
-        }
-        else
-            tmp->parent->left = nullptr;
-
-
-        //tmp->parent->right = nullptr;
-        // Родитель крайнего эл-та о нем забывает
-        FORGIVE_AND_FORGET()
-    }
-    else
-    {
-        Node * tmp = del_rt;
-        for(; tmp->left != nullptr; tmp = tmp->left);
-
-        if(tmp->right != nullptr)
-        {
-            tmp->right->parent = tmp->parent;
-            tmp->parent->left = tmp->right;
-        }
-        else
-            tmp->parent->right = nullptr;
-
-        //FORGIVE_AND_FORGET()
-
-        tmp->parent = del_pa;
-        tmp->left = del_lt;
-        tmp->right = del_rt;
-
-        del_lt->parent = tmp;
-        del_rt->parent = tmp;
-
-        if(del_pa == nullptr)
-            printf("parent - nullptr\n");
-        else if(del_pa->left == del_n)
-            del_pa->left = tmp;
-        else
-            del_pa->right = tmp;
-
-    }
-
-    //delete del_n;
-
-#undef FORGIVE_AND_FORGET
-
-}*/
-
 void Node::del(key_t key)
 {
-    Node * del_n = find(key);
-    if(del_n == nullptr)
+    if (this == nullptr)
         return;
-
-    Node * del_rt = del_n->right;
-    Node * del_lt = del_n->left;
-    Node * del_pa = del_n->parent;
-
-    if(del_rt == del_lt && del_lt == nullptr)
+    if (key < data)
+        left->del(key);
+    else if (key > data)
+        right->del(key);
+    else if (left != nullptr && right != nullptr)
     {
-        if(del_n->parent->left == del_n)
-            del_n->parent->left = nullptr;
-        else
-            del_n->parent->right = nullptr;
-        delete del_n;
+        Node *tmp;
+        for(tmp = right; tmp->left != nullptr; tmp = tmp->left);
+        data = tmp->data;
+        right->del(data.key);
     }
-
-    if(del_rt->depth() > del_lt->depth())
+    else if (left != nullptr)
     {
-        printf("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii\n");
-        Node * new_n;
+        Node * tmp = left;
 
-        for(new_n = del_rt; new_n->left != nullptr; new_n = new_n->left)
-            ;
+        if (left->left != nullptr)
+            left->left->parent = this;
+        if (left->right != nullptr)
+            left->right->parent = this;
 
-        if(new_n->right != nullptr)
-        {
-            new_n->right->parent = new_n->parent;
+        data = left->data;
 
-            if(new_n->parent->left == new_n)
-                new_n->parent->left = new_n->right;
-            else
-                new_n->parent->right = new_n->right;
-        }
-        else
-            new_n->parent = nullptr;
+        right = left->right;
+        left = left->left;
 
-        new_n->parent = del_pa;
-        new_n->right = del_rt;
-        new_n->left = del_lt;
+        delete tmp;
+    }
+    else if (right != nullptr)
+    {
+        Node * tmp = right;
 
-        if(del_pa->left == del_n)
-            del_pa->left = new_n;
-        else
-            del_pa->right = new_n;
+        if (right->right != nullptr)
+            right->right->parent = this;
+        if (right->left != nullptr)
+            right->left->parent = this;
 
-        del_rt->parent = new_n;
-        if(del_lt != nullptr)
-            del_lt->parent = new_n;
+        data = right->data;
 
-        delete del_n;
+        left = right->left;
+        right = right->right;
+
+        delete tmp;
     }
     else
     {
-        printf("byeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n");
+        if(parent->left == this)
+            parent->left = nullptr;
+        else
+            parent->right = nullptr;
+        delete this;
     }
+}
+
+void Node::del(Data_t &to_del)
+{
+    del(to_del.key);
 }
