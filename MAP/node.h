@@ -7,6 +7,8 @@
 
 #define Data_t Map_t
 
+using namespace std;
+
 class Node
 {
 public:

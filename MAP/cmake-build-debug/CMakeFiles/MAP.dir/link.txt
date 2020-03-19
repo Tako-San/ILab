@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/MAP.dir/map.cpp.o CMakeFiles/MAP.dir/node.cpp.o CMakeFiles/MAP.dir/tree.cpp.o CMakeFiles/MAP.dir/test.cpp.o  -o MAP 

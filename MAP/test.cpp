@@ -5,7 +5,7 @@
 int main()
 {
     //test1.1
-    printf("\ntest1.1\n");
+    /*printf("\ntest1.1\n");
 
     Map_t m1(15, 5);
     Map_t m2(4, 4);
@@ -91,7 +91,7 @@ int main()
     Map_t m0(10, 666);
 
     Node * n10 = new Node;
-    n10->data = m0;
+    n10->data = m0;*/
 
 
     /*for(int i = 3; i < 10; i++)
@@ -99,7 +99,7 @@ int main()
         n10->add(4*i-25, i);
     }*/
 
-    n10->add(13, 15.2);
+    /*n10->add(13, 15.2);
     n10->add(17, 53.5);
     n10->add(15, 14.5);
     //n10->add(12, 8.8);
@@ -175,7 +175,19 @@ int main()
     tree.print();
     std::cout<<"\n";
 
-    tree.clear();
+    tree.clear();*/
+
+    //test3.1
+    printf("\ntest3.1   char\n");
+    Tree alpha(11, "y");
+    alpha.add(8, "$");
+    alpha.add(56, "uj");
+    //alpha[9] = "po";
+
+    printf("\n");
+    alpha.print();
+    printf("\n");
+
 
     return 0;
 }

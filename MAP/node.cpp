@@ -5,7 +5,7 @@ Node::Node() : data(),
                left(nullptr),
                right(nullptr)
 {
-    std::cout<<"Node constructor without arguments. "<<this<<"\n\n";
+    //std::cout<<"Node constructor without arguments. "<<this<<"\n\n";
 }
 
 Node::Node(Data_t &n_data) : data(n_data),
@@ -13,7 +13,7 @@ Node::Node(Data_t &n_data) : data(n_data),
                              left(nullptr),
                              right(nullptr)
 {
-    std::cout<<"Node constructor with n_data. "<<this<<"\n\n";
+    //std::cout<<"Node constructor with n_data. "<<this<<"\n\n";
 }
 
 Node::Node(key_t key, val_t val) : data(key, val),
@@ -21,14 +21,15 @@ Node::Node(key_t key, val_t val) : data(key, val),
                                    left(nullptr),
                                    right(nullptr)
 {
-    std::cout<<"Node constructor with key, val. "<<this<<"\n\n";
+    //std::cout<<"Node constructor with key, val. "<<this<<"\n\n";
 }
 
 
 
 std::ostream& operator<< (std::ostream &out, const Node &node)
 {
-    out<<"Data: ("<<node.data<<"), this: "<<&node<<", parent: "<<node.parent<<", left: "<<node.left<<", right: "<<node.right<<"\n";
+    //out<<"Data: ("<<node.data<<"), this: "<<&node<<", parent: "<<node.parent<<", lt: "<<node.left<<", rt: "<<node.right<<endl;
+    out << node.data;
 
     return out;
 }
@@ -54,7 +55,12 @@ void Node::print()
     if(left != nullptr)
         left->print();
 
-    std::cout<<*this;
+    if(parent == nullptr)
+        cout << *this << " - ROOT" << endl;
+    else if(left == nullptr && right == nullptr)
+        cout << *this << " - leaf" << endl;
+    else
+        cout << *this << endl;
 
     if(right != nullptr)
         right->print();
@@ -98,8 +104,8 @@ void Node::clear()
         left->clear();
     if(right != nullptr)
         right->clear();
+
     delete this;
-    std::cout << "\nDYNAMYC MEMORY: DELETE\n";
 }
 
 
@@ -131,18 +137,24 @@ Node * Node::add(Data_t &n_data)
 #undef DIRTY_JOB
 }
 
+/*Node * Node::add(key_t key, val_t val)
+{
+    Map_t tmp(key, val);
+    return add(tmp);
+}*/
+
 Node * Node::add(key_t key, val_t val)
 {
-#define DIRTY_JOB(side)                        \
-    if(side != nullptr)                        \
-        return side->add(key, val);            \
-    else                                       \
-    {                                          \
-        std::cout << "\nDYNAMYC MEMORY: NEW\n";\
-        side = new Node;                       \
-        side->set(key, val, this);             \
-        return side;                           \
-    }                                          \
+#define DIRTY_JOB(side)                            \
+    if(side != nullptr)                            \
+        return side->add(key, val);                \
+    else                                           \
+    {                                              \
+        std::cout << "\nDYNAMYC MEMORY: NEW\n";    \
+        side = new Node;                           \
+        side->set(key, val, this);                 \
+        return side;                               \
+    }                                              \
 
     //std::cout<<"\nADD FUNC\n";
 
@@ -175,16 +187,12 @@ Node * Node::find(Data_t &n_data)
 
 Node * Node::find(key_t key)
 {
-    printf("\n\nQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n\n");
     if((key > data) && (right != nullptr))
         return right->find(key);
     else if((key < data) && (left != nullptr))
         return left->find(key);
     else if(key == data)
-    {
-        printf("!FOUND IT!\n\n");
         return this;
-    }
     return nullptr;
 }
 

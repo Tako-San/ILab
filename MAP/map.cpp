@@ -31,12 +31,19 @@ Map_t::Map_t(key_t n_key, val_t n_val) : key(n_key),
     std::cout<<"Map_t constructor with arguments. "<<this<<"\n";
 }
 
+/**
+ * Map_t destructor.
+ */
 Map_t::~Map_t()
 {
-    std::cout<<"Map_t destructor. "<<this<<"\n";
+    cout << "Map_t destructor. " << this << endl;
 }
 
+
+
 #include "map_operators.h"
+
+
 
 /**
  * Comparing 2 Map_t elements.

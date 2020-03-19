@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/String.dir/node.cpp.o CMakeFiles/String.dir/test.cpp.o CMakeFiles/String.dir/tree.cpp.o  -o String 
